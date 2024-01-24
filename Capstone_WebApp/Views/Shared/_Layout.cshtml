@@ -26,7 +26,20 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                     </ul>
-                </div>
+                    <ul class="nav navbar-nav navbar-right" style="padding-right: 10px">
+                        <li><a class="btn btn-primary" type="button" href="#">Login</a></li>
+                    </ul>
+                    <div class="dropdown" style="padding-right: 70px">
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Register
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Register As Guest</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Register As Chef</a></li>
+                        </ul>
+                    </div>
+                </div>              
             </div>
         </nav>
     </header>

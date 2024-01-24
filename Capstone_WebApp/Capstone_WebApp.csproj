@@ -22,4 +22,8 @@
     <Folder Include="Entities\" />
     <Folder Include="Services\" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="bootstrap" Version="5.3.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.15" />
+  </ItemGroup>
 </Project>
