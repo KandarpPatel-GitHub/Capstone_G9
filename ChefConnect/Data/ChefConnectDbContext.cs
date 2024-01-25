@@ -1,12 +1,13 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using ChefConnect.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace ChefConnect.Data;
 
-public class Capstone_WebAppContext : IdentityDbContext<IdentityUser>
+public class ChefConnectDbContext : IdentityDbContext<AppUser>
 {
-    public Capstone_WebAppContext(DbContextOptions<Capstone_WebAppContext> options)
+    public ChefConnectDbContext(DbContextOptions<ChefConnectDbContext> options)
         : base(options)
     {
     }
@@ -18,7 +19,7 @@ public class Capstone_WebAppContext : IdentityDbContext<IdentityUser>
         // For example, you can rename the ASP.NET Identity table names and more.
         // Add your customizations after calling base.OnModelCreating(builder);
         builder.HasDefaultSchema("Identity");
-        builder.Entity<IdentityUser>(entity =>
+        builder.Entity<AppUser>(entity =>
         {
             entity.ToTable(name: "User");
         });

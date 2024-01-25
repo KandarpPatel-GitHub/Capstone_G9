@@ -1,12 +1,13 @@
 using ChefConnect.Data;
+using ChefConnect.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
-var connectionString = builder.Configuration.GetConnectionString("Capstone_WebAppContextConnection") ?? throw new InvalidOperationException("Connection string 'Capstone_WebAppContextConnection' not found.");
+var connectionString = builder.Configuration.GetConnectionString("ChefConnectDb") ?? throw new InvalidOperationException("Connection string 'ChefConnectDb' not found.");
 
-builder.Services.AddDbContext<Capstone_WebAppContext>(options => options.UseSqlServer(connectionString));
+builder.Services.AddDbContext<ChefConnectDbContext>(options => options.UseSqlServer(connectionString));
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<Capstone_WebAppContext>();
+builder.Services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ChefConnectDbContext>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

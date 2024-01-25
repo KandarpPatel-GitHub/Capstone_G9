@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using Capstone_WebApp.Models;
+using ChefConnect.Models;
 
 namespace ChefConnect.Controllers;
 
