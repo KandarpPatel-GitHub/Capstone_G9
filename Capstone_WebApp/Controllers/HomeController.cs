@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Capstone_WebApp.Models;
 
-namespace Capstone_WebApp.Controllers;
+namespace ChefConnect.Controllers;
 
 public class HomeController : Controller
 {

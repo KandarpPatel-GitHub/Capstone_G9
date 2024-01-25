@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 25.0.1706.7
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Capstone_WebApp", "Capstone_WebApp\Capstone_WebApp.csproj", "{4A845C74-4EB3-4345-BEBF-2A9922140442}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChefConnect", "Capstone_WebApp\ChefConnect.csproj", "{4A845C74-4EB3-4345-BEBF-2A9922140442}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,4 +1,4 @@
-﻿namespace Capstone_WebApp.Models;
+﻿namespace ChefConnect.Models;
 
 public class ErrorViewModel
 {
