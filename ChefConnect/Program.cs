@@ -2,12 +2,25 @@ using ChefConnect.Data;
 using ChefConnect.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+
+
 var builder = WebApplication.CreateBuilder(args);
+
 var connectionString = builder.Configuration.GetConnectionString("ChefConnectDb") ?? throw new InvalidOperationException("Connection string 'ChefConnectDb' not found.");
 
 builder.Services.AddDbContext<ChefConnectDbContext>(options => options.UseSqlServer(connectionString));
 
-builder.Services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ChefConnectDbContext>();
+builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
+{
+    options.Password.RequiredLength = 8;
+    options.Password.RequireNonAlphanumeric = true;
+    options.Password.RequireDigit = true;
+    options.Lockout.MaxFailedAccessAttempts = 3;
+    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1);
+
+}).AddEntityFrameworkStores<ChefConnectDbContext>()
+        .AddDefaultTokenProviders();
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -27,6 +40,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

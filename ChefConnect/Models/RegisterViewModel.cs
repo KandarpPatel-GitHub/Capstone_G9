@@ -15,8 +15,11 @@ namespace ChefConnect.Models
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Name can't be empty")]
-        [Display(Name = "Firstname Lastname")]
         public string Name { get; set; }
+
+        [Required(ErrorMessage = "Date can't be empty")]
+        [DataType(DataType.Date)]
+        public DateTime DateOfBirth { get; set; }
 
         [Required(ErrorMessage = "Password can't be empty")]
         [DataType(DataType.Password)]
@@ -29,7 +32,7 @@ namespace ChefConnect.Models
 
         [Required(ErrorMessage ="Phone number can't be empty")]
         [StringLength(10,ErrorMessage ="Please enter a vaild Phone Number")]
-		public int PhoneNumber { get; set; }
+		public string PhoneNumber { get; set; }
 	}
 }
 

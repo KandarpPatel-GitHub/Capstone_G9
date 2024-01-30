@@ -1,9 +1,11 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using ChefConnect.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ChefConnect.Controllers;
 
+[Authorize]
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
@@ -13,11 +15,20 @@ public class HomeController : Controller
         _logger = logger;
     }
 
+    [AllowAnonymous]
     public IActionResult Index()
     {
         return View();
     }
 
+    [AllowAnonymous]
+    [HttpGet("/Login")]
+    public async Task<IActionResult> Login()
+    {
+        return View();
+    }
+
+    [AllowAnonymous]
     public IActionResult Privacy()
     {
         return View();

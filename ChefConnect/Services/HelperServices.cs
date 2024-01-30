@@ -23,6 +23,16 @@ namespace ChefConnect.Services
 				return false;
 			}
         }
+
+		public bool IsPhoneNumberValid(string phone)
+		{
+			return true;
+		}
+
+		public bool IsPostalCodeValid(string postalcode)
+		{
+			return true;
+		}
 	}
 }
 
