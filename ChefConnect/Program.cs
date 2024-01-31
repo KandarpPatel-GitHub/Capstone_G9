@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
+
 var connectionString = builder.Configuration.GetConnectionString("ChefConnectDb") ?? throw new InvalidOperationException("Connection string 'ChefConnectDb' not found.");
 
 builder.Services.AddDbContext<ChefConnectDbContext>(options => options.UseSqlServer(connectionString));

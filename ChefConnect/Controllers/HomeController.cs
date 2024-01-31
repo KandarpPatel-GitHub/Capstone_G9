@@ -39,6 +39,13 @@ public class HomeController : Controller
     }
 
     [AllowAnonymous]
+    [HttpGet("/Register")]
+    public async Task<IActionResult> SelectRegistration()
+    {
+        return View();
+    }
+
+    [AllowAnonymous]
     public IActionResult Privacy()
     {
         return View();

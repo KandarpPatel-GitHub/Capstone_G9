@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"]</title>
+    <link rel="icon" href="~/images/logo.ico" type="image/x-icon">
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Capstone_WebApp.styles.css" asp-append-version="true" />
@@ -29,19 +30,11 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                     </ul>
-                    <ul class="nav navbar-nav navbar-right" style="padding-right: 10px">
-                        <li><a class="btn btn-primary" type="button" asp-controller="Home" asp-action="Login">Login</a></li>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li style="padding-right: 10px"><a class="btn btn-outline-danger" type="button" asp-controller="Home" asp-action="Login">Login</a></li>
+                        <li><a class="btn btn-outline-danger" type="button" asp-controller="Home" asp-action="SelectRegistration">Register</a></li>
                     </ul>
-                    <div class="dropdown" style="padding-right: 70px">
-                        <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Register
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" asp-controller="Customer" asp-action="CustomerRegister">Register As Guest</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" asp-controller="Chef" asp-action="ChefRegister">Register As Chef</a></li>
-                        </ul>
-                    </div>
+                    
                 </div>              
             </div>
         </nav>

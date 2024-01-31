@@ -27,14 +27,14 @@ namespace ChefConnect.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("/Chef/Register")]
+        [HttpGet("/Register/AsChef")]
         public async Task<IActionResult> ChefRegister()
         {
             return View();
         }
 
         [AllowAnonymous]
-        [HttpPost("/Chef/Register")]
+        [HttpPost("/Register/AsChef")]
         public async Task<IActionResult> ChefRegister(RegisterViewModel registerViewModel)
         {
             if (ModelState.IsValid)
