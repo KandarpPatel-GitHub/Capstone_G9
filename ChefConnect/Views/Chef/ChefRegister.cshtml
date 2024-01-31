@@ -15,12 +15,15 @@
                             <div class="card-body p-md-5 mx-md-4">
 
                                 <div class="text-center">
-                                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/lotus.webp"
+                                    <img src= "/images/logo.png"
                                          style="width: 185px;" alt="logo">
                                     <h4 class="mt-1 mb-5 pb-1">We are The Lotus Team</h4>
                                 </div>
-                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                                <form method="post" asp-controller="Chef" asp-action="RegisterChef">
+                                
+                                <form method="post" asp-controller="Chef" asp-action="ChefRegister">
+
+                                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
                                     <p>Register as a Chef</p>
 
                                     <div class="form-outline mb-4">
@@ -61,7 +64,7 @@
                                     </div>
 
                                     <div class="form-outline mb-4">
-                                        <input type="password" class="form-control" asp-for="Password" />
+                                        <input type="text" class="form-control" asp-for="Password" />
                                         <label class="form-label">Password</label>
                                         <span asp-validation-for="Password"
                                               class="text-danger"></span>

@@ -30,13 +30,12 @@ namespace ChefConnect.Controllers
         [HttpGet("/Chef/Register")]
         public async Task<IActionResult> ChefRegister()
         {
-            RegisterViewModel registerModel = new RegisterViewModel();
-            return View(registerModel);
+            return View();
         }
 
         [AllowAnonymous]
-        [HttpPost()]
-        public async Task<IActionResult> RegisterChef(RegisterViewModel registerViewModel)
+        [HttpPost("/Chef/Register")]
+        public async Task<IActionResult> ChefRegister(RegisterViewModel registerViewModel)
         {
             if (ModelState.IsValid)
             {
@@ -82,7 +81,7 @@ namespace ChefConnect.Controllers
             }
         
 
-            return RedirectToAction("ChefRegister","Chef");
+            return View();
         }
 
     }
