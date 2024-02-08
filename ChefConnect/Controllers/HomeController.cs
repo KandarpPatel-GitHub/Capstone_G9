@@ -24,10 +24,7 @@ public class HomeController : Controller
     [AllowAnonymous]
     public IActionResult Index()
     {
-        if (_signInManager.IsSignedIn(this.User))
-        {
-            Console.WriteLine("User is logged in");
-        }
+        _signInManager.SignOutAsync();
         return View();
     }
 
@@ -39,10 +36,74 @@ public class HomeController : Controller
     }
 
     [AllowAnonymous]
+    [HttpPost("/Login")]
+    public async Task<IActionResult> Login(LoginViewModel loginViewModel)
+    {
+        if (ModelState.IsValid)
+        {
+            var userByUserName = await _userManager.FindByNameAsync(loginViewModel.UserName);
+            var userByEmail = await _userManager.FindByEmailAsync(loginViewModel.UserName);
+
+            if (userByEmail == null)
+            {
+                if (userByUserName == null)
+                {
+                    ViewBag.LogIn = false;
+                    ModelState.AddModelError("", "Invalid username/password.");
+                    return View(loginViewModel);
+                }
+                else
+                {
+                    var result = await _signInManager.PasswordSignInAsync(loginViewModel.UserName, loginViewModel.Password,
+                     isPersistent: false, lockoutOnFailure: false);
+
+                    if (result.Succeeded)
+                    {
+                        if (_userManager.IsInRoleAsync(userByUserName, "Chef").Result)
+                        {
+                            return RedirectToAction("ChefProfile", "Chef", new {username = userByUserName.UserName});
+                        }
+                        else
+                        {
+                            return RedirectToAction("CustomerHome", "Customer", new { username = userByUserName.UserName });
+                        }
+                    }
+
+                }
+            }
+            else
+            {
+                var result = await _signInManager.PasswordSignInAsync(userByEmail.UserName, loginViewModel.Password,
+                     isPersistent: false, lockoutOnFailure: false);
+
+                if (result.Succeeded)
+                {
+                    if (_userManager.IsInRoleAsync(userByEmail, "Chef").Result)
+                    {
+                        return RedirectToAction("ChefProfile", "Chef", new { username = userByEmail.UserName });
+                    } 
+                    else
+                    {
+                        return RedirectToAction("CustomerHome", "Customer", new { username = userByEmail.UserName });
+                    }
+                }
+            }
+        }
+        return View();
+    }
+
+    [AllowAnonymous]
     [HttpGet("/Register")]
     public async Task<IActionResult> SelectRegistration()
     {
         return View();
+    }
+
+    [HttpGet("/Logout")]
+    public async Task<IActionResult> Logout()
+    {
+        await _signInManager.SignOutAsync();
+        return RedirectToAction("Index");
     }
 
     [AllowAnonymous]

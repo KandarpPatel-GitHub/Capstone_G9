@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ChefConnect.Controllers
 {
-    [Authorize]
+    [Authorize(Roles ="Customer")]
     public class CustomerController : Controller
     {
         private UserManager<AppUser> _userManager;

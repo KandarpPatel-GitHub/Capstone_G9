@@ -1,4 +1,6 @@
-﻿@{
+﻿@model LoginViewModel
+
+@{
     ViewData["title"] = "Login";
 }
 
@@ -17,17 +19,25 @@
                                     <h4 class="mt-1 mb-5 pb-1">Please login to your account</h4>
                                 </div>
 
-                                <form>
-                                    
+                                <form method="post" asp-controller="Home" asp-action="Login">
+
+                                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
                                     <div class="form-outline mb-4">
+                                        <label class="form-label">Username</label>
                                         <input type="text" class="form-control"
-                                               placeholder="Username or Email address" />
-                                        <label class="form-label" for="form2Example11">Username</label>
+                                               placeholder="Username or Email address"
+                                               asp-for="UserName"/>
+                                        <span asp-validation-for="UserName"
+                                              class="text-danger"></span>
                                     </div>
 
                                     <div class="form-outline mb-4">
-                                        <input type="password" class="form-control" />
-                                        <label class="form-label" for="form2Example22">Password</label>
+                                        <label class="form-label">Password</label>
+                                        <input type="password" class="form-control"
+                                               asp-for="Password"/>
+                                        <span asp-validation-for="Password"
+                                              class="text-danger"></span>
                                     </div>
 
                                     <div class="text-center pt-1 mb-5 pb-1">
@@ -41,7 +51,7 @@
                                     <div class="d-flex align-items-center justify-content-center pb-4">
                                         <p class="mb-0 me-2">Don't have an account?</p>
                                         <a type="button" class="btn btn-outline-danger"
-                                                asp-controller="Home" asp-action="SelectRegistration">
+                                           asp-controller="Home" asp-action="SelectRegistration">
                                             Create New
                                         </a>
                                     </div>

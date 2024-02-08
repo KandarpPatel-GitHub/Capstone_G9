@@ -14,7 +14,7 @@ using ChefConnect.Entities;
 
 namespace ChefConnect.Controllers
 {
-    [Authorize]
+    [Authorize(Roles ="Chef")]
     public class ChefController : Controller
     {
         private UserManager<AppUser> _userManager;
@@ -82,6 +82,17 @@ namespace ChefConnect.Controllers
         
 
             return View();
+        }
+
+        [HttpGet("/{username}/Profile")]
+        public async Task<IActionResult> ChefProfile(string username)
+        {
+            UserViewModel model = new UserViewModel()
+            {
+                ActiveUser = await _userManager.FindByNameAsync(username)
+            };
+
+            return View(model);
         }
 
     }
