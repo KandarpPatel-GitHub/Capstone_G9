@@ -113,8 +113,9 @@ public class HomeController : Controller
     }
 
     [AllowAnonymous]
-    public IActionResult About()
+    public IActionResult About(string id)
     {
+
         return View();
     }
 

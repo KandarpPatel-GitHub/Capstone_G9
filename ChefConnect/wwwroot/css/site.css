@@ -54,8 +54,21 @@ footer{
 }
 
 
+
+
 .home-page-content {
     margin: 10px 15px 10px 15px;
+   
+}
+
+.text-corrections{
+    text-decoration: none;
+    color: black;
+    
+}
+a:hover {
+    text-decoration: none;
+    color: black;
 }
 
 .gradient-custom-2 {
