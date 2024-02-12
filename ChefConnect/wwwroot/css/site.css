@@ -1,15 +1,15 @@
 ﻿html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
 /*html {
@@ -17,20 +17,19 @@
     position: relative;
 }*/
 
-.bg-grey{
+.bg-grey {
     background-color: #808080;
     opacity: .8;
-    
-
 }
-.navbar{
-    position:fixed;
+
+.navbar {
+    position: fixed;
     width: 100%;
     z-index: 9999;
     top: 0;
 }
 
-.navbar-font{
+.navbar-font {
     font-size: 20px;
     color: white;
     font-weight: bold;
@@ -38,10 +37,10 @@
 
 body {
     padding-top: 150px;
-padding-bottom: 50px;
-    
+    padding-bottom: 50px;
 }
-footer{
+
+footer {
     position: fixed;
     bottom: 0;
     width: 100%;
@@ -49,23 +48,28 @@ footer{
     color: white;
     text-align: center;
     padding: 10px;
-    
-
 }
 
+.highlights-list {
+    list-style-type: none;
+    padding-bottom: 20px;
+    font-family: Montserrat;
+    font-size: 2em;
+    font-weight: lighter;
 
+    margin: 0;
+}
 
 
 .home-page-content {
     margin: 10px 15px 10px 15px;
-   
 }
 
-.text-corrections{
+.text-corrections {
     text-decoration: none;
     color: black;
-    
 }
+
 a:hover {
     text-decoration: none;
     color: black;
@@ -113,13 +117,21 @@ Trying animation*/
     }
 }
 
+.animated-carousel{
+opacity: 0;
+    transform: translateY(-20px);
+    animation: slideIn 5s forwards;
+}
 
-
+.animated-home-page-content{
+opacity: 0;
+    transform: translateY(-20px);
+    animation: slideIn 5s forwards;
+}
 /*#imageCarousel {
     opacity: 0.6;
     transition: opacity 2s ease-in-out;
 }*/
-
 /* Class to trigger the fade-in animation */
 .carousel-visible {
     opacity: 1;

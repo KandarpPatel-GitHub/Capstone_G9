@@ -37,7 +37,7 @@ window.addEventListener('load', function () {
     // Wait for the header animation to complete
     setTimeout(function () {
         document.getElementById('imageCarousel').classList.add('carousel-visible');
-    }, 2000); // Adjust the time to match your header animation duration
+    }, 5000); // Adjust the time to match your header animation duration
 });
 
 
