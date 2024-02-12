@@ -63,6 +63,10 @@ public class HomeController : Controller
                         {
                             return RedirectToAction("ChefProfile", "Chef", new {username = userByUserName.UserName});
                         }
+                        else if(_userManager.IsInRoleAsync(userByUserName, "Admin").Result)
+                        {
+                            return RedirectToAction("AdminHome", "Admin");
+                        }
                         else
                         {
                             return RedirectToAction("CustomerHome", "Customer", new { username = userByUserName.UserName });
