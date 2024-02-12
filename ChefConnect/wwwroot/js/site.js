@@ -41,6 +41,34 @@ window.addEventListener('load', function () {
 });
 
 
+$(document).ready(function () {
+    $('.highlights-list li').each(function (i) {
+        // Increase the delay by 0.2 seconds for each item
+        $(this).css('animation-delay', `${0.2 * i}s`);
+    });
+});
+
+
+$(document).ready(function () {
+    var $image = $('.highlists-image');
+
+    // Initially, set the image off-screen to the right
+    $image.css({
+        opacity: 0,
+        transform: 'translateX(100%)'
+    });
+
+    // Function to trigger the animation
+    function animateImage() {
+        $image.css('opacity', 1); // Make sure the image is visible
+        $image.addClass('animate-in-from-right'); // Add the animation class
+    }
+
+    // Example: animate the image 2 seconds after the page loads
+    setTimeout(animateImage, 2000);
+});
+
+
 //$(document).ready(function () {
 //    // Initialize the carousel but don't auto-start
 //    $('.carousel').carousel('pause');
