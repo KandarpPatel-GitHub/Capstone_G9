@@ -12,13 +12,50 @@
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
-html {
-  position: relative;
-  min-height: 100%;
+/*html {
+    min-height: 100%;
+    position: relative;
+}*/
+
+.bg-grey{
+    background-color: #808080;
+    opacity: .8;
+    
+
+}
+.navbar{
+    position:fixed;
+    width: 100%;
+    z-index: 9999;
+    top: 0;
+}
+
+.navbar-font{
+    font-size: 20px;
+    color: white;
+    font-weight: bold;
 }
 
 body {
-  margin-bottom: 60px;
+    padding-top: 150px;
+padding-bottom: 50px;
+    
+}
+footer{
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #808080;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    
+
+}
+
+
+.home-page-content {
+    margin: 10px 15px 10px 15px;
 }
 
 .gradient-custom-2 {
@@ -41,4 +78,36 @@ body {
         border-top-right-radius: .3rem;
         border-bottom-right-radius: .3rem;
     }
+}
+
+/*
+Trying animation*/
+.animated-header {
+    opacity: 0;
+    transform: translateY(-20px);
+    animation: slideIn 5s forwards;
+}
+
+@keyframes slideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-26px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+
+/*#imageCarousel {
+    opacity: 0.6;
+    transition: opacity 2s ease-in-out;
+}*/
+
+/* Class to trigger the fade-in animation */
+.carousel-visible {
+    opacity: 1;
 }
