@@ -113,6 +113,12 @@ public class HomeController : Controller
     }
 
     [AllowAnonymous]
+    public IActionResult Highlights()
+    {
+        return View();
+    }
+
+    [AllowAnonymous]
     public IActionResult About(string id)
     {
 
