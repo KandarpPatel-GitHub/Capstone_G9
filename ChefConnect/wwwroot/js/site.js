@@ -69,6 +69,43 @@ $(document).ready(function () {
 });
 
 
+
+document.addEventListener("DOMContentLoaded", function () {
+    const colors = ["#FF6347", "#4682B4", "#32CD32", "#FFD700", "#6A5ACD", "#FF69B4"]; // Example colors
+    const listItems = document.querySelectorAll('.highlights-list li');
+
+    listItems.forEach((item) => {
+        // Continuously change color every second
+        setInterval(() => {
+            if (!item.classList.contains('hover')) { // Check if the hover class is not applied
+                const randomColorIndex = Math.floor(Math.random() * colors.length); // Get a random color index
+                item.style.color = colors[randomColorIndex]; // Set the item to a random color
+            }
+        }, 1000); // Change color every 1000 milliseconds (1 second)
+
+        // Change color on hover
+        item.addEventListener('mouseover', () => {
+            item.classList.add('hover'); // Add a class to indicate hover state
+            const randomColorIndex = Math.floor(Math.random() * colors.length);
+            item.style.color = colors[randomColorIndex];
+        });
+
+        item.addEventListener('mouseout', () => {
+            item.classList.remove('hover'); // Remove the hover state class
+        });
+    });
+});
+
+
+
+
+
+
+
+
+
+
+
 //$(document).ready(function () {
 //    // Initialize the carousel but don't auto-start
 //    $('.carousel').carousel('pause');

@@ -56,10 +56,27 @@ footer {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 2em;
     font-weight: lighter;
-
     margin: 0;
 }
 
+
+.company-moto-list {
+    list-style-type: none;
+    padding-bottom: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 2em;
+    font-weight: lighter;
+    margin: 0;
+}
+
+.dev-list {
+    list-style-type: none;
+    padding-bottom: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 2em;
+    font-weight: lighter;
+    margin: 0;
+}
 
 .home-page-content {
     margin: 10px 15px 10px 15px;
@@ -117,22 +134,24 @@ Trying animation*/
     }
 }
 
-.animated-carousel{
-opacity: 0;
+.animated-carousel {
+    opacity: 0;
     transform: translateY(-20px);
     animation: slideIn 5s forwards;
 }
 
-.animated-home-page-content{
-opacity: 0;
+.animated-home-page-content {
+    opacity: 0;
     transform: translateY(-20px);
     animation: slideIn 5s forwards;
 }
+
 .highlights-list li {
     opacity: 0;
     transform: translateX(-100px);
     animation: fadeInUp 2s ease forwards;
 }
+
 @keyframes fadeInUp {
     to {
         opacity: 1;
@@ -181,8 +200,82 @@ opacity: 0;
 .pop-heading {
     display: block; /* or 'block' depending on your layout */
     animation: popIn 6s ease forwards;
-    
+}
+
+.d-block.w-100.highlists-image.image-hover-effect {
+    transition: transform 1s ease !important;
+}
+
+    .d-block.w-100.highlists-image.image-hover-effect:hover {
+        transform: scale(1.05) !important;
+    }
+
+
+
+
+
+
+.pop-heading:hover {
+    color: red;
+    transform: scale(1.05);
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+/* Ensure the base state includes a transition for smooth effect */
+.pop-heading, .highlights-list li {
+    transition: transform 0.3s ease, color 0.3s ease;
+    display: block; /* For transform to work on inline elements like <li> */
+}
+
+@keyframes textFocusIn {
+    from {
+        filter: blur(12px);
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        filter: blur(0);
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
 
 
+.highlights-list li:hover {
+    cursor: pointer;
+    transform: scale(1.05);
+    transition: transform 0.3s ease, color 0.3s ease;
+    color: #007bff; /* Change to your preferred hover color */
+}
+
+
+.dev-list {
+    list-style: none;
+    padding-left: 0;
+}
+
+    .dev-list li {
+        opacity: 0;
+        transform: translateX(-100px);
+        animation: slideIn 0.5s forwards;
+        animation-delay: var(--animation-delay, 0s);
+        cursor: pointer;
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+@keyframes slideIn {
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Hover effect */
+.dev-list li:hover {
+   
+    background-blend-mode: color-burn;
+    background: linear-gradient(45deg, #ee7724, #d8363a, #dd3675, #b44593);
+    color: #ffffff; /* Change as needed */
+}
