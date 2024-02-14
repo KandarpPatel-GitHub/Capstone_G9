@@ -27,7 +27,19 @@
     width: 100%;
     z-index: 9999;
     top: 0;
+    /*background-color: #808080;*/
+    background-color: transparent; /* Initial transparent background */
+    transition: background-color 0.5s ease; /* Smooth transition for background color */
+    border:0px !important;
 }
+
+    .navbar.scrolled {
+        background-color: rgba(255, 255, 255, 0.2); /* Or any other color/opacity */
+        /* Add here any other style changes you want on scroll */
+        color: transparent;
+    }
+
+
 
 .navbar-font {
     font-size: 20px;
@@ -38,7 +50,43 @@
 body {
     padding-top: 150px;
     padding-bottom: 50px;
+    top: 50px;
+    background-image: url();
+    background: url("../images/background-image.png") no-repeat center center fixed;
+    background-size: cover;
+    background-repeat: no-repeat;
+    animation: panBackground 20s infinite linear;
+    /*background-size: 150% 150%;*/ /* Start with a zoomed in background */
+    /*background-position: center center;
+    animation: zoomBackground 10s infinite alternate ease-in-out;*/
 }
+
+
+
+@keyframes panBackground {
+    from {
+        background-position: 0% 50%;
+    }
+
+    to {
+        background-position: 100% 50%;
+    }
+}
+
+/*Background animation*/
+
+/*
+@keyframes zoomBackground {
+    from {
+        background-size: 150% 150%;
+    }
+
+    to {
+        background-size: 100% 100%;
+    }
+}*/
+
+
 
 footer {
     position: fixed;
@@ -138,6 +186,7 @@ Trying animation*/
     opacity: 0;
     transform: translateY(-20px);
     animation: slideIn 5s forwards;
+    width: 100%;
 }
 
 .animated-home-page-content {
@@ -274,7 +323,6 @@ Trying animation*/
 
 /* Hover effect */
 .dev-list li:hover {
-   
     background-blend-mode: color-burn;
     background: linear-gradient(45deg, #ee7724, #d8363a, #dd3675, #b44593);
     color: #ffffff; /* Change as needed */
