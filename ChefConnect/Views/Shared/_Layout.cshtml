@@ -32,7 +32,7 @@
                 @if (!_signInManager.IsSignedIn(this.User))
                  {
                     <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                        <ul class="navbar-nav flex-grow-1">
+                        <ul class="navbar-nav flex-grow-1 ">
                             <li class="nav-item">
                                 <a class="nav-link text-light navbar-font" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                             </li>
@@ -44,8 +44,8 @@
                             </li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
-                            <li style="padding-right: 10px"><a class="btn text-light navbar-font" type="button" asp-controller="Home" asp-action="Login">Login</a></li>
-                            <li><a class="btn text-light navbar-font" type="button" asp-controller="Home" asp-action="SelectRegistration">Register</a></li>
+                            <li style="padding-right: 10px;"><a class="btn text-dark navbar-font button" style="border: none;" type="button" asp-controller="Home" asp-action="Login">Login</a></li>
+                            <li><a class="btn text-dark navbar-font button" type="button" asp-controller="Home" asp-action="SelectRegistration">Register</a></li>
                         </ul>
 
                     </div>

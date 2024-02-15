@@ -30,7 +30,7 @@
     /*background-color: #808080;*/
     background-color: transparent; /* Initial transparent background */
     transition: background-color 0.5s ease; /* Smooth transition for background color */
-    border:0px !important;
+    border: 0px !important;
 }
 
     .navbar.scrolled {
@@ -327,3 +327,52 @@ Trying animation*/
     background: linear-gradient(45deg, #ee7724, #d8363a, #dd3675, #b44593);
     color: #ffffff; /* Change as needed */
 }
+
+
+
+.button {
+    position: relative;
+    height: 3rem;
+    border-radius: 1.5rem;
+    background: transparent;
+    color: #ffffff;
+    transition: all 0.3s;
+}
+
+    .button:hover {
+        background: transparent;
+        letter-spacing: 2px;
+    }
+
+    .button::before {
+        top: 0;
+    }
+
+    .button::after {
+        bottom: 0;
+    }
+
+    .button:hover::before, .button:hover::after {
+        transform: scaleX(1);
+    }
+
+    .button::before, .button::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        height: 3rem;
+        transform: scaleX(0);
+        width: 100%;
+        height: 0.5px;
+        background: black;
+        color: black !important;
+        transition: all 0.3s;
+    }
+
+    .button:checked, .button:focus {
+        outline: none;
+    }
+
+    link:focus, :visited:focus {
+    -moz-outline: none;
+    }
