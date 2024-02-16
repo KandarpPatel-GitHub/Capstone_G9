@@ -13,6 +13,12 @@ html {
 
 /* Layout CSS*/
 /* Gives the recipe list a different CSS*/
+/* animation targeting the list of recipes on home page*/
+.highlights-list li {
+    opacity: 0;
+    transform: translateX(-100px);
+    animation: fadeInUp 2s ease forwards;
+}
 .highlights-list {
     list-style-type: none;
     padding-bottom: 20px;
@@ -121,12 +127,7 @@ a:hover {
     animation: slideIn 5s forwards;
 }
 
-/* animation targeting the list of recipes on home page*/
-.highlights-list li {
-    opacity: 0;
-    transform: translateX(-100px);
-    animation: fadeInUp 2s ease forwards;
-}
+
 
 /* To make the carousel visible*/
 .carousel-visible {
@@ -144,7 +145,7 @@ a:hover {
     cursor: pointer;
     transform: scale(1.05);
     transition: transform 0.3s ease, color 0.3s ease;
-    color: #007bff; /* Change to your preferred hover color */
+    color: #007bff; 
 }
 
 
@@ -218,7 +219,7 @@ a:hover {
 }
 
 link:focus, :visited:focus {
-    -moz-outline: none;
+    outline: none;
 }
 
 /* Footer CSS*/

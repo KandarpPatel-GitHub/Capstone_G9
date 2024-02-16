@@ -1,12 +1,10 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
-
-// Write your JavaScript code.
-
+﻿
+// Load the carousel when the document is ready
 $(document).ready(function () {
     $('.carousel').carousel();
 });
-// Your custom JavaScript code goes here
+
+//Load the animated text when the document is ready
 document.addEventListener("DOMContentLoaded", function () {
     // Get the elements
     var animatedText = document.getElementById("animatedText");
@@ -37,10 +35,9 @@ window.addEventListener('load', function () {
     // Wait for the header animation to complete
     setTimeout(function () {
         document.getElementById('imageCarousel').classList.add('carousel-visible');
-    }, 5000); // Adjust the time to match your header animation duration
-});
+    }, 5000);
 
-
+// Delay function for the animation.
 $(document).ready(function () {
     $('.highlights-list li').each(function (i) {
         // Increase the delay by 0.2 seconds for each item
@@ -48,10 +45,9 @@ $(document).ready(function () {
     });
 });
 
-
+// Animate the image in from the right
 $(document).ready(function () {
     var $image = $('.highlists-image');
-
     // Initially, set the image off-screen to the right
     $image.css({
         opacity: 0,
@@ -60,38 +56,36 @@ $(document).ready(function () {
 
     // Function to trigger the animation
     function animateImage() {
-        $image.css('opacity', 1); // Make sure the image is visible
-        $image.addClass('animate-in-from-right'); // Add the animation class
+        $image.css('opacity', 1); 
+        $image.addClass('animate-in-from-right');
     }
 
-    // Example: animate the image 2 seconds after the page loads
     setTimeout(animateImage, 2000);
 });
 
 
 
 document.addEventListener("DOMContentLoaded", function () {
-    const colors = ["#FF6347", "#4682B4", "#32CD32", "#FFD700", "#6A5ACD", "#FF69B4"]; // Example colors
+    const colors = ["#FF6347", "#4682B4", "#32CD32", "#FFD700", "#6A5ACD", "#FF69B4"];
     const listItems = document.querySelectorAll('.highlights-list li');
 
     listItems.forEach((item) => {
         // Continuously change color every second
         setInterval(() => {
-            if (!item.classList.contains('hover')) { // Check if the hover class is not applied
-                const randomColorIndex = Math.floor(Math.random() * colors.length); // Get a random color index
-                item.style.color = colors[randomColorIndex]; // Set the item to a random color
+            if (!item.classList.contains('hover')) {
+                const randomColorIndex = Math.floor(Math.random() * colors.length);
+                item.style.color = colors[randomColorIndex]; 
             }
-        }, 1000); // Change color every 1000 milliseconds (1 second)
+        }, 1000); 
 
-        // Change color on hover
         item.addEventListener('mouseover', () => {
-            item.classList.add('hover'); // Add a class to indicate hover state
+            item.classList.add('hover'); 
             const randomColorIndex = Math.floor(Math.random() * colors.length);
             item.style.color = colors[randomColorIndex];
         });
 
         item.addEventListener('mouseout', () => {
-            item.classList.remove('hover'); // Remove the hover state class
+            item.classList.remove('hover'); 
         });
     });
 });
@@ -101,7 +95,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 document.addEventListener("DOMContentLoaded", function () {
     window.addEventListener('scroll', function () {
-        if (window.scrollY > 50) { // Adjust 50 to the scroll position you desire
+        if (window.scrollY > 50) { 
             document.querySelector('.navbar').classList.add('scrolled');
         } else {
             document.querySelector('.navbar').classList.remove('scrolled');
@@ -116,27 +110,4 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-
-//$(document).ready(function () {
-//    // Initialize the carousel but don't auto-start
-//    $('.carousel').carousel('pause');
-
-//    // Assuming the header text animation is ready to be triggered
-//    // Trigger the header animation
-//    $('.animated-header').css({
-//        'opacity': '1',
-//        'transform': 'translateY(0)'
-//    });
-
-//    // Set a timeout that matches the header animation duration + any desired delay
-//    setTimeout(function () {
-//        // Start the carousel fade-in by adding the class for visibility
-//        $('#imageCarousel').addClass('carousel-visible');
-
-//        // Optionally, if you want to start or restart the carousel sliding, you can do it here
-//        $('.carousel').carousel({
-//            interval: 8000 // Adjust the interval as needed
-//        });
-//    }, 5000); // This timeout should match the duration of the header animation + any additional delay you want before the carousel starts
-//});
 
