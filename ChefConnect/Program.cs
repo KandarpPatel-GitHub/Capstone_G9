@@ -23,6 +23,7 @@ builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
 }).AddEntityFrameworkStores<ChefConnectDbContext>()
         .AddDefaultTokenProviders();
 
+builder.Services.ConfigureApplicationCookie(options => options.LoginPath = "/Login");
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -48,6 +49,12 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+var scopeFactory = app.Services.GetRequiredService<IServiceScopeFactory>();
+using (var scope = scopeFactory.CreateScope())
+{
+    await ChefConnectDbContext.CreateAdminUser(scope.ServiceProvider);
+}
 
 app.Run();
 

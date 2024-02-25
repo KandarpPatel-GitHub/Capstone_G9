@@ -4,15 +4,18 @@ using ChefConnect.Models;
 using Microsoft.AspNetCore.Authorization;
 using ChefConnect.Entities;
 using Microsoft.AspNetCore.Identity;
+using ChefConnect.Services;
 
 namespace ChefConnect.Controllers;
 
-[Authorize]
+
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
     private UserManager<AppUser> _userManager;
     private SignInManager<AppUser> _signInManager;
+    private readonly IWebHostEnvironment webHostEnvironment;
+    private HelperServices HelperServices = new HelperServices();
 
     public HomeController(ILogger<HomeController> logger, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
     {
@@ -21,21 +24,22 @@ public class HomeController : Controller
         _signInManager = signInManager;
     }
 
-    [AllowAnonymous]
+    
     public IActionResult Index()
     {
         _signInManager.SignOutAsync();
         return View();
     }
 
-    [AllowAnonymous]
+   
     [HttpGet("/Login")]
     public async Task<IActionResult> Login()
     {
+
         return View();
     }
 
-    [AllowAnonymous]
+    
     [HttpPost("/Login")]
     public async Task<IActionResult> Login(LoginViewModel loginViewModel)
     {
@@ -56,9 +60,13 @@ public class HomeController : Controller
                 {
                     var result = await _signInManager.PasswordSignInAsync(loginViewModel.UserName, loginViewModel.Password,
                      isPersistent: false, lockoutOnFailure: false);
-
+                    
                     if (result.Succeeded)
                     {
+                        if (!userByUserName.EmailConfirmed)
+                        {
+                            TempData["LastActionMessage"] = "An email verification is sent to you. Please confirm your email there.";
+                        }
                         if (_userManager.IsInRoleAsync(userByUserName, "Chef").Result)
                         {
                             return RedirectToAction("ChefProfile", "Chef", new {username = userByUserName.UserName});
@@ -96,13 +104,24 @@ public class HomeController : Controller
         return View();
     }
 
-    [AllowAnonymous]
+    
     [HttpGet("/Register")]
     public async Task<IActionResult> SelectRegistration()
     {
         return View();
     }
 
+    [HttpGet("/{username}/Email-Verification-Success")]
+    public async Task<IActionResult> EmailVerficationSuccess(string username)
+    {
+        var user = _userManager.FindByNameAsync(username).Result;
+        user.EmailConfirmed = true;
+        _userManager.UpdateAsync(user);
+        
+        return View();
+    }
+
+    [Authorize]
     [HttpGet("/Logout")]
     public async Task<IActionResult> Logout()
     {
@@ -110,19 +129,19 @@ public class HomeController : Controller
         return RedirectToAction("Index");
     }
 
-    [AllowAnonymous]
+    
     public IActionResult Privacy()
     {
         return View();
     }
 
-    [AllowAnonymous]
+    
     public IActionResult Highlights()
     {
         return View();
     }
 
-    [AllowAnonymous]
+    
     public IActionResult About(string id)
     {
 

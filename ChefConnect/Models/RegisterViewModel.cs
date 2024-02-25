@@ -18,7 +18,6 @@ namespace ChefConnect.Models
         public string Name { get; set; }
 
         [Required(ErrorMessage = "Date can't be empty")]
-        [DataType(DataType.Date)]
         public DateTime DateOfBirth { get; set; }
 
         [Required(ErrorMessage = "Password can't be empty")]
