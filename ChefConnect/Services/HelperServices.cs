@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Mail;
 using System.Text.RegularExpressions;
+using ChefConnect.Data;
 
 namespace ChefConnect.Services
 {
@@ -39,13 +40,12 @@ namespace ChefConnect.Services
             }
         }
 
-		public bool IsValidAge(DateTime dateOfBirth)
+		public bool IsValidAge(DateTime? dateOfBirth)
 		{
 			DateTime today = DateTime.Now;
-			DateTime addEighteenYears = dateOfBirth.AddYears(18);
-			
-			
-			if (today >= addEighteenYears)
+			DateTime addEighteenYears = Convert.ToDateTime(dateOfBirth).AddYears(18);
+
+            if (today >= addEighteenYears)
 			{
 				return true;
 			}

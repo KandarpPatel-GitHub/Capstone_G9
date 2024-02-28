@@ -3,5 +3,21 @@
 @{
     ViewData["title"] = "Chef Profile";
 }
+@if (TempData.Keys.Contains("ConfirmEmailMessage"))
+ {
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <span>@TempData["ConfirmEmailMessage"]<a asp-controller="Home" asp-action="ResendVerificationMail" asp-route-username="@Model.ActiveUser.UserName"> Resend Verififcation.</a></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+ }
+
+@if (TempData.Keys.Contains("EmailReSentMessage"))
+ {
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <span>@TempData["EmailReSentMessage"]</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+ }
+
 
 <h2> Welcome @Model.ActiveUser.Name. Hope you are doing well.</h2>

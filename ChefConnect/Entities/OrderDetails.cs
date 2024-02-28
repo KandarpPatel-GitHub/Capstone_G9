@@ -5,6 +5,8 @@ namespace ChefConnect.Entities
 	{
 		public int OrderDetailsId { get; set; }
 
+		public string? OrderInstructions { get; set; }
+
 		public int GuestQuantity { get; set; }
 
 		public DateTime OrderDate { get; set; }

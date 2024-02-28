@@ -13,6 +13,12 @@ namespace ChefConnect.Entities
 
 		public int CuisineId { get; set; }
 
+		public int NumberOfPeople { get; set; }
+
+		public double Price { get; set; }
+
+		public double PricePerExtraPerson { get; set; }
+
 		public string ChefId { get; set; }
 	}
 }

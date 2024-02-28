@@ -27,7 +27,11 @@ public class HomeController : Controller
     
     public IActionResult Index()
     {
-        _signInManager.SignOutAsync();
+        if (_signInManager.IsSignedIn(User))
+        {
+            _signInManager.SignOutAsync();
+            return RedirectToAction("Index");
+        }
         return View();
     }
 
@@ -65,7 +69,7 @@ public class HomeController : Controller
                     {
                         if (!userByUserName.EmailConfirmed)
                         {
-                            TempData["LastActionMessage"] = "An email verification is sent to you. Please confirm your email there.";
+                            TempData["ConfirmEmailMessage"] = $"An email verification is sent to you. Please confirm your email there.";
                         }
                         if (_userManager.IsInRoleAsync(userByUserName, "Chef").Result)
                         {
@@ -111,8 +115,19 @@ public class HomeController : Controller
         return View();
     }
 
+    [Authorize(Roles = "Chef, Customer")]
+    [HttpGet("/{username}/ResendVerfification")]
+    public async Task<IActionResult> ResendVerificationMail(string username)
+    {
+        var user = await _userManager.FindByNameAsync(username);
+        await HelperServices.SendVerificationEmailAsync(user.Email, user.UserName);
+        TempData["EmailReSentMessage"] = "A new verification mail has been sent your mail, please confirm your email there.";
+
+        return RedirectToAction("ChefProfile","Chef",new { username = user.UserName });
+    }
+
     [HttpGet("/{username}/Email-Verification-Success")]
-    public async Task<IActionResult> EmailVerficationSuccess(string username)
+    public async Task<IActionResult> EmailVerificationSuccess(string username)
     {
         var user = _userManager.FindByNameAsync(username).Result;
         user.EmailConfirmed = true;

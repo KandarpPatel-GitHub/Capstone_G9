@@ -4,6 +4,7 @@
 
 @{
     AppUser ActiveUser = _userManager.GetUserAsync(this.User).Result;
+    
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -96,12 +97,12 @@
     <div class="container">
         <main role="main" class="pb-3">
             @if (TempData.Keys.Contains("LastActionMessage"))
-            {
+             {
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                     <span>@TempData["LastActionMessage"]</span>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
-            }
+             }
             @RenderBody()
         </main>
     </div>

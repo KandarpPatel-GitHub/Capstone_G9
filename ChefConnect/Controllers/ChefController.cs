@@ -9,6 +9,7 @@ using ChefConnect.Models;
 using Microsoft.AspNetCore.Identity;
 using ChefConnect.Entities;
 using ChefConnect.Services;
+using ChefConnect.Data;
 
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -20,12 +21,14 @@ namespace ChefConnect.Controllers
     {
         private UserManager<AppUser> _userManager;
         private SignInManager<AppUser> _signInManager;
-        private HelperServices _helperSerivces = new HelperServices();
+        private HelperServices _helperServices = new HelperServices();
+        private ChefConnectDbContext _chefConnectDbContext;
 
-        public ChefController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+        public ChefController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ChefConnectDbContext chefConnectDbContext)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _chefConnectDbContext = chefConnectDbContext;
         }
 
         [AllowAnonymous]
@@ -43,73 +46,63 @@ namespace ChefConnect.Controllers
             {
                 if (_userManager.FindByNameAsync(registerViewModel.UserName).Result != null)
                 {
-                    ModelState.AddModelError("UserName", "Username already in use please try a new one.");
-                    return View();
+                    ModelState.AddModelError("UserName", "Username is already registered.");
                 }
-                else
+                if (_userManager.FindByEmailAsync(registerViewModel.Email).Result != null)
                 {
-                    if (_userManager.FindByEmailAsync(registerViewModel.Email).Result != null)
+                    ModelState.AddModelError("Email", "Email is already registered.");
+                }
+                if (!_helperServices.IsValidAge(registerViewModel.DateOfBirth))
+                {
+                    ModelState.AddModelError("DateOfBirth", "You must be 18 years or more to register.");
+                }
+                if (!isUniquePhoneNumber(registerViewModel.PhoneNumber))
+                {
+                    ModelState.AddModelError("PhoneNumber", "Phone number is already registered.");
+                }
+                if (!_helperServices.IsPhoneNumberValid(registerViewModel.PhoneNumber))
+                {
+                    ModelState.AddModelError("PhoneNumber", "Please enter a valid Canadian phone number.");
+                }
+                if (ModelState.ErrorCount != 0)
+                {
+                    var user = new AppUser { UserName = registerViewModel.UserName, Name = registerViewModel.Name };
+                    var result = await _userManager.CreateAsync(user, registerViewModel.Password);
+
+                    if (result.Succeeded)
                     {
-                        ModelState.AddModelError("Email", "Email already in use please try a new one.");
-                        return View();
+
+                        await _userManager.AddToRoleAsync(user, "Chef");
+                        user.Email = registerViewModel.Email;
+                        user.PhoneNumber = registerViewModel.PhoneNumber;
+                        user.DateOfBirth = registerViewModel.DateOfBirth;
+                        await _userManager.UpdateAsync(user);
+                        await _signInManager.SignInAsync(user, false);
+                        await _helperServices.SendVerificationEmailAsync(registerViewModel.Email, registerViewModel.UserName);
+                        if (!user.EmailConfirmed)
+                        {
+                            TempData["ConfirmEmailMessage"] = $"An email verification is sent to you. Please confirm your email there.";
+                        }
+
+                        return RedirectToAction("ChefProfile", new { username = registerViewModel.UserName });
+
+
                     }
                     else
                     {
-                        if (!_helperSerivces.IsValidAge(registerViewModel.DateOfBirth))
-                        {
-                            ModelState.AddModelError("DateOfBirth", "You must be 18 years or more to register.");
-                            return View();
-                           
-                        }
-                        else
-                        {
-                            if (!_helperSerivces.IsPhoneNumberValid(registerViewModel.PhoneNumber))
-                            {
-                                ModelState.AddModelError("PhoneNumber", "Please enter a valid phone number.");
-                                return View();
-                            }
-                            else
-                            {
-                                var user = new AppUser { UserName = registerViewModel.UserName, Name = registerViewModel.Name };
-                                var result = await _userManager.CreateAsync(user, registerViewModel.Password);
-
-                                if (result.Succeeded)
-                                {
-
-                                    await _userManager.AddToRoleAsync(user, "Chef");
-                                    user.Email = registerViewModel.Email;
-                                    user.PhoneNumber = registerViewModel.PhoneNumber;
-                                    user.DateOfBirth = registerViewModel.DateOfBirth;
-                                    await _userManager.UpdateAsync(user);
-                                    await _signInManager.SignInAsync(user,false);
-                                    await _helperSerivces.SendVerificationEmailAsync(registerViewModel.Email, registerViewModel.UserName);
-                                    if (!user.EmailConfirmed)
-                                    {
-                                        TempData["LastActionMessage"] = "An email verification is sent to you. Please confirm your email there.";
-                                    }
-                                    
-                                    return RedirectToAction("ChefProfile", new {username = registerViewModel.UserName});
-                                   
-
-                                }
-                                else
-                                {
-                                    foreach (var error in result.Errors)
-                                    {
-                                        ModelState.AddModelError("", error.Description);
-                                    }
-
-                                }
-                            }
-                        }
-                        
+                        return View();
                     }
+                }
+                else
+                {
+                    return View();
                 }
 
             }
-        
-
-            return View();
+            else
+            {
+                return View();
+            }
         }
 
         [HttpGet("/{username}/Profile")]
@@ -121,6 +114,21 @@ namespace ChefConnect.Controllers
             };
 
             return View(model);
+        }
+
+        public bool isUniquePhoneNumber(string phone)
+        {
+            var allUsers = _userManager.Users;
+           
+                foreach (var user in allUsers)
+                {
+                    if (user.PhoneNumber == phone)
+                    {
+                      return false;
+                    }
+                }
+
+            return true;
         }
 
     }
