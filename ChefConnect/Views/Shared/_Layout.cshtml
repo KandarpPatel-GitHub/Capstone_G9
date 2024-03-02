@@ -12,6 +12,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/chatbot.css" asp-append-version="true">
+    <!-- Google Fonts Link For Icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,1,0" />
     <link rel="icon" href="~/images/logo.ico" type="image/x-icon">
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
@@ -31,7 +35,7 @@
                 </button>
 
                 @if (!_signInManager.IsSignedIn(this.User))
-                 {
+                {
                     <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                         <ul class="navbar-nav flex-grow-1 ">
                             <li class="nav-item">
@@ -48,15 +52,14 @@
                             <li style="padding-right: 10px;"><a class="btn text-dark navbar-font button" style="border: none;" type="button" asp-controller="Home" asp-action="Login">Login</a></li>
                             <li><a class="btn text-dark navbar-font button" type="button" asp-controller="Home" asp-action="SelectRegistration">Register</a></li>
                         </ul>
-
                     </div>
 
-                 }
+                }
                 else
                 {
                     <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                         @if (_userManager.IsInRoleAsync(ActiveUser, "Chef").Result)
-                         {
+                        {
                             <ul class="navbar-nav flex-grow-1">
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Chef" asp-action="ChefProfile" asp-route-username="@ActiveUser.UserName">Home</a>
@@ -65,10 +68,10 @@
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Chef" asp-action="ChefProfile" asp-route-username="@ActiveUser.UserName">My Recipes/Cuisines</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Chef" asp-action="ChefProfile" asp-route-username="@ActiveUser.UserName">Bookings</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Chef" asp-action="GetMyBookingsPage" asp-route-username="@ActiveUser.UserName">My Bookings</a>
                                 </li>
                             </ul>
-                         }
+                        }
                         else
                         {
                             <ul class="navbar-nav flex-grow-1">
@@ -97,12 +100,12 @@
     <div class="container">
         <main role="main" class="pb-3">
             @if (TempData.Keys.Contains("LastActionMessage"))
-             {
+            {
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                     <span>@TempData["LastActionMessage"]</span>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
-             }
+            }
             @RenderBody()
         </main>
     </div>
@@ -115,6 +118,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script type="module" src="~/js/chatbot.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

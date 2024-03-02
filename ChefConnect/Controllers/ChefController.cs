@@ -64,14 +64,13 @@ namespace ChefConnect.Controllers
                 {
                     ModelState.AddModelError("PhoneNumber", "Please enter a valid Canadian phone number.");
                 }
-                if (ModelState.ErrorCount != 0)
+                if (ModelState.ErrorCount == 0)
                 {
                     var user = new AppUser { UserName = registerViewModel.UserName, Name = registerViewModel.Name };
                     var result = await _userManager.CreateAsync(user, registerViewModel.Password);
-
+                   
                     if (result.Succeeded)
                     {
-
                         await _userManager.AddToRoleAsync(user, "Chef");
                         user.Email = registerViewModel.Email;
                         user.PhoneNumber = registerViewModel.PhoneNumber;
@@ -114,6 +113,12 @@ namespace ChefConnect.Controllers
             };
 
             return View(model);
+        }
+
+        [HttpGet("/{username}/My-Bookings")]
+        public async Task<IActionResult> GetMyBookingsPage(string username)
+        {
+            return View("MyBookings");
         }
 
         public bool isUniquePhoneNumber(string phone)
