@@ -4,7 +4,8 @@
 
 @{
     AppUser ActiveUser = _userManager.GetUserAsync(this.User).Result;
-    
+    var currentController = ViewContext.RouteData.Values["Controller"].ToString();
+    var currentAction = ViewContext.RouteData.Values["Action"].ToString();
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -37,15 +38,15 @@
                 @if (!_signInManager.IsSignedIn(this.User))
                 {
                     <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                        <ul class="navbar-nav flex-grow-1 ">
-                            <li class="nav-item">
-                                <a class="nav-link text-light navbar-font" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        <ul class="navbar-nav flex-grow-1 decorate-nav">
+                            <li class="nav-item @(currentController == "Home" && currentAction == "Index" ? "active" : "")">
+                                <a class="nav-link text-dark navbar-font" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-light navbar-font" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <li class="nav-item @(currentController == "Home" && currentAction == "Privacy" ? "active" : "")">
+                                <a class="nav-link text-dark navbar-font " asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-light navbar-font" asp-area="" asp-controller="Home" asp-action="About">AboutUs</a>
+                            <li class="nav-item @(currentController == "Home" && currentAction == "About" ? "active" : "")">
+                                <a class="nav-link text-dark navbar-font" asp-area="" asp-controller="Home" asp-action="About">AboutUs</a>
                             </li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
