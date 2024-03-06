@@ -54,21 +54,23 @@ html {
     padding-left: 0;
 }
 
-    .dev-list li {
-        opacity: 0;
-        transform: translateX(-100px);
-        animation: slideIn 0.5s forwards;
-        animation-delay: var(--animation-delay, 0s);
-        cursor: pointer;
-        transition: background-color 0.3s, color 0.3s;
+.dev-list li {
+    opacity: 0;
+    transform: translateX(-100px);
+    animation: slideIn 0.5s forwards;
+    animation-delay: var(--animation-delay, 0s);
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+
+    .dev-list li:hover {
+        background-blend-mode: color-burn;
+        background: linear-gradient(to right,#4C5760,#93A8AC,#D7CEB2,#A59E8C,#66635B);
+        border-radius: 10px;
+        /*background: linear-gradient(45deg, #ee7724, #d8363a, #dd3675, #b44593);*/
+        color: #ffffff;
     }
-
-
-        .dev-list li:hover {
-            background-blend-mode: color-burn;
-            background: linear-gradient(45deg, #ee7724, #d8363a, #dd3675, #b44593);
-            color: #ffffff;
-        }
 
 
 /* Body CSS*/
