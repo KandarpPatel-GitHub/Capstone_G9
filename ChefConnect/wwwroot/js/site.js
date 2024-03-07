@@ -35,7 +35,7 @@ window.addEventListener('load', function () {
     // Wait for the header animation to complete
     setTimeout(function () {
         document.getElementById('imageCarousel').classList.add('carousel-visible');
-    }, 5000);
+    }, 3000);
 
     // Delay function for the animation.
     $(document).ready(function () {
@@ -60,7 +60,7 @@ window.addEventListener('load', function () {
             $image.addClass('animate-in-from-right');
         }
 
-        setTimeout(animateImage, 2000);
+        setTimeout(animateImage, 3000);
     });
 
 });

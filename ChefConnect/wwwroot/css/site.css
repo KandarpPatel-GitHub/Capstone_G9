@@ -77,14 +77,13 @@ html {
 body {
     padding-top: 50px;
     padding-bottom: 50px;
-    top: 50px;
+    top: 95px;
     position: relative;
     background-image: url();
-    background: url("../images/blob-scene-haikei.png") no-repeat center center fixed;
+    background: url("../images/blob-scene-haikei-opacity.png") no-repeat center center fixed;
     background-size: cover;
     background-repeat: no-repeat;
-    animation: panBackground 20s infinite linear;
-    
+    animation: diagonalMove 20s infinite linear;
 }
 
 .home-page-content {
@@ -247,21 +246,19 @@ footer {
     width: 100%;
     z-index: 9999;
     top: 0;
-    background-color:  transparent;
-    
-    transition: background-color 0.5s ease;
+    background-color: #FFFEE8;
+    transition: background-color 1s ease;
     border: 0px !important;
 }
 
-    .navbar.scrolled {
-        /*background-color: rgba(255, 255, 255, 0.6);*/ /* Or any other color/opacity */
-        /* Add here any other style changes you want on scroll */
-        background-color: white !important; /* Example: a black background */
-        transition: background-color 0.6s !important; /* Smooth transition for background color change */
-    }
+.navbar.scrolled {
+        
+    background-color: #FFFEE8  !important; 
+    transition: background-color 0.6s !important;
+}
 .navbar-scroll {
-    background-color: white; /* Example: a black background */
-    transition: background-color 0.6s; /* Smooth transition for background color change */
+    background-color: #FFFEE8; 
+    transition: background-color 0.6s;
 }
 
 .active{
@@ -400,7 +397,15 @@ background-color: #fccb90;
     }
 }
 
+@keyframes diagonalMove {
+    from {
+        background-position: 0 0;
+    }
 
+    to {
+        background-position: 100% 100%;
+    }
+}
 
 
 
