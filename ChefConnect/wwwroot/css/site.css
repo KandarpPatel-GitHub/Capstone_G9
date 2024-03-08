@@ -79,8 +79,9 @@ body {
     padding-bottom: 50px;
     top: 95px;
     position: relative;
-    background-image: url();
-    background: url("../images/blob-scene-haikei-opacity.png") no-repeat center center fixed;
+    background-color: #FCFBF4;
+    /*background-image: url();
+    background: url("../images/blob-scene-haikei-opacity.png") no-repeat center center fixed;*/
     background-size: cover;
     background-repeat: no-repeat;
     animation: diagonalMove 20s infinite linear;
@@ -101,10 +102,22 @@ a:hover {
 }
 
 .gradient-custom-2 {
-    background: #fccb90;
-    background: -webkit-linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
-    background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
+    background: #FF753A;
+    font-size: 1.5em;
+    box-shadow: 0 18px 10px -5px rgba(0,0,0,0.2);
+    /*background: -webkit-linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
+    background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);*/
+
 }
+
+.gradient-custom-2 a:hover {
+    background: #FF753A;
+    padding:10px;
+    /*background: -webkit-linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
+    background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);*/
+}
+
+
 /* Animation for the header*/
 .animated-header {
     opacity: 0;
@@ -227,7 +240,7 @@ footer {
     position: fixed;
     bottom: 0;
     width: 100%;
-    background-color: #808080;
+    background-color: #FF753A;
     color: white;
     text-align: center;
     padding: 10px;
@@ -236,8 +249,7 @@ footer {
 
 /* Used for footer initially*/
 .bg-grey {
-    background-color: #808080;
-    
+    background-color: #FF753A;
 }
 
 /* Bootstrap designing*/
@@ -246,26 +258,26 @@ footer {
     width: 100%;
     z-index: 9999;
     top: 0;
-    background-color: #FFFEE8;
+    background-color: #FF753A;
     transition: background-color 1s ease;
-    border: 0px !important;
+    box-shadow: 0 8px 10px -5px rgba(0,0,0,0.2);
 }
 
-.navbar.scrolled {
-        
-    background-color: #FFFEE8  !important; 
-    transition: background-color 0.6s !important;
-}
+    .navbar.scrolled {
+        background: #FF753A !important;
+        transition: background-color 0.6s !important;
+    }
 .navbar-scroll {
-    background-color: #FFFEE8; 
+    background: #FCFBF4 !important;
     transition: background-color 0.6s;
 }
 
 .active{
-background-color: #fccb90;
+/*background-color: #fccb90;
     background: -webkit-linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
-    background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
-    border-radius: 10px;
+    background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);*/
+    border-bottom:solid;
+    
 }
 
 
