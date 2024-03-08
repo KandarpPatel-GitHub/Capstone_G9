@@ -228,6 +228,13 @@ namespace ChefConnect.Controllers
             return true;
         }
 
+
+
+        public IActionResult Index()
+        {
+            return View();
+        }
+
     }
 
 }

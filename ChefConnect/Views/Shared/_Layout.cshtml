@@ -63,13 +63,13 @@
                         {
                             <ul class="navbar-nav flex-grow-1">
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Chef" asp-action="ChefProfile" asp-route-username="@ActiveUser.UserName">Home</a>
+                                    <a class="nav-link text-dark @(currentController == "Chef" && currentAction == "ChefProfile" ? "active" : "")" asp-area="" asp-controller="Chef" asp-action="ChefProfile" asp-route-username="@ActiveUser.UserName">Home</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Chef" asp-action="GetMyRecipesAndCuisinesPage" asp-route-username="@ActiveUser.UserName">My Recipes/Cuisines</a>
+                                    <a class="nav-link text-dark @(currentController == "Chef" && currentAction == "GetMyRecipesAndCuisinesPage" ? "active" : "")" asp-area="" asp-controller="Chef" asp-action="GetMyRecipesAndCuisinesPage" asp-route-username="@ActiveUser.UserName">My Recipes/Cuisines</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Chef" asp-action="GetMyBookingsPage" asp-route-username="@ActiveUser.UserName">My Bookings</a>
+                                    <a class="nav-link text-dark @(currentController == "Chef" && currentAction == "GetMyBookingsPage" ? "active" : "")" asp-area="" asp-controller="Chef" asp-action="GetMyBookingsPage" asp-route-username="@ActiveUser.UserName">My Bookings</a>
                                 </li>
                             </ul>
                         }
@@ -77,13 +77,13 @@
                         {
                             <ul class="navbar-nav flex-grow-1">
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Customer" asp-action="CustomerHome" asp-route-username="@ActiveUser.UserName">Home</a>
+                                    <a class="nav-link text-dark @(currentController == "Customer" && currentAction == "Index" ? "active" : "")" asp-area="" asp-controller="Customer" asp-action="CustomerHome" asp-route-username="@ActiveUser.UserName">Home</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Chef" asp-action="ChefProfile" asp-route-username="@ActiveUser.UserName">My Recipes/Cuisines</a>
+                                    <a class="nav-link text-dark @(currentController == "Chef" && currentAction == "ChefProfile" ? "active" : "")" asp-area="" asp-controller="Chef" asp-action="ChefProfile" asp-route-username="@ActiveUser.UserName">My Recipes/Cuisines</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Chef" asp-action="ChefProfile" asp-route-username="@ActiveUser.UserName">Bookings</a>
+                                    <a class="nav-link text-dark @(currentController == "Chef" && currentAction == "ChefProfile" ? "active" : "")" asp-area="" asp-controller="Chef" asp-action="ChefProfile" asp-route-username="@ActiveUser.UserName">Bookings</a>
                                 </li>
                             </ul>
                         }
