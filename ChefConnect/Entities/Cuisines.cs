@@ -6,6 +6,7 @@ namespace ChefConnect.Entities
 		public int CuisinesId { get; set; }
 
 		public string CuisineName { get; set; }
+		
 	}
 }
 

@@ -43,13 +43,14 @@ public class ChefConnectDbContext : IdentityDbContext<AppUser>
 
     // Tables related to Chefs
     public DbSet<ChefRecipes> ChefRecipes { get; set; } 
-    public DbSet<Cuisines> Cuisines { get; set; }
+    public DbSet<ChefCuisines> ChefCuisines { get; set; }
 
     // Tables related to Customer
     public DbSet<Addresses> Addresses { get; set; }
     public DbSet<PaymentMethods> PaymentMethods { get; set; }
 
     // Other Tables
+    public DbSet<Cuisines> Cuisines { get; set; }
     public DbSet<OrderDetails> OrderDetails { get; set; }
     public DbSet<Reviews> Reviews { get; set; }
     public DbSet<TimeSlots> TimeSlots { get; set; }

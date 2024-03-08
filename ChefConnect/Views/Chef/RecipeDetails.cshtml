@@ -1,0 +1,33 @@
+﻿@model ChefViewModel
+@{
+    ViewData["title"] = "Recipe-Details";
+}
+
+<div class="row">
+
+    <div class="col-md-6">
+
+        <img id="recipeImage" style="width:350px;height:350px; object-fit:cover" src="data:image/*;base64,@(Convert.ToBase64String(Model.ActiveChefRecipe.RecipeImage))">
+
+    </div>
+    <div class="col-md-6">
+        <h3>
+            @Model.ActiveChefRecipe.RecipeName
+        </h3>
+        <p>
+            @Model.ActiveChefRecipe.RecipeDescription
+        </p>
+        <p>
+            Number of Persons: @Model.ActiveChefRecipe.NumberOfPeople
+        </p>
+        <p>
+            Price: Cad$ @Model.ActiveChefRecipe.Price
+        </p>
+        <p>
+            Price per Extra Person: @Model.ActiveChefRecipe.PricePerExtraPerson
+        </p>
+
+        <a type="button" class="btn btn-primary" asp-controller="chef" asp-action="GetEditRecipesPage" asp-route-username="@Model.ActiveUser.UserName" asp-route-id=" @Model.ActiveChefRecipe.ChefRecipesId">Edit Recipe</a>
+    </div>
+
+</div>

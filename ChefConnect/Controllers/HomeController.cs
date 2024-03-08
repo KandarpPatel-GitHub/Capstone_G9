@@ -84,7 +84,12 @@ public class HomeController : Controller
                             return RedirectToAction("CustomerHome", "Customer", new { username = userByUserName.UserName });
                         }
                     }
-
+                    else
+                    {
+                        ViewBag.LogIn = false;
+                        ModelState.AddModelError("", "Invalid username/password.");
+                        return View(loginViewModel);
+                    }
                 }
             }
             else
@@ -103,9 +108,19 @@ public class HomeController : Controller
                         return RedirectToAction("CustomerHome", "Customer", new { username = userByEmail.UserName });
                     }
                 }
+                else
+                {
+                    ViewBag.LogIn = false;
+                    ModelState.AddModelError("", "Invalid username/password.");
+                    return View(loginViewModel);
+                }
             }
         }
-        return View();
+        else
+        {
+            return View();
+        }
+        
     }
 
     

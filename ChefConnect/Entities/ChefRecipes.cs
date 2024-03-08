@@ -9,7 +9,7 @@ namespace ChefConnect.Entities
 
 		public string RecipeDescription { get; set; }
 
-		public byte RecipeImage { get; set; }
+		public byte[] RecipeImage { get; set; }
 
 		public int CuisineId { get; set; }
 

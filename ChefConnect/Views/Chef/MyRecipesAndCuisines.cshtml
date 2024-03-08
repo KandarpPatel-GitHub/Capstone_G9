@@ -1,0 +1,55 @@
+﻿@model ChefViewModel
+
+@{
+    ViewData["title"] = "My-Recipes-And-Cuisines";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h2>My Recipes</h2>
+            <a type="button" class="btn btn-primary" asp-controller="Chef" asp-action="GetAddRecipesPage" asp-route-username="@Model.ActiveUser.UserName">Add New Recipe</a>
+            @if (Model.chefRecipes.Count == 0)
+             { 
+                <h4>No Recipes Found.</h4>
+             }
+            else
+            {
+                <table class="table table-striped-columns">
+
+                    <thead>
+                        <tr>
+                            <th>Recipe</th>
+                            <th>Price</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach(var recipe in Model.chefRecipes)
+                         {
+                            <tr>
+                                <td>
+                                    @recipe.RecipeName
+                                </td>
+                                <td>
+                                    @recipe.Price
+                                </td>
+                                <td>
+                                    <a type="button" asp-controller="chef" asp-action="GetRecipeDetailsPage" asp-route-id="@recipe.ChefRecipesId" asp-route-username="@Model.ActiveUser.UserName" class="btn btn-primary">View</a>
+                                </td>
+
+                            </tr>
+   
+                         }
+                        
+                    </tbody>
+
+                </table>
+            } 
+            </div>
+        <div class="col">
+            <h2>My Cuisines</h2>
+        </div>
+    </div>
+</div>

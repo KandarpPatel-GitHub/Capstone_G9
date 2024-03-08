@@ -55,7 +55,7 @@ namespace ChefConnect.Controllers
                 {
                     ModelState.AddModelError("PhoneNumber", "Please enter a valid Canadian phone number.");
                 }
-                if (ModelState.ErrorCount != 0)
+                if (ModelState.ErrorCount == 0)
                 {
                     var user = new AppUser { UserName = registerViewModel.UserName, Name = registerViewModel.Name };
                     var result = await _userManager.CreateAsync(user, registerViewModel.Password);

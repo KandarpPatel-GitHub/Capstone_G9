@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using ChefConnect.Entities;
 using ChefConnect.Services;
 using ChefConnect.Data;
+using Microsoft.EntityFrameworkCore;
 
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -107,7 +108,7 @@ namespace ChefConnect.Controllers
         [HttpGet("/{username}/Profile")]
         public async Task<IActionResult> ChefProfile(string username)
         {
-            UserViewModel model = new UserViewModel()
+            ChefViewModel model = new ChefViewModel()
             {
                 ActiveUser = await _userManager.FindByNameAsync(username)
             };
@@ -119,6 +120,97 @@ namespace ChefConnect.Controllers
         public async Task<IActionResult> GetMyBookingsPage(string username)
         {
             return View("MyBookings");
+        }
+
+        [HttpGet("/{username}/My-Recipes-Cuisines")]
+        public async Task<IActionResult> GetMyRecipesAndCuisinesPage(string username)
+        {
+            var User = await _userManager.FindByNameAsync(username);
+            ChefViewModel model = new ChefViewModel()
+            {
+                ActiveUser = await _userManager.FindByNameAsync(username),
+                chefRecipes = await _chefConnectDbContext.ChefRecipes.Where(r => r.ChefId == User.Id).ToListAsync(),
+                chefCuisines = await _chefConnectDbContext.ChefCuisines.Where(r => r.ChefId == User.Id).ToListAsync(),
+                allCuisines = await _chefConnectDbContext.Cuisines.ToListAsync()
+            };
+            return View("MyRecipesAndCuisines", model);
+        }
+
+        [HttpGet("/{username}/Add-Recipes")]
+        public async Task<IActionResult> GetAddRecipesPage(string username)
+        {
+            ChefViewModel model = new ChefViewModel()
+            {
+                ActiveUser = await _userManager.FindByNameAsync(username),
+                allCuisines = await _chefConnectDbContext.Cuisines.ToListAsync(),
+                NewRecipe = new ChefRecipes()
+            };
+            return View("AddRecipes", model);
+        }
+
+        [HttpPost("/New-Recipe-Added")]
+        public async Task<IActionResult> AddNewRecipe(ChefViewModel model)
+        {
+            if (Request.Form.Files.Count > 0)
+            {
+                IFormFile file = Request.Form.Files.FirstOrDefault();
+                using (var dataStream = new MemoryStream())
+                {
+                    await file.CopyToAsync(dataStream);
+                    model.NewRecipe.RecipeImage = dataStream.ToArray();
+                }
+            }
+
+            _chefConnectDbContext.ChefRecipes.Add(model.NewRecipe);
+            _chefConnectDbContext.SaveChanges();
+
+            return RedirectToAction("GetMyRecipesAndCuisinesPage", new { username = User.Identity.Name });
+            
+        }
+
+        [HttpGet("/{username}/Recipe-Details/{id}")]
+        public async Task<IActionResult> GetRecipeDetailsPage(string username,int id)
+        {
+            ChefViewModel model = new ChefViewModel()
+            {
+                ActiveUser = await _userManager.FindByNameAsync(username),
+                ActiveChefRecipe = await _chefConnectDbContext.ChefRecipes.Where(r => r.ChefRecipesId == id).FirstOrDefaultAsync()
+            };
+
+            return View("RecipeDetails", model);
+        }
+
+        [HttpGet("/{username}/Edit-Recipe/{id}")]
+        public async Task<IActionResult> GetEditRecipesPage(string username,int id)
+        {
+            
+            ChefViewModel model = new ChefViewModel()
+            {
+                ActiveUser = await _userManager.FindByNameAsync(username),
+                allCuisines = await _chefConnectDbContext.Cuisines.ToListAsync(),
+                ActiveChefRecipe = await _chefConnectDbContext.ChefRecipes.Where(r => r.ChefRecipesId == id).FirstOrDefaultAsync()
+            };
+            return View("EditRecipes", model);
+        }
+
+        [HttpPost("/Recipe-Edit-Success")]
+        public async Task<IActionResult> EditRecipe(ChefViewModel model)
+        {
+            Console.WriteLine(model.ActiveChefRecipe.RecipeName);
+            if (Request.Form.Files.Count > 0)
+            {
+                IFormFile file = Request.Form.Files.FirstOrDefault();
+                using (var dataStream = new MemoryStream())
+                {
+                    await file.CopyToAsync(dataStream);
+                    model.ActiveChefRecipe.RecipeImage = dataStream.ToArray();
+                }
+            }
+
+            _chefConnectDbContext.ChefRecipes.Update(model.ActiveChefRecipe);
+            _chefConnectDbContext.SaveChanges();
+
+            return RedirectToAction("GetRecipeDetailsPage", new { id = model.ActiveChefRecipe.ChefId });
         }
 
         public bool isUniquePhoneNumber(string phone)
