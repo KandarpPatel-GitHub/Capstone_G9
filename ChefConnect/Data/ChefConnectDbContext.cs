@@ -57,6 +57,7 @@ public class ChefConnectDbContext : IdentityDbContext<AppUser>
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
+        builder.Entity<Cuisines>().HasMany(c => c.Recipes).WithOne(r => r.RecipeCuisine).HasForeignKey(r => r.CuisineId).IsRequired();
         var cuisines = new[]
         {
             new Cuisines { CuisinesId = 1, CuisineName = "Italian" },

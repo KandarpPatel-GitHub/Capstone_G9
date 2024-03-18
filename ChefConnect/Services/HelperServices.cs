@@ -67,14 +67,13 @@ namespace ChefConnect.Services
 				EnableSsl = true,
 				Credentials = new NetworkCredential(mail,password)
 			};
-
-			return client.SendMailAsync(
-				new MailMessage(
+            return client.SendMailAsync(
+                new MailMessage(
                     from: mail,
-					to : email,
-					subject,
-					message
-					));
+                    to: email,
+                    subject,
+                    message
+                    ));
 
         }
 	}

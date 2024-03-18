@@ -129,7 +129,7 @@ namespace ChefConnect.Controllers
             ChefViewModel model = new ChefViewModel()
             {
                 ActiveUser = await _userManager.FindByNameAsync(username),
-                chefRecipes = await _chefConnectDbContext.ChefRecipes.Where(r => r.ChefId == User.Id).ToListAsync(),
+                chefRecipes = await _chefConnectDbContext.ChefRecipes.Include(r => r.RecipeCuisine).Where(r => r.ChefId == User.Id).ToListAsync(),
                 chefCuisines = await _chefConnectDbContext.ChefCuisines.Where(r => r.ChefId == User.Id).ToListAsync(),
                 allCuisines = await _chefConnectDbContext.Cuisines.ToListAsync()
             };
@@ -174,7 +174,7 @@ namespace ChefConnect.Controllers
             ChefViewModel model = new ChefViewModel()
             {
                 ActiveUser = await _userManager.FindByNameAsync(username),
-                ActiveChefRecipe = await _chefConnectDbContext.ChefRecipes.Where(r => r.ChefRecipesId == id).FirstOrDefaultAsync()
+                ActiveChefRecipe = await _chefConnectDbContext.ChefRecipes.Include(r => r.RecipeCuisine).Where(r => r.ChefRecipesId == id).FirstOrDefaultAsync()
             };
 
             return View("RecipeDetails", model);
@@ -188,7 +188,7 @@ namespace ChefConnect.Controllers
             {
                 ActiveUser = await _userManager.FindByNameAsync(username),
                 allCuisines = await _chefConnectDbContext.Cuisines.ToListAsync(),
-                ActiveChefRecipe = await _chefConnectDbContext.ChefRecipes.Where(r => r.ChefRecipesId == id).FirstOrDefaultAsync()
+                ActiveChefRecipe = await _chefConnectDbContext.ChefRecipes.Include(r => r.RecipeCuisine).Where(r => r.ChefRecipesId == id).FirstOrDefaultAsync()
             };
             return View("EditRecipes", model);
         }
@@ -196,7 +196,7 @@ namespace ChefConnect.Controllers
         [HttpPost("/Recipe-Edit-Success")]
         public async Task<IActionResult> EditRecipe(ChefViewModel model)
         {
-            Console.WriteLine(model.ActiveChefRecipe.RecipeName);
+            Console.WriteLine(model.ActiveChefRecipe.RecipeImage.ToString());
             if (Request.Form.Files.Count > 0)
             {
                 IFormFile file = Request.Form.Files.FirstOrDefault();
@@ -205,12 +205,27 @@ namespace ChefConnect.Controllers
                     await file.CopyToAsync(dataStream);
                     model.ActiveChefRecipe.RecipeImage = dataStream.ToArray();
                 }
+                _chefConnectDbContext.ChefRecipes.Update(model.ActiveChefRecipe);
+                _chefConnectDbContext.SaveChanges();
+            }
+            else
+            {
+                _chefConnectDbContext.ChefRecipes.Update(model.ActiveChefRecipe);
+                _chefConnectDbContext.SaveChanges();
             }
 
-            _chefConnectDbContext.ChefRecipes.Update(model.ActiveChefRecipe);
+            return RedirectToAction("GetRecipeDetailsPage", new { username = User.Identity.Name, id = model.ActiveChefRecipe.ChefRecipesId });
+        }
+
+        [HttpGet("/Delete-Recipe/{id}")]
+        public async Task<IActionResult> DeleteChefRecipe(int id)
+        {
+            var recipeToDelete = await _chefConnectDbContext.ChefRecipes.Include(r => r.RecipeCuisine).Where(r => r.ChefRecipesId == id).FirstOrDefaultAsync();
+
+            _chefConnectDbContext.ChefRecipes.Remove(recipeToDelete);
             _chefConnectDbContext.SaveChanges();
 
-            return RedirectToAction("GetRecipeDetailsPage", new { id = model.ActiveChefRecipe.ChefId });
+            return RedirectToAction("GetMyRecipesAndCuisinesPage", new { username = User.Identity.Name });
         }
 
         public bool isUniquePhoneNumber(string phone)

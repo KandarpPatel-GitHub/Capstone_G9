@@ -144,9 +144,9 @@ public class HomeController : Controller
     [HttpGet("/{username}/Email-Verification-Success")]
     public async Task<IActionResult> EmailVerificationSuccess(string username)
     {
-        var user = _userManager.FindByNameAsync(username).Result;
+        var user = await _userManager.FindByNameAsync(username);
         user.EmailConfirmed = true;
-        _userManager.UpdateAsync(user);
+        await _userManager.UpdateAsync(user);
         
         return View();
     }

@@ -6,6 +6,8 @@ namespace ChefConnect.Entities
 		public int CuisinesId { get; set; }
 
 		public string CuisineName { get; set; }
+
+		public ICollection<ChefRecipes> Recipes { get; set; }
 		
 	}
 }

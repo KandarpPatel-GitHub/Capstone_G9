@@ -11,15 +11,17 @@ namespace ChefConnect.Entities
 
 		public byte[] RecipeImage { get; set; }
 
-		public int CuisineId { get; set; }
-
 		public int NumberOfPeople { get; set; }
 
 		public double Price { get; set; }
 
 		public double PricePerExtraPerson { get; set; }
 
-		public string ChefId { get; set; }
+        public int CuisineId { get; set; }
+
+		public Cuisines RecipeCuisine { get; set; }
+
+        public string ChefId { get; set; }
 	}
 }
 
