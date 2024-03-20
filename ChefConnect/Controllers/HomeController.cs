@@ -81,7 +81,7 @@ public class HomeController : Controller
                         }
                         else
                         {
-                            return RedirectToAction("CustomerHome", "Customer", new { username = userByUserName.UserName });
+                            return RedirectToAction("GetCustomerHome", "Customer", new { username = userByUserName.UserName });
                         }
                     }
                     else
@@ -105,7 +105,7 @@ public class HomeController : Controller
                     } 
                     else
                     {
-                        return RedirectToAction("CustomerHome", "Customer", new { username = userByEmail.UserName });
+                        return RedirectToAction("GetCustomerHome", "Customer", new { username = userByEmail.UserName });
                     }
                 }
                 else

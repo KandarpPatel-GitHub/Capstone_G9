@@ -113,6 +113,44 @@ namespace ChefConnect.Controllers
             return View("CustomerHome", model);
         }
 
+        //Action to navigate to the customer profile page
+        [HttpGet("/{username}/Customer-Profile")]
+        public async Task<IActionResult> GetCustomerAccountSettings(string username)
+        {
+            CustomerViewModel model = new CustomerViewModel()
+            {
+                activeUser = await _userManager.FindByNameAsync(username)
+            };
+
+            return View("AccountSettings", model);
+        }
+
+
+
+
+
+        //ACtion to esdit customer profile details
+        [HttpPost()]
+        public async Task<IActionResult> EditCustomerAccountDetails(CustomerViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByNameAsync(model.activeUser.UserName);
+                user.Name = model.activeUser.Name;
+                user.PhoneNumber = model.activeUser.PhoneNumber;
+                //user.DateOfBirth = model.activeUser.DateOfBirth;
+                user.UserName = model.activeUser.UserName;
+                user.Email = model.activeUser.Email;
+                await _userManager.UpdateAsync(user);
+                return RedirectToAction("GetCustomerHome", new { username = model.activeUser.UserName });
+            }
+            else
+            {
+                return RedirectToAction("AccountSettings", model);
+            }
+        }
+
+
         public bool isUniquePhoneNumber(string phone)
         {
             var allUsers = _userManager.Users;
@@ -127,6 +165,9 @@ namespace ChefConnect.Controllers
 
             return true;
         }
+
+
+
 
     }
 }

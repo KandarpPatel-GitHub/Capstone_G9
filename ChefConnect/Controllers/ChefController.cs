@@ -110,7 +110,7 @@ namespace ChefConnect.Controllers
             }
         }
 
-        [HttpGet("/{username}/Profile")]
+        [HttpGet("/{username}/Chef-Profile")]
         public async Task<IActionResult> ChefProfile(string username)
         {
             ChefViewModel model = new ChefViewModel()
@@ -232,6 +232,43 @@ namespace ChefConnect.Controllers
 
             return RedirectToAction("GetMyRecipesAndCuisinesPage", new { username = User.Identity.Name });
         }
+
+        //Get method to navigate to the chef account settings page
+        [HttpGet("/{username}/Account-Settings")]
+        public async Task<IActionResult> GetChefAccountSettings(string username)
+        {
+            ChefViewModel model = new ChefViewModel()
+            {
+                ActiveUser = await _userManager.FindByNameAsync(username)
+            };
+
+            return View("EditProfile", model);
+        }
+
+
+
+        //Method to edit chef profile details
+        [HttpPost()]
+        public async Task<IActionResult> EditChefAccountDetails(ChefViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByNameAsync(model.ActiveUser.UserName);
+                user.Name = model.ActiveUser.Name;
+                user.PhoneNumber = model.ActiveUser.PhoneNumber;
+                user.UserName = model.ActiveUser.UserName;
+                user.Email = model.ActiveUser.Email;
+                //user.DateOfBirth = model.ActiveUser.DateOfBirth;
+                await _userManager.UpdateAsync(user);
+                return RedirectToAction("ChefProfile", new { username = model.ActiveUser.UserName });
+            }
+            else
+            {
+                return View("ChefProfile", model);
+            }
+        }
+
+
 
         public bool isUniquePhoneNumber(string phone)
         {

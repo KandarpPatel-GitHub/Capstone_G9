@@ -72,25 +72,67 @@
                                     <a class="nav-link text-dark @(currentController == "Chef" && currentAction == "GetMyBookingsPage" ? "active" : "")" asp-area="" asp-controller="Chef" asp-action="GetMyBookingsPage" asp-route-username="@ActiveUser.UserName">My Bookings</a>
                                 </li>
                             </ul>
+
+                            <ul class="nav navbar-nav navbar-right">
+                                <li style="padding-right: 10px">
+                                    <div class="relative-parent" style="position: relative;">
+                                        <div class="dropdown">
+
+                                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                                @ActiveUser.UserName
+                                            </button>
+                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                <li><a class="dropdown-item" asp-controller="Chef" asp-action="GetChefAccountSettings" asp-route-username="@ActiveUser.UserName">Update Profile</a></li>
+                                                
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                </li>
+                                <li style="padding-right: 10px"><a class="btn btn-outline-danger" type="button" asp-controller="Home" asp-action="Logout">Logout</a></li>
+                            </ul>
+
                         }
-                        else
+                        else if (_userManager.IsInRoleAsync(ActiveUser, "Customer").Result)
                         {
                             <ul class="navbar-nav flex-grow-1">
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark @(currentController == "Customer" && currentAction == "Index" ? "active" : "")" asp-area="" asp-controller="Customer" asp-action="CustomerHome" asp-route-username="@ActiveUser.UserName">Home</a>
+                                    <a class="nav-link text-dark @(currentController == "Customer" && currentAction == "Index" ? "active" : "")" asp-area="" asp-controller="Customer" asp-action="GetCustomerHome" asp-route-username="@ActiveUser.UserName">Home</a>
                                 </li>
+
+                            </ul>
+
+                            <ul class="nav navbar-nav navbar-right">
+                                <li style="padding-right: 10px">
+                                    <div class="relative-parent" style="position: relative;">
+                                        <div class="dropdown">
+                                            
+                                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                                @ActiveUser.UserName
+                                            </button>
+                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                <li><a class="dropdown-item" asp-controller="Customer" asp-action="GetCustomerAccountSettings" asp-route-username="@ActiveUser.UserName">Update Profile</a></li>
+                                                
+                                                
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li style="padding-right: 10px"><a class="btn btn-outline-danger" type="button" asp-controller="Home" asp-action="Logout">Logout</a></li>
+                            </ul>
+                        }
+                        else if (_userManager.IsInRoleAsync(ActiveUser, "Admin").Result)
+                        {
+                            <ul class="navbar-nav flex-grow-1">
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark @(currentController == "Chef" && currentAction == "ChefProfile" ? "active" : "")" asp-area="" asp-controller="Chef" asp-action="ChefProfile" asp-route-username="@ActiveUser.UserName">My Recipes/Cuisines</a>
+                                    <a class="nav-link text-dark @(currentController == "Admin" && currentAction == "Index" ? "active" : "")" asp-area="" asp-controller="Admin" asp-action="AdminHome">Home</a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark @(currentController == "Chef" && currentAction == "ChefProfile" ? "active" : "")" asp-area="" asp-controller="Chef" asp-action="ChefProfile" asp-route-username="@ActiveUser.UserName">Bookings</a>
-                                </li>
+
+
                             </ul>
                         }
 
-                        <ul class="nav navbar-nav navbar-right">
-                            <li style="padding-right: 10px"><a class="btn btn-outline-danger" type="button" asp-controller="Home" asp-action="Logout">Logout</a></li>
-                        </ul>
+
 
                     </div>
                 }
@@ -119,6 +161,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
     <script type="module" src="~/js/chatbot.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
