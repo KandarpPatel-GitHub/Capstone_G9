@@ -78,7 +78,8 @@ namespace ChefConnect.Controllers
                         user.DateOfBirth = registerViewModel.DateOfBirth;
                         await _userManager.UpdateAsync(user);
                         await _signInManager.SignInAsync(user, false);
-                        await _helperServices.SendVerificationEmailAsync(registerViewModel.Email, registerViewModel.UserName);
+                        var message = $"\nHi,\n\nThanks for getting started with ChefConnect!\n\nWe need a little more information to complete your registration, including a confirmation of your email address.\n\nClick below to confirm your email address:\n\nhttps://localhost:7042/{registerViewModel.UserName}/Email-Verification-Success\n\nIf you have problems, please paste the above URL into your web browser.";
+                        await _helperServices.SendEmailAsync(registerViewModel.Email, "Email Verification", message);
                         if (!user.EmailConfirmed)
                         {
                             TempData["ConfirmEmailMessage"] = $"An email verification is sent to you. Please confirm your email there.";
@@ -90,6 +91,10 @@ namespace ChefConnect.Controllers
                     }
                     else
                     {
+                        foreach (var error in result.Errors)
+                        {
+                            ModelState.AddModelError("Password", error.Description);
+                        }
                         return View();
                     }
                 }

@@ -55,12 +55,13 @@ namespace ChefConnect.Services
 			}
 		}
 
-		public Task SendVerificationEmailAsync(string email,string username)
+		public Task SendEmailAsync(string email, string mailSubject, string mailMessage)
 		{
 			var mail = "teamchefconnect@outlook.com";
 			var password = "#(Admin@Chefconnect)113!";
-			var subject = "Email Verification";
-			var message = $"\nHi,\n\nThanks for getting started with ChefConnect!\n\nWe need a little more information to complete your registration, including a confirmation of your email address.\n\nClick below to confirm your email address:\n\nhttps://localhost:7042/{username}/Email-Verification-Success\n\nIf you have problems, please paste the above URL into your web browser.";
+			var subject = mailSubject;
+			//var message = $"\nHi,\n\nThanks for getting started with ChefConnect!\n\nWe need a little more information to complete your registration, including a confirmation of your email address.\n\nClick below to confirm your email address:\n\nhttps://localhost:7042/{username}/Email-Verification-Success\n\nIf you have problems, please paste the above URL into your web browser.";
+			var message = mailMessage;
 
 			var client = new SmtpClient("smtp-mail.outlook.com", 587)
 			{
