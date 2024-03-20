@@ -136,7 +136,7 @@ public class HomeController : Controller
     {
         var user = await _userManager.FindByNameAsync(username);
         var message = $"\nHi,\n\nThanks for getting started with ChefConnect!\n\nWe need a little more information to complete your registration, including a confirmation of your email address.\n\nClick below to confirm your email address:\n\nhttps://localhost:7042/{user.UserName}/Email-Verification-Success\n\nIf you have problems, please paste the above URL into your web browser.";
-        await HelperServices.SendEmailAsync(user.Email, "Email Verification", message);
+        HelperServices.SendEmailAsync(user.Email, "Email Verification", message);
         TempData["EmailReSentMessage"] = "A new verification mail has been sent your mail, please confirm your email there.";
 
         return RedirectToAction("ChefProfile","Chef",new { username = user.UserName });
@@ -173,7 +173,7 @@ public class HomeController : Controller
         if (user != null)
         {
             var message = $"\nHi,\n\nPlease click on the link below to reset your password:\n\nhttps://localhost:7042/{user.UserName}/Reset-Password\n\nIf you have problems, please paste the above URL into your web browser.";
-            await HelperServices.SendEmailAsync(user.Email, "Password Reset", message);
+             HelperServices.SendEmailAsync(user.Email, "Password Reset", message);
             return RedirectToAction("Login");
         }
         else
