@@ -41,7 +41,7 @@ namespace ChefConnect.Controllers
 
         [AllowAnonymous]
         [HttpPost("/Register/AsChef")]
-        public async Task<IActionResult> ChefRegister(RegisterViewModel registerViewModel)
+        public async Task<IActionResult> ChefRegister(RegisterChefViewModel registerViewModel)
         {
             if (ModelState.IsValid)
             {

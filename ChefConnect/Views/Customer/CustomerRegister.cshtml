@@ -1,4 +1,4 @@
-﻿@model RegisterViewModel
+﻿@model RegisterCustomerViewModel
 @{
 
     ViewData["title"] = "Customer Registration";
@@ -34,7 +34,7 @@
                                     <div class="form-outline mb-4">
                                         <label class="form-label">Name</label>
                                         <input type="text" class="form-control" asp-for="Name"
-                                               placeholder="FirstName LastName" />
+                                               placeholder="Enter Full Name" />
                                         <span asp-validation-for="Name"
                                               class="text-danger"></span>
                                     </div>

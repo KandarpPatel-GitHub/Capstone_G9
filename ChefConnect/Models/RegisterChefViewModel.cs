@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ChefConnect.Models
 {
-	public class RegisterViewModel
+	public class RegisterChefViewModel
 	{
         [Required(ErrorMessage ="Please enter valid username.")]
         [Display(Name = "Username")]

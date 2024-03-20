@@ -35,7 +35,7 @@ namespace ChefConnect.Controllers
 
         [AllowAnonymous]
         [HttpPost("/Register/AsCustomer")]
-        public async Task<IActionResult> CustomerRegister(RegisterViewModel registerViewModel)
+        public async Task<IActionResult> CustomerRegister(RegisterCustomerViewModel registerViewModel)
         {
             if (ModelState.IsValid)
             {
@@ -57,16 +57,16 @@ namespace ChefConnect.Controllers
                 }
                 if (ModelState.ErrorCount == 0)
                 {
+                    
                     var user = new AppUser { UserName = registerViewModel.UserName, Name = registerViewModel.Name };
                     var result = await _userManager.CreateAsync(user, registerViewModel.Password);
 
                     if (result.Succeeded)
                     {
 
-                        await _userManager.AddToRoleAsync(user, "Chef");
+                        await _userManager.AddToRoleAsync(user, "Customer");
                         user.Email = registerViewModel.Email;
                         user.PhoneNumber = registerViewModel.PhoneNumber;
-                        user.DateOfBirth = registerViewModel.DateOfBirth;
                         await _userManager.UpdateAsync(user);
                         await _signInManager.SignInAsync(user, false);
                         var message = $"\nHi,\n\nThanks for getting started with ChefConnect!\n\nWe need a little more information to complete your registration, including a confirmation of your email address.\n\nClick below to confirm your email address:\n\nhttps://localhost:7042/{registerViewModel.UserName}/Email-Verification-Success\n\nIf you have problems, please paste the above URL into your web browser.";
@@ -76,7 +76,7 @@ namespace ChefConnect.Controllers
                             TempData["ConfirmEmailMessage"] = $"An email verification is sent to you. Please confirm your email there.";
                         }
 
-                        return RedirectToAction("Index","Home");
+                        return RedirectToAction("GetCustomerHome", new {username = registerViewModel.UserName});
 
 
                     }
@@ -91,6 +91,7 @@ namespace ChefConnect.Controllers
                 }
                 else
                 {
+                       
                     return View();
                 }
 
@@ -99,6 +100,17 @@ namespace ChefConnect.Controllers
             {
                 return View();
             }
+        }
+
+        [HttpGet("/{username}/Home")]
+        public async Task<IActionResult> GetCustomerHome(string username)
+        {
+            CustomerViewModel model = new CustomerViewModel()
+            {
+                activeUser = await _userManager.FindByNameAsync(username)
+            };
+
+            return View("CustomerHome", model);
         }
 
         public bool isUniquePhoneNumber(string phone)
