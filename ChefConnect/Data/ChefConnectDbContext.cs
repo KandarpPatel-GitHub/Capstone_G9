@@ -54,10 +54,23 @@ public class ChefConnectDbContext : IdentityDbContext<AppUser>
     public DbSet<OrderDetails> OrderDetails { get; set; }
     public DbSet<Reviews> Reviews { get; set; }
     public DbSet<TimeSlots> TimeSlots { get; set; }
+    //public DbSet<RecipeImages> RecipeImages { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.Entity<Cuisines>().HasMany(c => c.Recipes).WithOne(r => r.RecipeCuisine).HasForeignKey(r => r.CuisineId).IsRequired();
+        //var imageList = new[]
+        //{
+        //    new RecipeImages { RecipeImageId = 1, Image = new byte[0] },
+        //    new RecipeImages { RecipeImageId = 2, Image = new byte[0] },
+        //    new RecipeImages { RecipeImageId = 3, Image = new byte[0] },
+        //    new RecipeImages { RecipeImageId = 4, Image = new byte[0] },
+        //    new RecipeImages { RecipeImageId = 5, Image = new byte[0] },
+        //    new RecipeImages { RecipeImageId = 6, Image = new byte[0] },
+        //    new RecipeImages { RecipeImageId = 7, Image = new byte[0] },
+        //    new RecipeImages { RecipeImageId = 8, Image = new byte[0] },
+        //    new RecipeImages { RecipeImageId = 9, Image = new byte[0] }
+        //};
         var cuisines = new[]
         {
             new Cuisines { CuisinesId = 1, CuisineName = "Italian" },

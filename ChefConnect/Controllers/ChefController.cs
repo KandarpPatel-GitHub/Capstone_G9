@@ -240,8 +240,11 @@ namespace ChefConnect.Controllers
             ChefViewModel model = new ChefViewModel()
             {
                 ActiveUser = await _userManager.FindByNameAsync(username)
+                
             };
-
+            Console.WriteLine(model.ActiveUser.UserName);
+            Console.WriteLine(model.ActiveUser.Name);
+            
             return View("EditProfile", model);
         }
 
@@ -260,13 +263,36 @@ namespace ChefConnect.Controllers
                 user.Email = model.ActiveUser.Email;
                 //user.DateOfBirth = model.ActiveUser.DateOfBirth;
                 await _userManager.UpdateAsync(user);
+               
+
                 return RedirectToAction("ChefProfile", new { username = model.ActiveUser.UserName });
             }
             else
             {
-                return View("ChefProfile", model);
+                return RedirectToAction("ChefProfile", model);
             }
         }
+
+
+        //POST for getting all the cusines of the chef
+        
+        public async Task<IActionResult> AddCuisineForChefProfile(ChefViewModel model)
+        {
+            //var user = await _userManager.FindByNameAsync(model.ActiveUser.UserName);
+
+            //ChefCuisines chefCuisine = new ChefCuisines()
+            //{
+            //    ChefId = user.Id,
+            //    CuisineId = model.NewChefCuisine.CuisineId
+            //};
+
+            _chefConnectDbContext.ChefCuisines.Add(model.NewChefCuisine);
+            _chefConnectDbContext.SaveChanges();
+
+            return RedirectToAction("GetMyRecipesAndCuisinesPage", new { username = User.Identity.Name });
+        }
+
+
 
 
 

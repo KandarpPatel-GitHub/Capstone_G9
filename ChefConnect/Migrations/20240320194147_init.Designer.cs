@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ChefConnect.Migrations
 {
     [DbContext(typeof(ChefConnectDbContext))]
-    [Migration("20240308033944_AddedChefCuisineEntity")]
-    partial class AddedChefCuisineEntity
+    [Migration("20240320194147_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -202,6 +202,8 @@ namespace ChefConnect.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ChefRecipesId");
+
+                    b.HasIndex("CuisineId");
 
                     b.ToTable("ChefRecipes", "Identity");
                 });
@@ -843,6 +845,17 @@ namespace ChefConnect.Migrations
                     b.ToTable("UserTokens", "Identity");
                 });
 
+            modelBuilder.Entity("ChefConnect.Entities.ChefRecipes", b =>
+                {
+                    b.HasOne("ChefConnect.Entities.Cuisines", "RecipeCuisine")
+                        .WithMany("Recipes")
+                        .HasForeignKey("CuisineId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("RecipeCuisine");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -892,6 +905,11 @@ namespace ChefConnect.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("ChefConnect.Entities.Cuisines", b =>
+                {
+                    b.Navigation("Recipes");
                 });
 #pragma warning restore 612, 618
         }

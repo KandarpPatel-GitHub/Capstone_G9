@@ -39,21 +39,18 @@ namespace ChefConnect.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ChefRecipes",
+                name: "ChefCuisines",
                 schema: "Identity",
                 columns: table => new
                 {
-                    ChefRecipesId = table.Column<int>(type: "int", nullable: false)
+                    ChefCuisinesId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    RecipeName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RecipeDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RecipeImage = table.Column<byte>(type: "tinyint", nullable: false),
-                    CuisineId = table.Column<int>(type: "int", nullable: false),
-                    ChefId = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    ChefId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CuisineId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ChefRecipes", x => x.ChefRecipesId);
+                    table.PrimaryKey("PK_ChefCuisines", x => x.ChefCuisinesId);
                 });
 
             migrationBuilder.CreateTable(
@@ -77,6 +74,7 @@ namespace ChefConnect.Migrations
                 {
                     OrderDetailsId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    OrderInstructions = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     GuestQuantity = table.Column<int>(type: "int", nullable: false),
                     OrderDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     TimeSlotId = table.Column<int>(type: "int", nullable: false),
@@ -185,6 +183,34 @@ namespace ChefConnect.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_User", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ChefRecipes",
+                schema: "Identity",
+                columns: table => new
+                {
+                    ChefRecipesId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RecipeName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RecipeDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RecipeImage = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
+                    NumberOfPeople = table.Column<int>(type: "int", nullable: false),
+                    Price = table.Column<double>(type: "float", nullable: false),
+                    PricePerExtraPerson = table.Column<double>(type: "float", nullable: false),
+                    CuisineId = table.Column<int>(type: "int", nullable: false),
+                    ChefId = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ChefRecipes", x => x.ChefRecipesId);
+                    table.ForeignKey(
+                        name: "FK_ChefRecipes_Cuisines_CuisineId",
+                        column: x => x.CuisineId,
+                        principalSchema: "Identity",
+                        principalTable: "Cuisines",
+                        principalColumn: "CuisinesId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -399,6 +425,12 @@ namespace ChefConnect.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_ChefRecipes_CuisineId",
+                schema: "Identity",
+                table: "ChefRecipes",
+                column: "CuisineId");
+
+            migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",
                 schema: "Identity",
                 table: "Role",
@@ -453,11 +485,11 @@ namespace ChefConnect.Migrations
                 schema: "Identity");
 
             migrationBuilder.DropTable(
-                name: "ChefRecipes",
+                name: "ChefCuisines",
                 schema: "Identity");
 
             migrationBuilder.DropTable(
-                name: "Cuisines",
+                name: "ChefRecipes",
                 schema: "Identity");
 
             migrationBuilder.DropTable(
@@ -494,6 +526,10 @@ namespace ChefConnect.Migrations
 
             migrationBuilder.DropTable(
                 name: "UserTokens",
+                schema: "Identity");
+
+            migrationBuilder.DropTable(
+                name: "Cuisines",
                 schema: "Identity");
 
             migrationBuilder.DropTable(
