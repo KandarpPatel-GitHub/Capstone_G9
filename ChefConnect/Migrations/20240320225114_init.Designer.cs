@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ChefConnect.Migrations
 {
     [DbContext(typeof(ChefConnectDbContext))]
-    [Migration("20240320194147_init")]
+    [Migration("20240320225114_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -147,20 +147,15 @@ namespace ChefConnect.Migrations
 
             modelBuilder.Entity("ChefConnect.Entities.ChefCuisines", b =>
                 {
-                    b.Property<int>("ChefCuisinesId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ChefCuisinesId"));
-
                     b.Property<string>("ChefId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("CuisineId")
                         .HasColumnType("int");
 
-                    b.HasKey("ChefCuisinesId");
+                    b.HasKey("ChefId", "CuisineId");
+
+                    b.HasIndex("CuisineId");
 
                     b.ToTable("ChefCuisines", "Identity");
                 });
@@ -845,6 +840,25 @@ namespace ChefConnect.Migrations
                     b.ToTable("UserTokens", "Identity");
                 });
 
+            modelBuilder.Entity("ChefConnect.Entities.ChefCuisines", b =>
+                {
+                    b.HasOne("ChefConnect.Entities.AppUser", "Chef")
+                        .WithMany("ChefCuisines")
+                        .HasForeignKey("ChefId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ChefConnect.Entities.Cuisines", "Cuisine")
+                        .WithMany("ChefCuisines")
+                        .HasForeignKey("CuisineId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Chef");
+
+                    b.Navigation("Cuisine");
+                });
+
             modelBuilder.Entity("ChefConnect.Entities.ChefRecipes", b =>
                 {
                     b.HasOne("ChefConnect.Entities.Cuisines", "RecipeCuisine")
@@ -907,8 +921,15 @@ namespace ChefConnect.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("ChefConnect.Entities.AppUser", b =>
+                {
+                    b.Navigation("ChefCuisines");
+                });
+
             modelBuilder.Entity("ChefConnect.Entities.Cuisines", b =>
                 {
+                    b.Navigation("ChefCuisines");
+
                     b.Navigation("Recipes");
                 });
 #pragma warning restore 612, 618

@@ -59,6 +59,10 @@ public class ChefConnectDbContext : IdentityDbContext<AppUser>
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.Entity<Cuisines>().HasMany(c => c.Recipes).WithOne(r => r.RecipeCuisine).HasForeignKey(r => r.CuisineId).IsRequired();
+        builder.Entity<ChefCuisines>().HasKey(cc => new { cc.ChefId, cc.CuisineId });
+        builder.Entity<ChefCuisines>().HasOne(cc => cc.Cuisine).WithMany(c=>c.ChefCuisines).HasForeignKey(cc => cc.CuisineId).IsRequired();
+        builder.Entity<ChefCuisines>().HasOne(cc => cc.Chef).WithMany(c => c.ChefCuisines).HasForeignKey(cc => cc.ChefId).IsRequired();
+
         //var imageList = new[]
         //{
         //    new RecipeImages { RecipeImageId = 1, Image = new byte[0] },

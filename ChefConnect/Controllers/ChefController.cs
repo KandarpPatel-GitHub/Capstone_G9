@@ -135,7 +135,7 @@ namespace ChefConnect.Controllers
             {
                 ActiveUser = await _userManager.FindByNameAsync(username),
                 chefRecipes = await _chefConnectDbContext.ChefRecipes.Include(r => r.RecipeCuisine).Where(r => r.ChefId == User.Id).ToListAsync(),
-                chefCuisines = await _chefConnectDbContext.ChefCuisines.Where(r => r.ChefId == User.Id).ToListAsync(),
+                chefCuisines = await _chefConnectDbContext.ChefCuisines.Include(cc=>cc.Cuisine).Where(r => r.ChefId == User.Id).ToListAsync(),
                 allCuisines = await _chefConnectDbContext.Cuisines.ToListAsync()
             };
             return View("MyRecipesAndCuisines", model);

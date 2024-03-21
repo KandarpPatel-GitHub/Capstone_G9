@@ -39,21 +39,6 @@ namespace ChefConnect.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ChefCuisines",
-                schema: "Identity",
-                columns: table => new
-                {
-                    ChefCuisinesId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ChefId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CuisineId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ChefCuisines", x => x.ChefCuisinesId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Cuisines",
                 schema: "Identity",
                 columns: table => new
@@ -232,6 +217,33 @@ namespace ChefConnect.Migrations
                         column: x => x.RoleId,
                         principalSchema: "Identity",
                         principalTable: "Role",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ChefCuisines",
+                schema: "Identity",
+                columns: table => new
+                {
+                    ChefId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    CuisineId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ChefCuisines", x => new { x.ChefId, x.CuisineId });
+                    table.ForeignKey(
+                        name: "FK_ChefCuisines_Cuisines_CuisineId",
+                        column: x => x.CuisineId,
+                        principalSchema: "Identity",
+                        principalTable: "Cuisines",
+                        principalColumn: "CuisinesId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ChefCuisines_User_ChefId",
+                        column: x => x.ChefId,
+                        principalSchema: "Identity",
+                        principalTable: "User",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -423,6 +435,12 @@ namespace ChefConnect.Migrations
                     { 47, new TimeSpan(0, 23, 0, 0, 0) },
                     { 48, new TimeSpan(0, 23, 30, 0, 0) }
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ChefCuisines_CuisineId",
+                schema: "Identity",
+                table: "ChefCuisines",
+                column: "CuisineId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ChefRecipes_CuisineId",

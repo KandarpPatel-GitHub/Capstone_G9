@@ -54,6 +54,16 @@
 
             <form asp-controller="Chef" asp-action="AddCuisineForChefProfile" method="post">
                 <input type="hidden" asp-for="@Model.NewChefCuisine.ChefId" value="@Model.ActiveUser.Id" />
+
+                <div class="form-group">
+                    @foreach (var item in Model.chefCuisines)
+                    {
+
+                        <label style="border:1px solid black">
+                            @item.Cuisine.CuisineName
+                        </label>
+                    }
+                </div>
                 <div class="form-group">
                     <label asp-for="@Model.NewChefCuisine.CuisineId">Recipe Cuisine:</label>
                     <select class="form-select" asp-for="@Model.NewChefCuisine.CuisineId">
