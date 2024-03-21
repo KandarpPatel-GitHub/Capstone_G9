@@ -2,38 +2,80 @@
 
 @{
     ViewData["title"] = "Chef Profile";
+
 }
 @if (TempData.Keys.Contains("ConfirmEmailMessage"))
- {
+{
     <div class="alert alert-success alert-dismissible fade show" role="alert">
         <span>@TempData["ConfirmEmailMessage"]<a asp-controller="Home" asp-action="ResendVerificationMail" asp-route-username="@Model.ActiveUser.UserName"> Resend Verififcation.</a></span>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
- }
+}
 
 @if (TempData.Keys.Contains("EmailReSentMessage"))
- {
+{
     <div class="alert alert-success alert-dismissible fade show" role="alert">
         <span>@TempData["EmailReSentMessage"]</span>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
- }
+}
 
 
 <h2> Welcome @Model.ActiveUser.Name. Hope you are doing well.</h2>
 
 
 <div class="container mt-5">
-    <!-- Card -->
-    <div class="card" style="width: 18rem;">
-        <!-- Card image -->
-        <img src="/images/" class="card-img-top" alt="...">
-        <!-- Card body -->
-        <div class="card-body">
-            <h5 class="card-title">Card Title</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
+
+
+
+
+    <div class="row">
+        <h1>Your Receipes</h1>
+        @foreach (var recipe in Model.chefRecipes)
+        {
+            <div class="col-md-3">
+                <!-- Card -->
+                <div class="card" style="width: 350px;">
+                    <!-- Card image -->
+                    <img style="width:350px;height:350px; object-fit:cover" src="data:image/*;base64,@(Convert.ToBase64String(recipe.RecipeImage))" class="card-img-top" alt="...">
+                    <!-- Card body -->
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            @recipe.RecipeName
+                        </h5>
+                        <p class="card-text">@recipe.RecipeDescription</p>
+                        <a asp-controller="Chef" asp-action="GetRecipeDetailsPage" asp-route-id="@recipe.ChefRecipesId" asp-route-username="@Model.ActiveUser.UserName" class="btn btn-primary">View Recipe</a>
+                    </div>
+                </div>
+            </div>
+        }
     </div>
-    <!-- /.card -->
-</div>
+    <div class="row">
+            <h1>
+                Suggested for you:
+            </h1>
+            @foreach (var recipe in Model.otherChefRecipes)
+            {
+                <div class="col-md-3">
+                    <!-- Card -->
+                    <div class="card" style="width: 350px;">
+                        <!-- Card image -->
+                        <img style="width:350px;height:350px; object-fit:cover" src="data:image/*;base64,@(Convert.ToBase64String(recipe.RecipeImage))" class="card-img-top" alt="...">
+                        <!-- Card body -->
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                @recipe.RecipeName
+                            </h5>
+                            <p class="card-text">@recipe.RecipeDescription</p>
+                            <a asp-controller="Chef" asp-action="GetRecipeDetailsPage" asp-route-id="@recipe.ChefRecipesId" asp-route-username="@Model.ActiveUser.UserName" class="btn btn-primary">View Recipe</a>
+                        <a asp-controller="Chef" asp-action="AddCuisineForChefProfile" asp-route-id="@recipe.ChefRecipesId" asp-route-username="@Model.ActiveUser.UserName" class="btn btn-primary">Add to your recipes</a>"
+
+                        </div>
+
+
+
+
+                    </div>
+                </div>
+            }
+    </div>

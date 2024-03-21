@@ -17,6 +17,8 @@ namespace ChefConnect.Models
 
         public List<Cuisines>? allCuisines { get; set; }
         public ChefCuisines? NewChefCuisine { get; set; }
+
+        public List<ChefRecipes>? otherChefRecipes { get; set; }
     }
 }
 
