@@ -362,6 +362,9 @@ namespace ChefConnect.Migrations
                     b.Property<int>("TimeSlotId")
                         .HasColumnType("int");
 
+                    b.Property<int>("reviewId")
+                        .HasColumnType("int");
+
                     b.HasKey("OrderDetailsId");
 
                     b.ToTable("OrderDetails", "Identity");
@@ -411,23 +414,23 @@ namespace ChefConnect.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReviewsId"));
 
-                    b.Property<string>("CustomerId")
+                    b.Property<string>("ChefId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
+                    b.Property<string>("CustomerId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("Ratings")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RecipeId")
                         .HasColumnType("int");
 
                     b.Property<string>("ReviewDescription")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ReviewsId");
+
+                    b.HasIndex("CustomerId");
 
                     b.ToTable("Reviews", "Identity");
                 });
@@ -867,6 +870,17 @@ namespace ChefConnect.Migrations
                     b.Navigation("RecipeCuisine");
                 });
 
+            modelBuilder.Entity("ChefConnect.Entities.Reviews", b =>
+                {
+                    b.HasOne("ChefConnect.Entities.AppUser", "Customer")
+                        .WithMany("Reviews")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -921,6 +935,8 @@ namespace ChefConnect.Migrations
             modelBuilder.Entity("ChefConnect.Entities.AppUser", b =>
                 {
                     b.Navigation("ChefCuisines");
+
+                    b.Navigation("Reviews");
                 });
 
             modelBuilder.Entity("ChefConnect.Entities.Cuisines", b =>

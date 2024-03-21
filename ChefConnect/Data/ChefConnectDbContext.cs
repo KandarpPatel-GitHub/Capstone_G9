@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using MimeKit.Tnef;
 
 namespace ChefConnect.Data;
 
@@ -39,10 +40,65 @@ public class ChefConnectDbContext : IdentityDbContext<AppUser>
                 await userManager.AddToRoleAsync(user, roleName);
             }
         }
+
+        var customerList = new[]
+        {
+            new AppUser{UserName = "Rajesh_Kumar", Name = "Rajesh",Id="101"},
+            new AppUser{UserName = "Emily_Robinson", Name = "Emily"},
+            new AppUser{UserName = "Amanpreet_Singh", Name = "Amanpreet"},
+            new AppUser{UserName = "Sophia_Lee", Name = "Sophia"},
+            new AppUser{UserName = "Liam_Murphy", Name = "Liam"},
+            new AppUser{UserName = "Isabella_Gomez", Name = "Isabella"},
+            new AppUser{UserName = "Rohan_Singh", Name = "Rohan"},
+            new AppUser{UserName = "Ava_Chen", Name = "Ava"},
+            new AppUser{UserName = "Ethan_Wright", Name = "Ethan"},
+            new AppUser{UserName = "Maya_Krishnan", Name = "Maya"},
+            new AppUser{UserName = "Karan_Mehra", Name = "Karan"},
+            new AppUser{UserName = "Lily_Anderson", Name = "Lily"},
+            new AppUser{UserName = "Samuel_Rodriguez", Name = "Samuel"},
+            new AppUser{UserName = "Emma_Choi", Name = "Emma"},
+            new AppUser{UserName = "Nathan_Smith", Name = "Nathan"},
+            new AppUser{UserName = "Jessica_Lin", Name = "Jessica"},
+            new AppUser{UserName = "Mark_Johnson", Name = "Mark"},
+            new AppUser{UserName = "Sophie_Martinez", Name = "Sophie"},
+            new AppUser{UserName = "Ryan_Kim", Name = "Ryan"},
+            new AppUser{UserName = "Olivia_Hansen", Name = "Olivia"},
+            new AppUser{UserName = "Alisha_Patel", Name = "Alisha"},
+            new AppUser{UserName = "Benjamin_Lee", Name = "Benjamin"},
+            new AppUser{UserName = "Nora_Fernandez", Name = "Nora"},
+            new AppUser{UserName = "Evan_Wong", Name = "Evan"},
+            new AppUser{UserName = "Isaac_Kim", Name = "Isaac"},
+            new AppUser{UserName = "Diana_Murphy", Name = "Diana"},
+            new AppUser{UserName = "Alex_Chen", Name = "Alex"},
+            new AppUser{UserName = "Grace_Lee", Name = "Grace"},
+            new AppUser{UserName = "Mohammed_Ali", Name = "Mohammed"},
+            new AppUser{UserName = "Hannah_Brooks", Name = "Hannah"},
+            new AppUser{UserName = "Tyler_Evans", Name = "Tyler"},
+            new AppUser{UserName = "Sophia_Nguyen", Name = "Sophia"},
+            new AppUser{UserName = "Lucas_Martinez", Name = "Lucas"},
+            new AppUser{UserName = "Madison_Wright", Name = "Madison"},
+            new AppUser{UserName = "Jack_Thompson", Name = "Jack"}
+
+
+
+        };
+
+        for (int i = 0; i < customerList.Length; i++)
+        {
+            if (await userManager.FindByNameAsync(customerList[i].UserName) == null)
+            {
+                var result = await userManager.CreateAsync(customerList[i], "Dev@300702");
+                Console.WriteLine(result);
+                if (result.Succeeded)
+                {
+                    await userManager.AddToRoleAsync(customerList[i], "Customer");
+                }
+            }
+        }
     }
 
     // Tables related to Chefs
-    public DbSet<ChefRecipes> ChefRecipes { get; set; } 
+    public DbSet<ChefRecipes> ChefRecipes { get; set; }
     public DbSet<ChefCuisines> ChefCuisines { get; set; }
 
     // Tables related to Customer
@@ -54,14 +110,19 @@ public class ChefConnectDbContext : IdentityDbContext<AppUser>
     public DbSet<OrderDetails> OrderDetails { get; set; }
     public DbSet<Reviews> Reviews { get; set; }
     public DbSet<TimeSlots> TimeSlots { get; set; }
+
     //public DbSet<RecipeImages> RecipeImages { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.Entity<Cuisines>().HasMany(c => c.Recipes).WithOne(r => r.RecipeCuisine).HasForeignKey(r => r.CuisineId).IsRequired();
         builder.Entity<ChefCuisines>().HasKey(cc => new { cc.ChefId, cc.CuisineId });
-        builder.Entity<ChefCuisines>().HasOne(cc => cc.Cuisine).WithMany(c=>c.ChefCuisines).HasForeignKey(cc => cc.CuisineId).IsRequired();
+        builder.Entity<ChefCuisines>().HasOne(cc => cc.Cuisine).WithMany(c => c.ChefCuisines).HasForeignKey(cc => cc.CuisineId).IsRequired();
         builder.Entity<ChefCuisines>().HasOne(cc => cc.Chef).WithMany(c => c.ChefCuisines).HasForeignKey(cc => cc.ChefId).IsRequired();
+        builder.Entity<Reviews>().HasOne(r => r.Customer).WithMany(c => c.Reviews).HasForeignKey(r => r.CustomerId).IsRequired();
+
+        //builder.Entity<OrderDetails>().HasOne(o => o.Chef).WithMany(c => c.OrderDetails).HasForeignKey(o => o.ChefId).IsRequired();
+        //builder.Entity<OrderDetails>().HasOne(o => o.Customer).WithMany(c => c.OrderDetails).HasForeignKey(o => o.CustomerId).IsRequired();
 
         //var imageList = new[]
         //{
@@ -75,6 +136,17 @@ public class ChefConnectDbContext : IdentityDbContext<AppUser>
         //    new RecipeImages { RecipeImageId = 8, Image = new byte[0] },
         //    new RecipeImages { RecipeImageId = 9, Image = new byte[0] }
         //};
+
+        //var CustomerList = new[] { 
+        //    new AppUser{Id="100",UserName = "customer1", Name = "John Doe", PasswordHash="AQAAAAIAAYagAAAAEHYRLXB/N1zMkjlTUN/UdSgOvdndAj+VdFcbjFEl3GDrL38z/RNayHXHGCB157QiOA==",Email = "devtesting@gmail.com",PhoneNumber="4379713456",EmailConfirmed=true}
+        //};
+
+
+        var reviewsList = new[]
+        {
+            new Reviews { ReviewsId = 1, ReviewDescription = "Great food", Ratings = 5, ChefId = "1", CustomerId = "100" },
+        };
+
         var cuisines = new[]
         {
             new Cuisines { CuisinesId = 1, CuisineName = "Italian" },
@@ -97,7 +169,7 @@ public class ChefConnectDbContext : IdentityDbContext<AppUser>
             new Cuisines { CuisinesId = 18, CuisineName = "Russian" },
             new Cuisines { CuisinesId = 19, CuisineName = "American" },
             new Cuisines { CuisinesId = 20, CuisineName = "Caribbean" }
-     
+
         };
 
 
@@ -204,7 +276,7 @@ public class ChefConnectDbContext : IdentityDbContext<AppUser>
         });
 
         builder.Entity<Cuisines>().HasData(cuisines);
-
+        //builder.Entity<AppUser>().HasData(CustomerList);
         builder.Entity<TimeSlots>().HasData(timeSlots);
     }
 }

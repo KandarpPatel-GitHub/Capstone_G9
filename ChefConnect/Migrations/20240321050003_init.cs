@@ -69,7 +69,8 @@ namespace ChefConnect.Migrations
                     OrderSubTotal = table.Column<double>(type: "float", nullable: false),
                     OrderTax = table.Column<double>(type: "float", nullable: false),
                     Charges = table.Column<double>(type: "float", nullable: false),
-                    OrderTotal = table.Column<double>(type: "float", nullable: false)
+                    OrderTotal = table.Column<double>(type: "float", nullable: false),
+                    reviewId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -93,24 +94,6 @@ namespace ChefConnect.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PaymentMethods", x => x.PaymentMethodsId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Reviews",
-                schema: "Identity",
-                columns: table => new
-                {
-                    ReviewsId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ReviewDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Ratings = table.Column<int>(type: "int", nullable: false),
-                    RecipeId = table.Column<int>(type: "int", nullable: false),
-                    CustomerId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    OrderId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Reviews", x => x.ReviewsId);
                 });
 
             migrationBuilder.CreateTable(
@@ -242,6 +225,30 @@ namespace ChefConnect.Migrations
                     table.ForeignKey(
                         name: "FK_ChefCuisines_User_ChefId",
                         column: x => x.ChefId,
+                        principalSchema: "Identity",
+                        principalTable: "User",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Reviews",
+                schema: "Identity",
+                columns: table => new
+                {
+                    ReviewsId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ReviewDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Ratings = table.Column<int>(type: "int", nullable: false),
+                    ChefId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CustomerId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Reviews", x => x.ReviewsId);
+                    table.ForeignKey(
+                        name: "FK_Reviews_User_CustomerId",
+                        column: x => x.CustomerId,
                         principalSchema: "Identity",
                         principalTable: "User",
                         principalColumn: "Id",
@@ -447,6 +454,12 @@ namespace ChefConnect.Migrations
                 schema: "Identity",
                 table: "ChefRecipes",
                 column: "CuisineId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reviews_CustomerId",
+                schema: "Identity",
+                table: "Reviews",
+                column: "CustomerId");
 
             migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",

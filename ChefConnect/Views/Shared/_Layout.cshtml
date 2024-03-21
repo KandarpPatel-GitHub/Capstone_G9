@@ -71,6 +71,9 @@
                                 <li class="nav-item">
                                     <a class="nav-link text-dark @(currentController == "Chef" && currentAction == "GetMyBookingsPage" ? "active" : "")" asp-area="" asp-controller="Chef" asp-action="GetMyBookingsPage" asp-route-username="@ActiveUser.UserName">My Bookings</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark @(currentController == "Chef" && currentAction == "" ? "active" : "")" asp-area="" asp-controller="Chef" asp-action="" asp-route-username="@ActiveUser.UserName">My Reviews</a>
+                                </li>
                             </ul>
 
                             <ul class="nav navbar-nav navbar-right">
