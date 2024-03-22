@@ -5,7 +5,7 @@ namespace ChefConnect.Models
 {
 	public class CustomerViewModel
 	{
-		public AppUser activeUser { get; set; }
+		public AppUser ActiveUser { get; set; }
 	}
 }
 

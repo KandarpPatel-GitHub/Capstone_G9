@@ -7,7 +7,7 @@
 @if (TempData.Keys.Contains("ConfirmEmailMessage"))
 {
     <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <span>@TempData["ConfirmEmailMessage"]<a asp-controller="Home" asp-action="ResendVerificationMail" asp-route-username="@Model.ActiveUser.UserName"> Resend Verififcation.</a></span>
+        <span>@TempData["ConfirmEmailMessage"]<a asp-controller="Home" asp-action="ResendVerificationMail" asp-route-username="@Model.ActiveUser.UserName"> Resend Verification.</a></span>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 }

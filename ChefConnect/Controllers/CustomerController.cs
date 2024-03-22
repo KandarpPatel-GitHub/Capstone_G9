@@ -107,7 +107,7 @@ namespace ChefConnect.Controllers
         {
             CustomerViewModel model = new CustomerViewModel()
             {
-                activeUser = await _userManager.FindByNameAsync(username)
+                ActiveUser = await _userManager.FindByNameAsync(username)
             };
 
             return View("CustomerHome", model);
@@ -119,7 +119,7 @@ namespace ChefConnect.Controllers
         {
             CustomerViewModel model = new CustomerViewModel()
             {
-                activeUser = await _userManager.FindByNameAsync(username)
+                ActiveUser = await _userManager.FindByNameAsync(username)
             };
 
             return View("AccountSettings", model);
@@ -135,14 +135,14 @@ namespace ChefConnect.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await _userManager.FindByNameAsync(model.activeUser.UserName);
-                user.Name = model.activeUser.Name;
-                user.PhoneNumber = model.activeUser.PhoneNumber;
+                var user = await _userManager.FindByNameAsync(model.ActiveUser.UserName);
+                user.Name = model.ActiveUser.Name;
+                user.PhoneNumber = model.ActiveUser.PhoneNumber;
                 //user.DateOfBirth = model.activeUser.DateOfBirth;
-                user.UserName = model.activeUser.UserName;
-                user.Email = model.activeUser.Email;
+                user.UserName = model.ActiveUser.UserName;
+                user.Email = model.ActiveUser.Email;
                 await _userManager.UpdateAsync(user);
-                return RedirectToAction("GetCustomerHome", new { username = model.activeUser.UserName });
+                return RedirectToAction("GetCustomerHome", new { username = model.ActiveUser.UserName });
             }
             else
             {

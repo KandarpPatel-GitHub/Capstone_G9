@@ -131,7 +131,7 @@ public class HomeController : Controller
     }
 
     [Authorize(Roles = "Chef, Customer")]
-    [HttpGet("/{username}/ResendVerfification")]
+    [HttpGet("/{username}/ResendVerification")]
     public async Task<IActionResult> ResendVerificationMail(string username)
     {
         var user = await _userManager.FindByNameAsync(username);
