@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ChefConnect.Migrations
 {
     [DbContext(typeof(ChefConnectDbContext))]
-    [Migration("20240321050003_init")]
+    [Migration("20240322181024_init")]
     partial class init
     {
         /// <inheritdoc />

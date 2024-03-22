@@ -41,43 +41,45 @@ public class ChefConnectDbContext : IdentityDbContext<AppUser>
             }
         }
 
+       
+
         var customerList = new[]
         {
             new AppUser{UserName = "Rajesh_Kumar", Name = "Rajesh",Id="101"},
-            new AppUser{UserName = "Emily_Robinson", Name = "Emily"},
-            new AppUser{UserName = "Amanpreet_Singh", Name = "Amanpreet"},
-            new AppUser{UserName = "Sophia_Lee", Name = "Sophia"},
-            new AppUser{UserName = "Liam_Murphy", Name = "Liam"},
-            new AppUser{UserName = "Isabella_Gomez", Name = "Isabella"},
-            new AppUser{UserName = "Rohan_Singh", Name = "Rohan"},
-            new AppUser{UserName = "Ava_Chen", Name = "Ava"},
-            new AppUser{UserName = "Ethan_Wright", Name = "Ethan"},
-            new AppUser{UserName = "Maya_Krishnan", Name = "Maya"},
-            new AppUser{UserName = "Karan_Mehra", Name = "Karan"},
-            new AppUser{UserName = "Lily_Anderson", Name = "Lily"},
-            new AppUser{UserName = "Samuel_Rodriguez", Name = "Samuel"},
-            new AppUser{UserName = "Emma_Choi", Name = "Emma"},
-            new AppUser{UserName = "Nathan_Smith", Name = "Nathan"},
-            new AppUser{UserName = "Jessica_Lin", Name = "Jessica"},
-            new AppUser{UserName = "Mark_Johnson", Name = "Mark"},
-            new AppUser{UserName = "Sophie_Martinez", Name = "Sophie"},
-            new AppUser{UserName = "Ryan_Kim", Name = "Ryan"},
-            new AppUser{UserName = "Olivia_Hansen", Name = "Olivia"},
-            new AppUser{UserName = "Alisha_Patel", Name = "Alisha"},
-            new AppUser{UserName = "Benjamin_Lee", Name = "Benjamin"},
-            new AppUser{UserName = "Nora_Fernandez", Name = "Nora"},
-            new AppUser{UserName = "Evan_Wong", Name = "Evan"},
-            new AppUser{UserName = "Isaac_Kim", Name = "Isaac"},
-            new AppUser{UserName = "Diana_Murphy", Name = "Diana"},
-            new AppUser{UserName = "Alex_Chen", Name = "Alex"},
-            new AppUser{UserName = "Grace_Lee", Name = "Grace"},
-            new AppUser{UserName = "Mohammed_Ali", Name = "Mohammed"},
-            new AppUser{UserName = "Hannah_Brooks", Name = "Hannah"},
-            new AppUser{UserName = "Tyler_Evans", Name = "Tyler"},
-            new AppUser{UserName = "Sophia_Nguyen", Name = "Sophia"},
-            new AppUser{UserName = "Lucas_Martinez", Name = "Lucas"},
-            new AppUser{UserName = "Madison_Wright", Name = "Madison"},
-            new AppUser{UserName = "Jack_Thompson", Name = "Jack"}
+            new AppUser{UserName = "Emily_Robinson", Name = "Emily",Id="102"},
+            new AppUser{UserName = "Amanpreet_Singh", Name = "Amanpreet",Id="103"},
+            new AppUser{UserName = "Sophia_Lee", Name = "Sophia",Id="104"},
+            new AppUser{UserName = "Liam_Murphy", Name = "Liam",Id="105"},
+            new AppUser{UserName = "Isabella_Gomez", Name = "Isabella",Id="106"},
+            new AppUser{UserName = "Rohan_Singh", Name = "Rohan", Id = "107"},
+            new AppUser{UserName = "Ava_Chen", Name = "Ava",Id="108"},
+            new AppUser{UserName = "Ethan_Wright", Name = "Ethan", Id = "109"},
+            new AppUser{UserName = "Maya_Krishnan", Name = "Maya",Id="110"},
+            new AppUser{UserName = "Karan_Mehra", Name = "Karan", Id = "111"},
+            new AppUser{UserName = "Lily_Anderson", Name = "Lily", Id = "112"},
+            new AppUser{UserName = "Samuel_Rodriguez", Name = "Samuel", Id = "113"},
+            new AppUser{UserName = "Emma_Choi", Name = "Emma",Id="114"},
+            new AppUser{UserName = "Nathan_Smith", Name = "Nathan", Id = "115"},
+            new AppUser{UserName = "Jessica_Lin", Name = "Jessica",Id="116"},
+            new AppUser{UserName = "Mark_Johnson", Name = "Mark", Id = "117"},
+            new AppUser{UserName = "Sophie_Martinez", Name = "Sophie",Id="118"},
+            new AppUser{UserName = "Ryan_Kim", Name = "Ryan", Id = "119"},
+            new AppUser{UserName = "Olivia_Hansen", Name = "Olivia",Id="120"},
+            new AppUser{UserName = "Alisha_Patel", Name = "Alisha", Id = "121"},
+            new AppUser{UserName = "Benjamin_Lee", Name = "Benjamin",Id="122"},
+            new AppUser{UserName = "Nora_Fernandez", Name = "Nora",Id="123"},
+            new AppUser{UserName = "Evan_Wong", Name = "Evan",Id="124"},
+            new AppUser{UserName = "Isaac_Kim", Name = "Isaac",Id="125"},
+            new AppUser{UserName = "Diana_Murphy", Name = "Diana",Id="126"},
+            new AppUser{UserName = "Alex_Chen", Name = "Alex",Id="127"},
+            new AppUser{UserName = "Grace_Lee", Name = "Grace",Id="128"},
+            new AppUser{UserName = "Mohammed_Ali", Name = "Mohammed",Id="129"},
+            new AppUser{UserName = "Hannah_Brooks", Name = "Hannah",Id="130"},
+            new AppUser{UserName = "Tyler_Evans", Name = "Tyler",Id="131"},
+            new AppUser{UserName = "Sophia_Nguyen", Name = "Sophia",Id="132"},
+            new AppUser{UserName = "Lucas_Martinez", Name = "Lucas",Id="133"},
+            new AppUser{UserName = "Madison_Wright", Name = "Madison",Id="134"},
+            new AppUser{UserName = "Jack_Thompson", Name = "Jack",Id="135"}
 
 
 
@@ -88,12 +90,19 @@ public class ChefConnectDbContext : IdentityDbContext<AppUser>
             if (await userManager.FindByNameAsync(customerList[i].UserName) == null)
             {
                 var result = await userManager.CreateAsync(customerList[i], "Dev@300702");
-                Console.WriteLine(result);
                 if (result.Succeeded)
                 {
                     await userManager.AddToRoleAsync(customerList[i], "Customer");
                 }
             }
+<<<<<<< Updated upstream
+           
+=======
+            else
+            {
+                await userManager.UpdateAsync(customerList[i]);
+            }
+>>>>>>> Stashed changes
         }
     }
 
