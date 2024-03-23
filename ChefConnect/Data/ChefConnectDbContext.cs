@@ -41,7 +41,7 @@ public class ChefConnectDbContext : IdentityDbContext<AppUser>
             }
         }
 
-       
+
 
         var customerList = new[]
         {
@@ -95,14 +95,11 @@ public class ChefConnectDbContext : IdentityDbContext<AppUser>
                     await userManager.AddToRoleAsync(customerList[i], "Customer");
                 }
             }
-<<<<<<< Updated upstream
-           
-=======
-            else
-            {
-                await userManager.UpdateAsync(customerList[i]);
-            }
->>>>>>> Stashed changes
+            //else
+            //{
+            //    await userManager.UpdateAsync(customerList[i]);
+            //}
+
         }
     }
 
@@ -150,11 +147,6 @@ public class ChefConnectDbContext : IdentityDbContext<AppUser>
         //    new AppUser{Id="100",UserName = "customer1", Name = "John Doe", PasswordHash="AQAAAAIAAYagAAAAEHYRLXB/N1zMkjlTUN/UdSgOvdndAj+VdFcbjFEl3GDrL38z/RNayHXHGCB157QiOA==",Email = "devtesting@gmail.com",PhoneNumber="4379713456",EmailConfirmed=true}
         //};
 
-
-        var reviewsList = new[]
-        {
-            new Reviews { ReviewsId = 1, ReviewDescription = "Great food", Ratings = 5, ChefId = "1", CustomerId = "100" },
-        };
 
         var cuisines = new[]
         {

@@ -125,30 +125,30 @@ namespace ChefConnect.Controllers
 
 
 
-        [HttpPost("/{username}/{id}")]
-        public async Task<IActionResult> AddCuisineForChefProfile(string username, int id)
-        {
-            var user = await _userManager.FindByNameAsync(username);
+        //[HttpPost("/{username}/{id}")]
+        //public async Task<IActionResult> AddCuisineForChefProfile(string username, int id)
+        //{
+        //    var user = await _userManager.FindByNameAsync(username);
 
-            var recipe = await _chefConnectDbContext.ChefRecipes.Include(r => r.RecipeCuisine).Where(r => r.ChefRecipesId == id).FirstOrDefaultAsync();
+        //    var recipe = await _chefConnectDbContext.ChefRecipes.Include(r => r.RecipeCuisine).Where(r => r.ChefRecipesId == id).FirstOrDefaultAsync();
 
-            ChefRecipes newRecipe = new ChefRecipes()
-            {
-                ChefId = user.Id,
-                RecipeName = recipe.RecipeName,
-                RecipeDescription = recipe.RecipeDescription,
-                RecipeImage = recipe.RecipeImage,
-                CuisineId = recipe.CuisineId,
-                Price = recipe.Price,
-                PricePerExtraPerson = recipe.PricePerExtraPerson,
-                NumberOfPeople = recipe.NumberOfPeople
-            };
+        //    ChefRecipes newRecipe = new ChefRecipes()
+        //    {
+        //        ChefId = user.Id,
+        //        RecipeName = recipe.RecipeName,
+        //        RecipeDescription = recipe.RecipeDescription,
+        //        RecipeImage = recipe.RecipeImage,
+        //        CuisineId = recipe.CuisineId,
+        //        Price = recipe.Price,
+        //        PricePerExtraPerson = recipe.PricePerExtraPerson,
+        //        NumberOfPeople = recipe.NumberOfPeople
+        //    };
 
-            _chefConnectDbContext.ChefRecipes.Add(newRecipe);
-            _chefConnectDbContext.SaveChanges();
+        //    _chefConnectDbContext.ChefRecipes.Add(newRecipe);
+        //    _chefConnectDbContext.SaveChanges();
 
-            return RedirectToAction("GetMyRecipesAndCuisinesPage", new { username = User.Identity.Name });
-        }
+        //    return RedirectToAction("GetMyRecipesAndCuisinesPage", new { username = User.Identity.Name });
+        //}
 
 
         [HttpGet("/{username}/My-Bookings")]
@@ -304,8 +304,8 @@ namespace ChefConnect.Controllers
         }
 
 
-        //POST for getting all the cusines of the chef
-        
+
+        [HttpPost()]
         public async Task<IActionResult> AddCuisineForChefProfile(ChefViewModel model)
         {
             //var user = await _userManager.FindByNameAsync(model.ActiveUser.UserName);
@@ -339,13 +339,6 @@ namespace ChefConnect.Controllers
                 }
 
             return true;
-        }
-
-
-
-        public IActionResult Index()
-        {
-            return View();
         }
 
     }

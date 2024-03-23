@@ -5,7 +5,7 @@ namespace ChefConnect.Models
 {
 	public class ChefViewModel
 	{
-        public AppUser ActiveUser { get; set; }
+        public AppUser? ActiveUser { get; set; }
 
         public ChefRecipes? ActiveChefRecipe { get; set; }
 
@@ -16,6 +16,7 @@ namespace ChefConnect.Models
         public List<ChefCuisines>? chefCuisines { get; set; }
 
         public List<Cuisines>? allCuisines { get; set; }
+
         public ChefCuisines? NewChefCuisine { get; set; }
 
         public List<ChefRecipes>? otherChefRecipes { get; set; }
