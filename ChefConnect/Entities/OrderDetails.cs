@@ -28,6 +28,11 @@ namespace ChefConnect.Entities
         public double OrderTotal { get; set; }
 
         public int reviewId { get; set; }
+
+
+
+
+
         //public Reviews Review { get; set; }
 
         //public ChefRecipes Recipe{ get; set; }

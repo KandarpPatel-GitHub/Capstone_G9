@@ -12,6 +12,8 @@ namespace ChefConnect.Models
 		public ChefRecipes? ActiveRecipe { get; set; }
 
 		public Reviews? NewReview { get; set; }
+
+		public OrderDetails? NewOrder { get; set; }
 	}
 }
 

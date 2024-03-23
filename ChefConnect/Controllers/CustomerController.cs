@@ -177,6 +177,21 @@ namespace ChefConnect.Controllers
             }
         }
 
+
+        //Get Method for Customer to Book a Chef
+        [HttpGet("/{username}/{id}/Book-Chef")]
+        public async Task<IActionResult> GetBookChefPage(string username, int id)
+        {
+            CustomerViewModel model = new CustomerViewModel()
+            {
+                ActiveUser = await _userManager.FindByNameAsync(username),
+                ActiveRecipe = await _dbcontext.ChefRecipes.Include(r => r.RecipeCuisine).Where(r => r.ChefRecipesId == id).FirstOrDefaultAsync()
+                
+            };
+
+            return View("CustomerBookChef", model);
+        }
+
         public bool isUniquePhoneNumber(string phone)
         {
             var allUsers = _userManager.Users;

@@ -37,6 +37,7 @@
                     </h5>
                     <p class="card-text">@recipe.RecipeDescription</p>
                     <a asp-controller="Customer" asp-action="GetReviewsPage" asp-route-id="@recipe.ChefRecipesId" asp-route-username="@Model.ActiveUser.UserName" class="btn btn-primary">Add Review</a>
+                    <a asp-controller="Customer" asp-action="GetBookingPage" asp-route-id="@recipe.ChefRecipesId" asp-route-username="@Model.ActiveUser.UserName" class="btn btn-primary">Book</a>
 
                 </div>
             </div>
