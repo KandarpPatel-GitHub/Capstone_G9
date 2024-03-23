@@ -323,7 +323,17 @@ namespace ChefConnect.Controllers
         }
 
 
+        [HttpGet("/{username}/Reviews")]
+        public async Task<IActionResult> GetChefReviewsPage(string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            ChefViewModel model = new ChefViewModel()
+            {
+                ChefReviews = await _chefConnectDbContext.Reviews.Include(r => r.Customer).Where(r => r.ChefId == user.Id).ToListAsync()
+            };
 
+            return View("MyReviews", model);
+        }
 
 
         public bool isUniquePhoneNumber(string phone)
