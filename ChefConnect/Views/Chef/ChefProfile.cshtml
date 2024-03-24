@@ -71,84 +71,46 @@
 
             </a>
         </div>
-        <h1>Suggested Recipes:</h1>
-        <div id="recipeCarousel-other" class="carousel slide" data-ride="carousel">
-            <div class="carousel-inner">
-                @for (int slideIndex = 0; slideIndex < slideCount; slideIndex++)
-                {
-                    <div class="carousel-item @(slideIndex == 0 ? "active" : "")">
-                        <div class="row">
-                            @foreach (var recipe in Model.otherChefRecipes.Skip(slideIndex * itemPerSlide).Take(itemPerSlide))
-                            {
-                                <div class="col-md-4">
-                                    <!-- Card -->
-                                    <div class="card-home">
-                                        <!-- Card image -->
-                                        <img style="width:350px;height:350px; object-fit:cover" src="data:image/*;base64,@(Convert.ToBase64String(recipe.RecipeImage))" class="card-img-top" alt="@recipe.RecipeName">
-                                        <!-- Card body -->
-                                        <div class="card-body">
-                                            <h5 class="card-title">@recipe.RecipeName</h5>
-                                            <p class="card-text">@recipe.RecipeDescription</p>
-                                            <a asp-controller="Chef" asp-action="GetRecipeDetailsPage" asp-route-id="@recipe.ChefRecipesId" asp-route-username="@Model.ActiveUser.UserName" class="btn btn-primary">View Recipe</a>
-                                            <a asp-controller="Chef" asp-action="AddCuisineForChefProfile" asp-route-id="@recipe.ChefRecipesId" asp-route-username="@Model.ActiveUser.UserName" class="btn btn-primary">Add to your recipes</a>
-                                        </div>
+ 
+    }
+    <h1>Suggested Recipes:</h1>
+    <div id="recipeCarousel-other" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+            @for (int slideIndex = 0; slideIndex < slideCount; slideIndex++)
+            {
+                <div class="carousel-item @(slideIndex == 0 ? "active" : "")">
+                    <div class="row">
+                        @foreach (var recipe in Model.otherChefRecipes.Skip(slideIndex * itemPerSlide).Take(itemPerSlide))
+                        {
+                            <div class="col-md-4">
+                                <!-- Card -->
+                                <div class="card-home">
+                                    <!-- Card image -->
+                                    <img style="width:350px;height:350px; object-fit:cover" src="data:image/*;base64,@(Convert.ToBase64String(recipe.RecipeImage))" class="card-img-top" alt="@recipe.RecipeName">
+                                    <!-- Card body -->
+                                    <div class="card-body">
+                                        <h5 class="card-title">@recipe.RecipeName</h5>
+                                        <p class="card-text">@recipe.RecipeDescription</p>
+                                        <a asp-controller="Chef" asp-action="GetRecipeDetailsPage" asp-route-id="@recipe.ChefRecipesId" asp-route-username="@Model.ActiveUser.UserName" class="btn btn-primary">View Recipe</a>
+                                        <a asp-controller="Chef" asp-action="AddCuisineForChefProfile" asp-route-id="@recipe.ChefRecipesId" asp-route-username="@Model.ActiveUser.UserName" class="btn btn-primary">Add to your recipes</a>
                                     </div>
                                 </div>
-                            }
+                            </div>
+                        }
 
-                        </div>
                     </div>
-                }
-            </div>
-            <a class="carousel-control-prev" href="#recipeCarousel-other" role="button" data-bs-slide="prev">
-                <span aria-hidden="true">&#10094;</span> <!-- Using Unicode arrow character -->
-
-            </a>
-            <a class="carousel-control-next" href="#recipeCarousel-other" role="button" data-bs-slide="next">
-                <span aria-hidden="true">&#10095;</span> <!-- Using Unicode arrow character -->
-
-            </a>
+                </div>
+            }
         </div>
-        @* <div id="recipeCarousel" class="carousel slide" data-ride="carousel">
-    <div class="carousel-inner">
-    @for (int slideIndex = 0; slideIndex < slideCount; slideIndex++)
-    {
-    <div class="carousel-item @(slideIndex == 0 ? "active" : "")">
+        <a class="carousel-control-prev" href="#recipeCarousel-other" role="button" data-bs-slide="prev">
+            <span aria-hidden="true">&#10094;</span> <!-- Using Unicode arrow character -->
 
-    <div class="row">
-    <h1>
-    Suggested for you:
-    </h1>
-    @foreach (var recipe in Model.otherChefRecipes.Skip(slideIndex * itemPerSlide).Take(itemPerSlide))
-    {
-    <div class="col-md-4">
-    <!-- Card -->
-    <div class="card-home">
-    <!-- Card image -->
-    <img style="width:350px;height:350px; object-fit:cover" src="data:image/*;base64,@(Convert.ToBase64String(recipe.RecipeImage))" class="card-img-top" alt="@recipe.RecipeName">
-    <!-- Card body -->
-    <div class="card-body">
-    <h5 class="card-title">
-    @recipe.RecipeName
-    </h5>
-    <p class="card-text">@recipe.RecipeDescription</p>
-    <a asp-controller="Chef" asp-action="GetRecipeDetailsPage" asp-route-id="@recipe.ChefRecipesId" asp-route-username="@Model.ActiveUser.UserName" class="btn btn-primary">View Recipe</a>
-    <a asp-controller="Chef" asp-action="AddCuisineForChefProfile" asp-route-id="@recipe.ChefRecipesId" asp-route-username="@Model.ActiveUser.UserName" class="btn btn-primary">Add to your recipes</a>
+        </a>
+        <a class="carousel-control-next" href="#recipeCarousel-other" role="button" data-bs-slide="next">
+            <span aria-hidden="true">&#10095;</span> <!-- Using Unicode arrow character -->
 
+        </a>
     </div>
-    </div>
-    </div>
-
-    }
-    </div>
-
-
-    </div>
-
-    </div> *@
-
-
-    }
 
 </div>
 

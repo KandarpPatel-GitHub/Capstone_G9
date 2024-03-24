@@ -2,8 +2,26 @@
 
 @{
     ViewData["title"] = "Cart";
+
 }
 
+
+@foreach (var item in Model.cartList)
+{
+    <div class="col-md-4">
+        <!-- Card -->
+        <div class="card-home">
+            <!-- Card image -->
+            <img style="width:350px;height:350px; object-fit:cover" src="data:image/*;base64,@(Convert.ToBase64String(item.ChefRecipes.RecipeImage))" class="card-img-top" alt="@item.ChefRecipes.RecipeName">
+            <!-- Card body -->
+            <div class="card-body">
+                <h5 class="card-title">@item.ChefRecipes.RecipeName</h5>
+                <p class="card-text">@item.ChefRecipes.RecipeDescription</p>
+                
+            </div>
+        </div>
+    </div>
+}
 
 @*<form asp-controller="Customer" asp-action="" method="post">
     <div class="text-danger" asp-validation-summary="ModelOnly">   </div>
@@ -66,4 +84,6 @@
 
 
     <button type="submit" class="btn btn-primary">Save</button>
-</form>*@
+</form>
+
+*@

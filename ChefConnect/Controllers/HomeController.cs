@@ -156,6 +156,7 @@ public class HomeController : Controller
     [HttpGet("/Logout")]
     public async Task<IActionResult> Logout()
     {
+     
         await _signInManager.SignOutAsync();
         return RedirectToAction("Index");
     }

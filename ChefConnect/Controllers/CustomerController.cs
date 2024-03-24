@@ -61,7 +61,7 @@ namespace ChefConnect.Controllers
                 }
                 if (ModelState.ErrorCount == 0)
                 {
-                    
+
                     var user = new AppUser { UserName = registerViewModel.UserName, Name = registerViewModel.Name };
                     var result = await _userManager.CreateAsync(user, registerViewModel.Password);
 
@@ -74,13 +74,13 @@ namespace ChefConnect.Controllers
                         await _userManager.UpdateAsync(user);
                         await _signInManager.SignInAsync(user, false);
                         var message = $"\nHi,\n\nThanks for getting started with ChefConnect!\n\nWe need a little more information to complete your registration, including a confirmation of your email address.\n\nClick below to confirm your email address:\n\nhttps://localhost:7042/{registerViewModel.UserName}/Email-Verification-Success\n\nIf you have problems, please paste the above URL into your web browser.";
-                         _helperServices.SendEmailAsync(registerViewModel.Email, "Email Verification", message);
+                        _helperServices.SendEmailAsync(registerViewModel.Email, "Email Verification", message);
                         if (!user.EmailConfirmed)
                         {
                             TempData["ConfirmEmailMessage"] = $"An email verification is sent to you. Please confirm your email there.";
                         }
 
-                        return RedirectToAction("GetCustomerHome", new {username = registerViewModel.UserName});
+                        return RedirectToAction("GetCustomerHome", new { username = registerViewModel.UserName });
 
 
                     }
@@ -95,7 +95,7 @@ namespace ChefConnect.Controllers
                 }
                 else
                 {
-                       
+
                     return View();
                 }
 
@@ -186,41 +186,66 @@ namespace ChefConnect.Controllers
             {
                 ActiveUser = await _userManager.FindByNameAsync(username),
                 ActiveRecipe = await _dbcontext.ChefRecipes.Include(r => r.RecipeCuisine).Where(r => r.ChefRecipesId == id).FirstOrDefaultAsync()
-                
+
             };
 
             return View("CustomerBookChef", model);
         }
 
+
         //Get Method for Customer to add to cart feature
-        //[HttpGet("/{username}/{id}/Add-To-Cart")]
-        //public async Task<IActionResult> GetCartPage(string username, int id)
-        //{
-        //    CustomerViewModel model = new CustomerViewModel()
-        //    {
-        //        ActiveUser = await _userManager.FindByNameAsync(username),
-        //        ActiveRecipe = await _dbcontext.ChefRecipes.Include(r => r.RecipeCuisine).Where(r => r.ChefRecipesId == id).FirstOrDefaultAsync(),
-        //        NewOrder = new OrderDetails()
-        //        {
-        //            RecipeId = id,
-        //            CustomerId = _userManager.FindByNameAsync(username).Result.Id,
-        //            OrderInstructions = "None",
-        //            GuestQuantity = 1,
-        //            OrderDate = DateTime.Now,
-        //            TimeSlotId = 1,
-        //            ChefId = _dbcontext.ChefRecipes.Where(r => r.ChefRecipesId == id).FirstOrDefault().ChefId,
-        //            OrderSubTotal = _dbcontext.ChefRecipes.Where(r => r.ChefRecipesId == id).FirstOrDefault().Price,
-        //            OrderTax = _dbcontext.ChefRecipes.Where(r => r.ChefRecipesId == id).FirstOrDefault().Price * 0.13,
-        //            Charges = 5.00,
-        //            OrderTotal = _dbcontext.ChefRecipes.Where(r => r.ChefRecipesId == id).FirstOrDefault().Price * 1.13 + 5.00
+        [HttpGet("/{username}/{id}/Add-To-Cart")]
+        public async Task<IActionResult> GetCartPage(string username, int id)
+        {
+            
+            var user = await _userManager.FindByNameAsync(username);
+            var recipe = await _dbcontext.ChefRecipes.Include(r => r.RecipeCuisine).Where(r => r.ChefRecipesId == id).FirstOrDefaultAsync();
+            List<OrderRecipes> _orderList = await _dbcontext.OrderRecipes.Where(o => o.CustomerId == user.Id).Where(o => o.OrderDetailsId == 0).ToListAsync();
 
+            if (_orderList.Count == 0)
+            {
+                OrderRecipes recipes = new OrderRecipes()
+                {
+                    ChefRecipesId = recipe.ChefRecipesId,
+                    CustomerId = user.Id,
+                    OrderDetailsId = 0,
+                    TimeSlotId = 1
 
+                };
+                _dbcontext.OrderRecipes.Add(recipes);
+                _dbcontext.SaveChanges();
+            }
+            else
+            {
+                foreach (var item in _orderList)
+                {
+                    if (item.ChefRecipesId != recipe.ChefRecipesId)
+                    {
+                        OrderRecipes recipes = new OrderRecipes()
+                        {
+                            ChefRecipesId = recipe.ChefRecipesId,
+                            CustomerId = user.Id,
+                            OrderDetailsId = 0, TimeSlotId = 1
+                        };
+                        _dbcontext.OrderRecipes.Add(recipes);
+                        _dbcontext.SaveChanges();
+                        //_orderList.Add(recipes);
+                    }
+                }
+            }
+            
 
-        //        }
-        //    };
+            _orderList = await _dbcontext.OrderRecipes.Include(o => o.ChefRecipes).Where(o => o.CustomerId == user.Id).Where(o => o.OrderDetailsId == null).ToListAsync();
 
-        //    return View("CustomerCart", model);
-        //}
+            CustomerViewModel model = new CustomerViewModel()
+            {
+                ActiveUser = user,
+                ActiveRecipe = recipe,
+                cartList = _orderList
+
+            };
+            return View("CustomerCart", model);
+        }
 
 
 

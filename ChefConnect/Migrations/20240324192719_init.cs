@@ -380,9 +380,10 @@ namespace ChefConnect.Migrations
                 {
                     OrderDetailsId = table.Column<int>(type: "int", nullable: false),
                     ChefRecipesId = table.Column<int>(type: "int", nullable: false),
-                    GuestQuantity = table.Column<int>(type: "int", nullable: false),
-                    TimeSlotId = table.Column<int>(type: "int", nullable: false),
-                    RecipeTotal = table.Column<double>(type: "float", nullable: false)
+                    GuestQuantity = table.Column<int>(type: "int", nullable: true),
+                    TimeSlotId = table.Column<int>(type: "int", nullable: true),
+                    RecipeTotal = table.Column<double>(type: "float", nullable: true),
+                    CustomerId = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {

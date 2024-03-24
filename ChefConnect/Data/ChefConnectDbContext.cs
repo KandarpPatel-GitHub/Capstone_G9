@@ -116,6 +116,7 @@ public class ChefConnectDbContext : IdentityDbContext<AppUser>
     public DbSet<OrderDetails> OrderDetails { get; set; }
     public DbSet<Reviews> Reviews { get; set; }
     public DbSet<TimeSlots> TimeSlots { get; set; }
+    public DbSet<OrderRecipes> OrderRecipes { get; set; }
 
     //public DbSet<RecipeImages> RecipeImages { get; set; }
 
