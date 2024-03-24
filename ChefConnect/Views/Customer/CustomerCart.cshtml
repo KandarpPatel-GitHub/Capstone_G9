@@ -1,0 +1,69 @@
+﻿@model CustomerViewModel
+
+@{
+    ViewData["title"] = "Cart";
+}
+
+
+<form asp-controller="Customer" asp-action="" method="post">
+    <div class="text-danger" asp-validation-summary="ModelOnly">   </div>
+    <div class="form-group">
+        <label asp-for="@Model.NewOrder.OrderInstructions">Order Instructions</label>
+        <input asp-for="@Model.NewOrder.OrderInstructions" class="form-control" />
+        <span asp-validation-for="@Model.NewOrder.OrderInstructions" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.NewOrder.GuestQuantity">Guest Quantity</label>
+        <input asp-for="@Model.NewOrder.GuestQuantity" class="form-control" />
+        <span asp-validation-for="@Model.NewOrder.GuestQuantity" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.NewOrder.OrderDate">Order Date</label>
+        <input asp-for="@Model.NewOrder.OrderDate" class="form-control" />
+        <span asp-validation-for="@Model.NewOrder.OrderDate" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.NewOrder.TimeSlotId">Time Slot</label>
+        <input asp-for="@Model.NewOrder.TimeSlotId" class="form-control" />
+        <span asp-validation-for="@Model.NewOrder.TimeSlotId" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.NewOrder.RecipeId">Receipe ID</label>
+        <input asp-for="@Model.NewOrder.RecipeId" class="form-control" />
+        <span asp-validation-for="@Model.NewOrder.RecipeId" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.NewOrder.CustomerId">Customer ID</label>
+        <input asp-for="@Model.NewOrder.CustomerId" class="form-control" />
+        <span asp-validation-for="@Model.NewOrder.CustomerId" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.NewOrder.ChefId">Chef ID</label>
+        <input asp-for="@Model.NewOrder.ChefId" class="form-control" />
+        <span asp-validation-for="@Model.NewOrder.ChefId" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.NewOrder.OrderSubTotal">Order Sub Total</label>
+        <input asp-for="@Model.NewOrder.OrderSubTotal" class="form-control" />
+        <span asp-validation-for="@Model.NewOrder.OrderSubTotal" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.NewOrder.OrderTax">Order Tax</label>
+        <input asp-for="@Model.NewOrder.OrderTax" class="form-control" />
+        <span asp-validation-for="@Model.NewOrder.OrderTax" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.NewOrder.Charges">Extra Charges</label>
+        <input asp-for="@Model.NewOrder.Charges" class="form-control" />
+        <span asp-validation-for="@Model.NewOrder.Charges" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.NewOrder.OrderTotal">Order Total</label>
+        <input asp-for="@Model.NewOrder.OrderTotal" class="form-control" />
+        <span asp-validation-for="@Model.NewOrder.OrderTotal" class="text-danger"></span>
+    </div>
+    
+
+
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>

@@ -17,7 +17,6 @@
     <None Remove="Views\Admin\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Views\Customer\" />
     <Folder Include="Views\Chef\" />
     <Folder Include="Data\" />
     <Folder Include="Services\" />

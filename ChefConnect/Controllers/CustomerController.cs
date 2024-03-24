@@ -192,6 +192,56 @@ namespace ChefConnect.Controllers
             return View("CustomerBookChef", model);
         }
 
+        //Get Method for Customer to add to cart feature
+        [HttpGet("/{username}/{id}/Add-To-Cart")]
+        public async Task<IActionResult> GetCartPage(string username, int id)
+        {
+            CustomerViewModel model = new CustomerViewModel()
+            {
+                ActiveUser = await _userManager.FindByNameAsync(username),
+                ActiveRecipe = await _dbcontext.ChefRecipes.Include(r => r.RecipeCuisine).Where(r => r.ChefRecipesId == id).FirstOrDefaultAsync(),
+                NewOrder = new OrderDetails()
+                {
+                    RecipeId = id,
+                    CustomerId = _userManager.FindByNameAsync(username).Result.Id,
+                    OrderInstructions = "None",
+                    GuestQuantity = 1,
+                    OrderDate = DateTime.Now,
+                    TimeSlotId = 1,
+                    ChefId = _dbcontext.ChefRecipes.Where(r => r.ChefRecipesId == id).FirstOrDefault().ChefId,
+                    OrderSubTotal = _dbcontext.ChefRecipes.Where(r => r.ChefRecipesId == id).FirstOrDefault().Price,
+                    OrderTax = _dbcontext.ChefRecipes.Where(r => r.ChefRecipesId == id).FirstOrDefault().Price * 0.13,
+                    Charges = 5.00,
+                    OrderTotal = _dbcontext.ChefRecipes.Where(r => r.ChefRecipesId == id).FirstOrDefault().Price * 1.13 + 5.00
+
+
+
+                }
+            };
+
+            return View("CustomerCart", model);
+        }
+
+
+
+        //Post Method for Customer cart page to display the information
+        [HttpPost()]
+        public async Task<IActionResult> AddToCart(CustomerViewModel model)
+        {
+            if (ModelState.IsValid)
+            {   
+                _dbcontext.OrderDetails.Add(model.NewOrder);
+                _dbcontext.SaveChanges();
+                return RedirectToAction("GetCustomerHome", new { username = User.Identity.Name });
+            }
+            else
+            {
+                return View("CustomerAddToCart", model);
+            }
+        }
+
+
+
         public bool isUniquePhoneNumber(string phone)
         {
             var allUsers = _userManager.Users;

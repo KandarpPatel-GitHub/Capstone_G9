@@ -142,6 +142,63 @@ a:hover {
 
 
 
+
+/* For the Customer Account Settings Page Form*/
+.form-body {
+    
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; /* Full height to center the form vertically */
+}
+
+.form-container {
+    width: 100%; /* Full width on smaller screens */
+    max-width: 500px; /* Max-width for larger screens */
+    background-color: #fff;
+    padding: 20px;
+    margin: auto;
+    border-radius: 8px;
+    /* Updated box shadow for a subtle but more pronounced effect */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08), 0 6px 20px rgba(0, 0, 0, 0.06);
+}
+
+.form-h2 {
+    text-align: center; /* Center align the heading */
+    color: #333;
+    margin: 0 0 20px 0; /* Adjusted margin for spacing */
+}
+input[type="text"], input[type="email"], input[type="tel"] {
+    width: calc(100% - 22px); /* Full width accounting for padding and borders */
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+    input:: placeholder {
+    color: #aaa;
+}
+
+.btn-account-form {
+    width: 100%; /* Full width */
+    padding: 10px;
+    background-color: #5cb85c;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    text-align: center; /* Center the text */
+}
+.btn-account-form:hover {
+    background-color: #4cae4c; /* A slightly darker green for hover */
+}
+
+/*------------------*/
 /* To make the carousel visible*/
 .carousel-visible {
     opacity: 1;
@@ -185,6 +242,129 @@ a:hover {
     .d-block.w-100.highlists-image.image-hover-effect:hover {
         transform: scale(1.05) !important;
     }
+/*To target the Customer Home CSS*/
+.row h1 {
+    color: #333;
+    text-align: center;
+    margin-top: 20px;
+    font-size: 2em;
+}
+
+.card-home {
+    width: 350px;
+    margin: 1rem;
+    background: #ffffff;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+    border: 3px solid #f0f0f0;
+    Initial color for border animation animation: pulseShadow 1.5s infinite alternate, borderColorAnimation 3s infinite alternate;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+}
+
+.card-content {
+    padding: 15px;
+}
+
+    .card-content h5 {
+        margin-top: 0;
+        color: #333;
+    }
+
+    .card-content p {
+        color: #666;
+        line-height: 1.6;
+        font-size: 0.9em;
+    }
+
+.button-cart {
+    display: inline-block;
+    padding: 10px 20px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 5px;
+    background: #007bff;
+    color: white;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+    .button-cart:hover {
+        background: #0056b3;
+    }
+
+    .button-cart:active {
+        transform: translateY(2px);
+    }
+
+    .button-cart.book {
+        background: #28a745;
+    }
+
+        .button-cart.book:hover {
+            background: #218838;
+        }
+
+    .button-cart.add-to-cart {
+        background: #ffc107;
+    }
+
+        .button-cart.add-to-cart:hover {
+            background: #e0a800;
+        }
+/*-----------------------------*/
+
+
+/* Previous and Next buttons CSS*/
+.carousel-control-prev,
+.carousel-control-next {
+    position: absolute;
+    top: 50%; /* Align the middle of the button with the middle of the image */
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px; /* Width of the button */
+    height: 48px; /* Height of the button */
+    padding: 0;
+    transform: translateY(-50%); /* Center vertically */
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white */
+    color: #333; /* Button text color */
+    border: none;
+    border-radius: 50%; /* Circular button */
+    cursor: pointer;
+    text-decoration: none;
+}
+
+    /* Style adjustments for the icon or text inside the button */
+    .carousel-control-prev span,
+    .carousel-control-next span {
+        font-size: 24px; /* Icon size */
+    }
+
+    /* Hover and focus styles for the buttons */
+    .carousel-control-prev:hover,
+    .carousel-control-prev:focus,
+    .carousel-control-next:hover,
+    .carousel-control-next:focus {
+        background-color: rgba(255, 255, 255, 0.9); /* Slightly darker on hover/focus */
+        outline: none;
+    }
+
+/* Position the 'Previous' button on the left */
+.carousel-control-prev {
+    left: -24px; /* Half the width of the button to fully expose it */
+}
+
+/* Position the 'Next' button on the right */
+.carousel-control-next {
+    right: -24px; /* Half the width of the button to fully expose it */
+}
 
 
 /* Login and Register button on Homepage*/
@@ -262,6 +442,7 @@ footer {
     background-color: #FF753A;
     transition: background-color 1s ease;
     box-shadow: 0 8px 10px -5px rgba(0,0,0,0.2);
+
 }
 
     .navbar.scrolled {
@@ -312,6 +493,57 @@ footer {
     position: relative;
     display: inline-block;
 }
+/*For the user logged in status*/
+
+
+.btn-user {
+    background-color: #ffa500; /* A shade of orange to match the header */
+    color: #fff;
+    font-weight: bold;
+}
+.btn-user:hover {
+    background-color: #e69500; /* A darker shade for hover */
+}
+
+
+
+
+.btn-secondary, .btn-outline-danger {
+    border: 1px solid #ffe5b4; /* Lighter border for a softer look */
+    background-color: #fffaf0; /* A light creamy color background */
+    color: #5a5a5a; /* A dark gray for text to ensure readability */
+}
+.btn-secondary:hover, .btn-outline-danger:hover {
+    border-color: #ffd27d; /* A hover border color slightly darker */
+    background-color: #ffe5b4; /* A light orange for hover */
+}
+
+.btn-outline-danger {
+    color: #d9534f;
+}
+.btn-outline-danger:hover {
+    color: #fff;
+    background-color: #d9534f;
+}
+.dropdown-menu {
+    border-radius: 0.25rem;
+    border: none;
+    box-shadow: 0 2px 5px rgba(0,0,0,.15);
+}
+
+.dropdown-item {
+    color: #5a5a5a;
+}
+
+    .dropdown-item:hover {
+        background-color: #ffe5b4; /* Light orange for hover */
+    }
+
+
+
+/*-----------------*/
+
+
 
 .navbar-nav li a:hover::before {
     transform: scaleX(1);
@@ -420,7 +652,29 @@ footer {
     }
 }
 
+@keyframes pulseShadow {
+    0% {
+        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.1);
+    }
 
+    100% {
+        box-shadow: 0 0 15px 5px rgba(0, 0, 0, 0.1);
+    }
+}
+
+@keyframes borderColorAnimation {
+    0% {
+        border-color: #f0f0f0;
+    }
+
+    50% {
+        border-color: #e0a800; /* Choose a color that fits your design palette */
+    }
+
+    100% {
+        border-color: #f0f0f0;
+    }
+}
 /* Add responsiveness to the form 
 
 
