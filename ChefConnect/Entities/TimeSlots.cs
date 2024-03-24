@@ -8,6 +8,7 @@ namespace ChefConnect.Entities
 		public TimeSpan TimeSlot { get; set; }
 
 		public ICollection<OrderRecipes>? OrderRecipes { get; set; }
+		public ICollection<UserCartItem>? UserCartItems { get; set; }
     }
 }
 
