@@ -6,8 +6,8 @@
 
 <div class="container">
     <div class="row">
-        <div class="col">
-            <h2>My Recipes</h2>
+        <div class="col-recipe-cuisine">
+            <h2 class="my-recipe-heading">My Recipes</h2>
             <a type="button" class="btn btn-primary" asp-controller="Chef" asp-action="GetAddRecipesPage" asp-route-username="@Model.ActiveUser.UserName">Add New Recipe</a>
             @if (Model.chefRecipes.Count == 0)
             {
@@ -15,7 +15,7 @@
             }
             else
             {
-                <table class="table table-striped-columns">
+                <table class="table-recipe-cuisine table table-striped-columns">
 
                     <thead>
                         <tr>
@@ -36,7 +36,7 @@
                                     @recipe.Price
                                 </td>
                                 <td>
-                                    <a type="button" asp-controller="chef" asp-action="GetRecipeDetailsPage" asp-route-id="@recipe.ChefRecipesId" asp-route-username="@Model.ActiveUser.UserName" class="btn btn-primary">View</a>
+                                    <a type="button" asp-controller="chef" asp-action="GetRecipeDetailsPage" asp-route-id="@recipe.ChefRecipesId" asp-route-username="@Model.ActiveUser.UserName" class="btn btn-primary btn-recipe-cuisine">View</a>
                                 </td>
 
                             </tr>
@@ -59,7 +59,7 @@
                     @foreach (var item in Model.chefCuisines)
                     {
 
-                        <label style="border:1px solid black">
+                        <label style="border:1px solid black" class="styled-label">
                             @item.Cuisine.CuisineName
                         </label>
                     }

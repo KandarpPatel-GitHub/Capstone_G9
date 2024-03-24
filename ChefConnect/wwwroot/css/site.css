@@ -564,6 +564,89 @@ footer {
 
 
 
+/*My Recipe and Cusinise*/
+.col-recipe-cuisine {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    flex-basis: calc(50% - 10px);
+}
+
+.my-recipe-heading {
+    color: #333;
+    border-bottom: 2px solid #eaeaea;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.btn-recipe-cuisine {
+    background-color: #04AA6D;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-recipe-cuisine:hover {
+    background-color: #3e8e41;
+}
+
+.table-recipe-cuisine {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.table-recipe-cuisine, th, td {
+    border: 1px solid #eaeaea;
+}
+
+.table-recipe-cuisine td, th {
+    text-align: left;
+    padding: 10px;
+}
+
+    .table-recipe-cuisine th {
+        background-color: #4CAF50; /* Choose the color you like */
+         color:  white;
+    }
+
+.styled-label {
+    margin-right: 5px;
+    padding: 5px 5px;
+    border: 1px solid #ddd;
+    display: inline-block;
+    margin-bottom: 5px;
+}
+
+.styled-label:hover {
+    background-color: #f0f0f0;
+            
+}
+
+
+
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-select {
+    width: 80%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+
+
+
+/*-------------------------*/
+
+
 .navbar-nav li a:hover::before {
     transform: scaleX(1);
 }
