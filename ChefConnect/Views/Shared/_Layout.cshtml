@@ -30,7 +30,7 @@
                     <img src="/images/logo.png"
                          style="height:100px ;width: 100px;" alt="logo">
                 </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                <button class="navbar-toggler navbar-brand" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -63,16 +63,16 @@
                         {
                             <ul class="navbar-nav flex-grow-1">
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark @(currentController == "Chef" && currentAction == "ChefProfile" ? "active" : "")" asp-area="" asp-controller="Chef" asp-action="ChefProfile" asp-route-username="@ActiveUser.UserName">Home</a>
+                                    <a class="nav-link text-dark navbar-font @(currentController == "Chef" && currentAction == "ChefProfile" ? "active" : "")" asp-area="" asp-controller="Chef" asp-action="ChefProfile" asp-route-username="@ActiveUser.UserName">Home</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark @(currentController == "Chef" && currentAction == "GetMyRecipesAndCuisinesPage" ? "active" : "")" asp-area="" asp-controller="Chef" asp-action="GetMyRecipesAndCuisinesPage" asp-route-username="@ActiveUser.UserName">My Recipes/Cuisines</a>
+                                    <a class="nav-link text-dark navbar-font @(currentController == "Chef" && currentAction == "GetMyRecipesAndCuisinesPage" ? "active" : "")" asp-area="" asp-controller="Chef" asp-action="GetMyRecipesAndCuisinesPage" asp-route-username="@ActiveUser.UserName">My Recipes/Cuisines</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark @(currentController == "Chef" && currentAction == "GetMyBookingsPage" ? "active" : "")" asp-area="" asp-controller="Chef" asp-action="GetMyBookingsPage" asp-route-username="@ActiveUser.UserName">My Bookings</a>
+                                    <a class="nav-link text-dark navbar-font @(currentController == "Chef" && currentAction == "GetMyBookingsPage" ? "active" : "")" asp-area="" asp-controller="Chef" asp-action="GetMyBookingsPage" asp-route-username="@ActiveUser.UserName">My Bookings</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark @(currentController == "Chef" && currentAction == "GetChefReviewsPage" ? "active" : "")" asp-area="" asp-controller="Chef" asp-action="GetChefReviewsPage" asp-route-username="@ActiveUser.UserName">My Reviews</a>
+                                    <a class="nav-link text-dark navbar-font @(currentController == "Chef" && currentAction == "GetChefReviewsPage" ? "active" : "")" asp-area="" asp-controller="Chef" asp-action="GetChefReviewsPage" asp-route-username="@ActiveUser.UserName">My Reviews</a>
                                 </li>
                             </ul>
 
@@ -100,7 +100,7 @@
                         {
                             <ul class="navbar-nav flex-grow-1">
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark @(currentController == "Customer" && currentAction == "Index" ? "active" : "")" asp-area="" asp-controller="Customer" asp-action="GetCustomerHome" asp-route-username="@ActiveUser.UserName">Home</a>
+                                    <a class="nav-link text-dark navbar-font @(currentController == "Customer" && currentAction == "Index" ? "active" : "")" asp-area="" asp-controller="Customer" asp-action="GetCustomerHome" asp-route-username="@ActiveUser.UserName">Home</a>
                                 </li>
 
                             </ul>

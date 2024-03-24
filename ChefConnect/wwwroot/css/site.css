@@ -368,22 +368,22 @@ input[type="text"], input[type="email"], input[type="tel"] {
 
 
 /* Login and Register button on Homepage*/
-.button:hover {
-    background: transparent;
+.carousel-control-prev:hover {
+    background: black;
+    letter-spacing: 2px;
+}
+.carousel-control-next:hover {
+    background: black;
     letter-spacing: 2px;
 }
 
-.button::before {
-    top: 0;
+.carousel-control-next:visited {
+    background: black;
+}
+.carousel-control-prev:visited {
+    background: black;
 }
 
-.button::after {
-    bottom: 0;
-}
-
-.button:hover::before, .button:hover::after {
-    transform: scaleX(1);
-}
 
 .button::before, .button::after {
     content: '';
@@ -445,6 +445,15 @@ footer {
 
 }
 
+.nav-link {
+    color: white;
+    padding: 8px 12px; /* Vertical and horizontal padding */
+    text-decoration: none;
+    background-color: transparent; /* Transparent background by default */
+    border-radius: 4px; /* Rounded corners for the background */
+    transition: all 0.3s ease; /* Smooth transition for background and color changes */
+}
+
     .navbar.scrolled {
         background: #FF753A !important;
         transition: background-color 0.6s !important;
@@ -462,7 +471,17 @@ footer {
     
 }
 
+.nav-link:hover, .nav-link:focus {
+    background-color: rgba(255, 255, 255, 0.2); /* Slight background on hover for visibility */
+    color: #fff; /* Keep text color white */
+    text-decoration: none; /* No underline on hover */
+}
 
+/* Active or current page link */
+.nav-link.active {
+    background-color: rgba(255, 255, 255, 0.3); /* Slightly more visible background for active state */
+    color: #fff;
+}
 
 
 
