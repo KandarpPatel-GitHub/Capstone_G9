@@ -22,6 +22,10 @@ namespace ChefConnect.Entities
 		public Cuisines RecipeCuisine { get; set; }
 
         public string ChefId { get; set; }
+
+		public AppUser? Chef { get; set; }
+
+		public ICollection<OrderRecipes>? Orders { get; set; }
 	}
 }
 

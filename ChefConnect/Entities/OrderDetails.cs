@@ -7,17 +7,7 @@ namespace ChefConnect.Entities
 
         public string? OrderInstructions { get; set; }
 
-        public int GuestQuantity { get; set; }
-
         public DateTime OrderDate { get; set; }
-
-        public int TimeSlotId { get; set; }
-
-        public int RecipeId { get; set; }
-
-        public string CustomerId { get; set; }
-
-        public string ChefId { get; set; }
 
         public double OrderSubTotal { get; set; }
 
@@ -27,17 +17,28 @@ namespace ChefConnect.Entities
 
         public double OrderTotal { get; set; }
 
-        public int? reviewId { get; set; }
+        public string CustomerId { get; set; }
 
+        public AppUser? Customer { get; set; }
 
+        public ICollection<OrderRecipes>? OrderRecipes { get; set; }
 
+        //public int TimeSlotId { get; set; }
 
+        //public int GuestQuantity { get; set; }
+
+        //public int? reviewId { get; set; }
+
+        //public int RecipeId { get; set; }
+
+        //public int reviewId { get; set; }
 
         //public Reviews Review { get; set; }
 
         //public ChefRecipes Recipe{ get; set; }
 
         //public AppUser Customer { get; set; }
+
         //public AppUser Chef { get; set;}
 
 

@@ -6,6 +6,8 @@ namespace ChefConnect.Entities
 		public int TimeSlotsId { get; set; }
 
 		public TimeSpan TimeSlot { get; set; }
+
+		public ICollection<OrderRecipes>? OrderRecipes { get; set; }
     }
 }
 

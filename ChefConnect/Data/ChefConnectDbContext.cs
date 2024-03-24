@@ -121,11 +121,34 @@ public class ChefConnectDbContext : IdentityDbContext<AppUser>
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
+        // One to Many Relationship between Cuisines and ChefRecipe
         builder.Entity<Cuisines>().HasMany(c => c.Recipes).WithOne(r => r.RecipeCuisine).HasForeignKey(r => r.CuisineId).IsRequired();
+
+        // Many to Many Relationship between Chef and Cusinie with linking table ChefCusinies
         builder.Entity<ChefCuisines>().HasKey(cc => new { cc.ChefId, cc.CuisineId });
         builder.Entity<ChefCuisines>().HasOne(cc => cc.Cuisine).WithMany(c => c.ChefCuisines).HasForeignKey(cc => cc.CuisineId).IsRequired();
         builder.Entity<ChefCuisines>().HasOne(cc => cc.Chef).WithMany(c => c.ChefCuisines).HasForeignKey(cc => cc.ChefId).IsRequired();
+
+        // One to Many Relationship between Customer and Reviews
         builder.Entity<Reviews>().HasOne(r => r.Customer).WithMany(c => c.Reviews).HasForeignKey(r => r.CustomerId).IsRequired();
+
+        // One to Many Realtionship bewtween Chef and ChefRecipes
+        builder.Entity<ChefRecipes>().HasOne(r => r.Chef).WithMany(c => c.ChefRecipes).HasForeignKey(r => r.ChefId).IsRequired();
+
+        // One to Many Relationship between Customer and Payment Methods
+        builder.Entity<PaymentMethods>().HasOne(r => r.Customer).WithMany(c => c.PaymentMethods).HasForeignKey(r => r.CustomerId).IsRequired();
+
+        // Many to Many Realtionship between ChefRecipes and OrderDetails with linking table OrderRecipes
+        builder.Entity<OrderRecipes>().HasKey(cc => new { cc.OrderId, cc.RecipeId });
+        builder.Entity<OrderRecipes>().HasOne(cc => cc.ChefRecipes).WithMany(c => c.Orders).HasForeignKey(cc => cc.RecipeId).IsRequired();
+        builder.Entity<OrderRecipes>().HasOne(cc => cc.OrderDetails).WithMany(c => c.OrderRecipes).HasForeignKey(cc => cc.OrderId).IsRequired();
+
+        // One to Many Realtionship between Timeslot and OrderRecipes
+        builder.Entity<OrderRecipes>().HasOne(r => r.TimeSlot).WithMany(c => c.OrderRecipes).HasForeignKey(r => r.TimeSlotId).IsRequired();
+
+        // One to Many Realtionship between Customer and OrderDetails
+        builder.Entity<OrderDetails>().HasOne(r => r.Customer).WithMany(c => c.OrderDetails).HasForeignKey(r => r.CustomerId).IsRequired();
+
 
         //builder.Entity<OrderDetails>().HasOne(o => o.Chef).WithMany(c => c.OrderDetails).HasForeignKey(o => o.ChefId).IsRequired();
         //builder.Entity<OrderDetails>().HasOne(o => o.Customer).WithMany(c => c.OrderDetails).HasForeignKey(o => o.CustomerId).IsRequired();
