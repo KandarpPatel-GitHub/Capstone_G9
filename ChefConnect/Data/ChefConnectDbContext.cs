@@ -139,9 +139,9 @@ public class ChefConnectDbContext : IdentityDbContext<AppUser>
         builder.Entity<PaymentMethods>().HasOne(r => r.Customer).WithMany(c => c.PaymentMethods).HasForeignKey(r => r.CustomerId).IsRequired();
 
         // Many to Many Realtionship between ChefRecipes and OrderDetails with linking table OrderRecipes
-        builder.Entity<OrderRecipes>().HasKey(cc => new { cc.OrderId, cc.RecipeId });
-        builder.Entity<OrderRecipes>().HasOne(cc => cc.ChefRecipes).WithMany(c => c.Orders).HasForeignKey(cc => cc.RecipeId).IsRequired();
-        builder.Entity<OrderRecipes>().HasOne(cc => cc.OrderDetails).WithMany(c => c.OrderRecipes).HasForeignKey(cc => cc.OrderId).IsRequired();
+        builder.Entity<OrderRecipes>().HasKey(cc => new { cc.OrderDetailsId, cc.ChefRecipesId });
+        builder.Entity<OrderRecipes>().HasOne(cc => cc.ChefRecipes).WithMany(c => c.Orders).HasForeignKey(cc => cc.ChefRecipesId).IsRequired();
+        builder.Entity<OrderRecipes>().HasOne(cc => cc.OrderDetails).WithMany(c => c.OrderRecipes).HasForeignKey(cc => cc.OrderDetailsId).IsRequired(false);
 
         // One to Many Realtionship between Timeslot and OrderRecipes
         builder.Entity<OrderRecipes>().HasOne(r => r.TimeSlot).WithMany(c => c.OrderRecipes).HasForeignKey(r => r.TimeSlotId).IsRequired();
