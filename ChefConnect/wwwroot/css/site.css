@@ -650,25 +650,15 @@ footer {
     border: 1px solid #ddd;
 }
 
-.cuisine-tags{
-   text-decoration: none;
-    color: black;
-    background-color: #f0f0f0;
-    padding: 5px 10px;
-    border-radius: 5px;
-    margin-right: 5px;
-    margin-bottom: 5px;
-    display: inline-block;
-    transition: background-color 0.3s;
-}
+
 
 
 /*-------------------------*/
 .highlightedImage {
     width: 309px;
     height: 400px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.8);
+border-radius: 10px;
+box-shadow: 0 4px 8px rgba(0,0,0,0.8);
 }
 
 .navbar-nav li a:hover::before {
