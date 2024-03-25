@@ -26,6 +26,7 @@ namespace ChefConnect.Entities
 		public AppUser? Chef { get; set; }
 
 		public ICollection<OrderRecipes> Orders { get; set; }
+		public ICollection<UserCartItem>? UserCartItems { get; set; }
 	}
 }
 

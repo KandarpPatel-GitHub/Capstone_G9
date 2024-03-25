@@ -117,6 +117,7 @@ public class ChefConnectDbContext : IdentityDbContext<AppUser>
     public DbSet<Reviews> Reviews { get; set; }
     public DbSet<TimeSlots> TimeSlots { get; set; }
     public DbSet<OrderRecipes> OrderRecipes { get; set; }
+    public DbSet<UserCartItem> UserCartItems { get; set; }
 
     //public DbSet<RecipeImages> RecipeImages { get; set; }
 
@@ -150,6 +151,11 @@ public class ChefConnectDbContext : IdentityDbContext<AppUser>
         // One to Many Realtionship between Customer and OrderDetails
         builder.Entity<OrderDetails>().HasOne(r => r.Customer).WithMany(c => c.OrderDetails).HasForeignKey(r => r.CustomerId).IsRequired();
 
+        //one to many relationship between ChefRecipes and usercartitems
+        builder.Entity<UserCartItem>().HasOne(r => r.ChefRecipe).WithMany(c => c.UserCartItems).HasForeignKey(r => r.RecipeId).IsRequired();
+
+        //one-to-many relationship between TimeSlots and UserCartItems
+        builder.Entity<UserCartItem>().HasOne(r => r.TimeSlot).WithMany(c => c.UserCartItems).HasForeignKey(r => r.TimeSlotId).IsRequired();
 
         //builder.Entity<OrderDetails>().HasOne(o => o.Chef).WithMany(c => c.OrderDetails).HasForeignKey(o => o.ChefId).IsRequired();
         //builder.Entity<OrderDetails>().HasOne(o => o.Customer).WithMany(c => c.OrderDetails).HasForeignKey(o => o.CustomerId).IsRequired();

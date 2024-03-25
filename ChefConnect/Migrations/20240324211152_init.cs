@@ -374,16 +374,47 @@ namespace ChefConnect.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "UserCartItems",
+                schema: "Identity",
+                columns: table => new
+                {
+                    UserCartItemId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RecipeId = table.Column<int>(type: "int", nullable: false),
+                    GuestQuantity = table.Column<int>(type: "int", nullable: true),
+                    TimeSlotId = table.Column<int>(type: "int", nullable: false),
+                    RecipeTotal = table.Column<double>(type: "float", nullable: true),
+                    CustomerId = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserCartItems", x => x.UserCartItemId);
+                    table.ForeignKey(
+                        name: "FK_UserCartItems_ChefRecipes_RecipeId",
+                        column: x => x.RecipeId,
+                        principalSchema: "Identity",
+                        principalTable: "ChefRecipes",
+                        principalColumn: "ChefRecipesId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserCartItems_TimeSlots_TimeSlotId",
+                        column: x => x.TimeSlotId,
+                        principalSchema: "Identity",
+                        principalTable: "TimeSlots",
+                        principalColumn: "TimeSlotsId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "OrderRecipes",
                 schema: "Identity",
                 columns: table => new
                 {
                     OrderDetailsId = table.Column<int>(type: "int", nullable: false),
                     ChefRecipesId = table.Column<int>(type: "int", nullable: false),
-                    GuestQuantity = table.Column<int>(type: "int", nullable: true),
-                    TimeSlotId = table.Column<int>(type: "int", nullable: true),
-                    RecipeTotal = table.Column<double>(type: "float", nullable: true),
-                    CustomerId = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    GuestQuantity = table.Column<int>(type: "int", nullable: false),
+                    TimeSlotId = table.Column<int>(type: "int", nullable: false),
+                    RecipeTotal = table.Column<double>(type: "float", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -588,6 +619,18 @@ namespace ChefConnect.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_UserCartItems_RecipeId",
+                schema: "Identity",
+                table: "UserCartItems",
+                column: "RecipeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserCartItems_TimeSlotId",
+                schema: "Identity",
+                table: "UserCartItems",
+                column: "TimeSlotId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UserClaims_UserId",
                 schema: "Identity",
                 table: "UserClaims",
@@ -634,6 +677,10 @@ namespace ChefConnect.Migrations
                 schema: "Identity");
 
             migrationBuilder.DropTable(
+                name: "UserCartItems",
+                schema: "Identity");
+
+            migrationBuilder.DropTable(
                 name: "UserClaims",
                 schema: "Identity");
 
@@ -650,11 +697,11 @@ namespace ChefConnect.Migrations
                 schema: "Identity");
 
             migrationBuilder.DropTable(
-                name: "ChefRecipes",
+                name: "OrderDetails",
                 schema: "Identity");
 
             migrationBuilder.DropTable(
-                name: "OrderDetails",
+                name: "ChefRecipes",
                 schema: "Identity");
 
             migrationBuilder.DropTable(

@@ -197,73 +197,74 @@ namespace ChefConnect.Controllers
         [HttpGet("/{username}/{id}/Add-To-Cart")]
         public async Task<IActionResult> GetCartPage(string username, int id)
         {
-            
+
             var user = await _userManager.FindByNameAsync(username);
             var recipe = await _dbcontext.ChefRecipes.Include(r => r.RecipeCuisine).Where(r => r.ChefRecipesId == id).FirstOrDefaultAsync();
-            List<OrderRecipes> _orderList = await _dbcontext.OrderRecipes.Where(o => o.CustomerId == user.Id).Where(o => o.OrderDetailsId == 0).ToListAsync();
+            List<UserCartItem> _cartList = await _dbcontext.UserCartItems.Include(o => o.ChefRecipe).Where(o => o.CustomerId == user.Id).ToListAsync();
 
-            if (_orderList.Count == 0)
+
+            UserCartItem item = new UserCartItem()
             {
-                OrderRecipes recipes = new OrderRecipes()
-                {
-                    ChefRecipesId = recipe.ChefRecipesId,
-                    CustomerId = user.Id,
-                    OrderDetailsId = 0,
-                    TimeSlotId = 1
 
-                };
-                _dbcontext.OrderRecipes.Add(recipes);
+                RecipeId = recipe.ChefRecipesId,
+                CustomerId = user.Id,
+                TimeSlotId = 1
+            };
+
+            if (_cartList.Count == 0)
+            {
+                
+                _dbcontext.UserCartItems.Add(item);
                 _dbcontext.SaveChanges();
             }
-            else
+            else if(isNewCartItem(_cartList, item))
             {
-                foreach (var item in _orderList)
-                {
-                    if (item.ChefRecipesId != recipe.ChefRecipesId)
-                    {
-                        OrderRecipes recipes = new OrderRecipes()
-                        {
-                            ChefRecipesId = recipe.ChefRecipesId,
-                            CustomerId = user.Id,
-                            OrderDetailsId = 0, TimeSlotId = 1
-                        };
-                        _dbcontext.OrderRecipes.Add(recipes);
-                        _dbcontext.SaveChanges();
-                        //_orderList.Add(recipes);
-                    }
-                }
-            }
-            
+                _dbcontext.UserCartItems.Add(item);
+                _dbcontext.SaveChanges();
 
-            _orderList = await _dbcontext.OrderRecipes.Include(o => o.ChefRecipes).Where(o => o.CustomerId == user.Id).Where(o => o.OrderDetailsId == null).ToListAsync();
+                
+            }
+           _cartList = await _dbcontext.UserCartItems.Include(o => o.ChefRecipe).Where(o => o.CustomerId == user.Id).ToListAsync();
+
+            
 
             CustomerViewModel model = new CustomerViewModel()
             {
                 ActiveUser = user,
                 ActiveRecipe = recipe,
-                cartList = _orderList
+                cartList = _cartList,
+                TimeSlots = await _dbcontext.TimeSlots.ToListAsync()
 
             };
             return View("CustomerCart", model);
         }
 
+        //Method to update checkout page with cart items
+        [HttpPost()]
+        public async Task<IActionResult> UpdateCartPage(CustomerViewModel model)
+        {
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            //var recipe = await _dbcontext.ChefRecipes.Include(r => r.RecipeCuisine).Where(r => r.ChefRecipesId == model.ActiveRecipe.ChefRecipesId).FirstOrDefaultAsync();
+            //List<UserCartItem> _cartList = await _dbcontext.UserCartItems.Include(o => o.ChefRecipe).Where(o => o.CustomerId == user.Id).ToListAsync();
 
+            foreach (var item in model.cartList)
+            {
+                
+                item.RecipeTotal = (item.ChefRecipe.Price + ((item.GuestQuantity - item.ChefRecipe.NumberOfPeople)* item.ChefRecipe.PricePerExtraPerson));
 
-        //Post Method for Customer cart page to display the information
-        //[HttpPost()]
-        //public async Task<IActionResult> AddToCart(CustomerViewModel model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {   
-        //        _dbcontext.OrderDetails.Add(model.NewOrder);
-        //        _dbcontext.SaveChanges();
-        //        return RedirectToAction("GetCustomerHome", new { username = User.Identity.Name });
-        //    }
-        //    else
-        //    {
-        //        return View("CustomerAddToCart", model);
-        //    }
-        //}
+                _dbcontext.UserCartItems.Update(item);
+                _dbcontext.SaveChanges();
+            }
+
+            List<UserCartItem> _cartList = await _dbcontext.UserCartItems.Include(o => o.ChefRecipe).Where(o => o.CustomerId == user.Id).ToListAsync();
+
+            model.ActiveUser = user;
+           
+            model.cartList = _cartList;
+            model.TimeSlots = await _dbcontext.TimeSlots.ToListAsync();
+
+            return View("CustomerCart", model);
+        }
 
 
 
@@ -283,7 +284,17 @@ namespace ChefConnect.Controllers
         }
 
 
-
+        public bool isNewCartItem(List<UserCartItem> cartList, UserCartItem item)
+        {
+            foreach (var cartItem in cartList)
+            {
+                if (cartItem.RecipeId == item.RecipeId)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
 
     }
 }

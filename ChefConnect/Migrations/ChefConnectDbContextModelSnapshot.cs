@@ -366,23 +366,19 @@ namespace ChefConnect.Migrations
 
             modelBuilder.Entity("ChefConnect.Entities.OrderRecipes", b =>
                 {
-                    b.Property<int?>("OrderDetailsId")
+                    b.Property<int>("OrderDetailsId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ChefRecipesId")
+                    b.Property<int>("ChefRecipesId")
                         .HasColumnType("int");
 
-                    b.Property<string>("CustomerId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("GuestQuantity")
+                    b.Property<int>("GuestQuantity")
                         .HasColumnType("int");
 
-                    b.Property<double?>("RecipeTotal")
+                    b.Property<double>("RecipeTotal")
                         .HasColumnType("float");
 
-                    b.Property<int?>("TimeSlotId")
-                        .IsRequired()
+                    b.Property<int>("TimeSlotId")
                         .HasColumnType("int");
 
                     b.HasKey("OrderDetailsId", "ChefRecipesId");
@@ -719,6 +715,39 @@ namespace ChefConnect.Migrations
                         });
                 });
 
+            modelBuilder.Entity("ChefConnect.Entities.UserCartItem", b =>
+                {
+                    b.Property<int>("UserCartItemId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserCartItemId"));
+
+                    b.Property<string>("CustomerId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("GuestQuantity")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RecipeId")
+                        .HasColumnType("int");
+
+                    b.Property<double?>("RecipeTotal")
+                        .HasColumnType("float");
+
+                    b.Property<int?>("TimeSlotId")
+                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.HasKey("UserCartItemId");
+
+                    b.HasIndex("RecipeId");
+
+                    b.HasIndex("TimeSlotId");
+
+                    b.ToTable("UserCartItems", "Identity");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -973,6 +1002,25 @@ namespace ChefConnect.Migrations
                     b.Navigation("Customer");
                 });
 
+            modelBuilder.Entity("ChefConnect.Entities.UserCartItem", b =>
+                {
+                    b.HasOne("ChefConnect.Entities.ChefRecipes", "ChefRecipe")
+                        .WithMany("UserCartItems")
+                        .HasForeignKey("RecipeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ChefConnect.Entities.TimeSlots", "TimeSlot")
+                        .WithMany("UserCartItems")
+                        .HasForeignKey("TimeSlotId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ChefRecipe");
+
+                    b.Navigation("TimeSlot");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -1042,6 +1090,8 @@ namespace ChefConnect.Migrations
             modelBuilder.Entity("ChefConnect.Entities.ChefRecipes", b =>
                 {
                     b.Navigation("Orders");
+
+                    b.Navigation("UserCartItems");
                 });
 
             modelBuilder.Entity("ChefConnect.Entities.Cuisines", b =>
@@ -1059,6 +1109,8 @@ namespace ChefConnect.Migrations
             modelBuilder.Entity("ChefConnect.Entities.TimeSlots", b =>
                 {
                     b.Navigation("OrderRecipes");
+
+                    b.Navigation("UserCartItems");
                 });
 #pragma warning restore 612, 618
         }

@@ -5,85 +5,46 @@
 
 }
 
+<div class="row">
+    @foreach (var item in Model.cartList)
+    {
+        <div class="col-md-4">
+            <!-- Card -->
+            <div class="card-home">
+                <!-- Card image -->
+                <img style="width:350px;height:350px; object-fit:cover" src="data:image/*;base64,@(Convert.ToBase64String(item.ChefRecipe.RecipeImage))" class="card-img-top" alt="@item.ChefRecipe.RecipeName">
+                <!-- Card body -->
+                <div class="card-body">
+                    <h5 class="card-title">@item.ChefRecipe.RecipeName</h5>
+                    <p class="card-text">@item.ChefRecipe.RecipeDescription</p>
+                    <form asp-controller="Customer" asp-action="UpdateCartPage" method="post">
+                        <div class="form-group">
+                            <label asp-for="@item.TimeSlotId">Time Slot:</label>
+                            <select class="form-select" asp-for="@item.TimeSlotId">
+                                @foreach (var ts in Model.TimeSlots)
+                                {
+                                    <option value="@ts.TimeSlotsId">
+                                        @ts.TimeSlot
+                                    </option>
+                                }
+                            </select>
 
-@foreach (var item in Model.cartList)
-{
-    <div class="col-md-4">
-        <!-- Card -->
-        <div class="card-home">
-            <!-- Card image -->
-            <img style="width:350px;height:350px; object-fit:cover" src="data:image/*;base64,@(Convert.ToBase64String(item.ChefRecipes.RecipeImage))" class="card-img-top" alt="@item.ChefRecipes.RecipeName">
-            <!-- Card body -->
-            <div class="card-body">
-                <h5 class="card-title">@item.ChefRecipes.RecipeName</h5>
-                <p class="card-text">@item.ChefRecipes.RecipeDescription</p>
-                
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="@item.GuestQuantity">Guest Quantity:</label>
+                            <input type="number" class="form-control" asp-for="@item.GuestQuantity" />
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="@item.RecipeTotal">Price:</label>
+                            <input type="number" class="form-control" asp-for="@item.RecipeTotal" />
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary" style="margin-top:10px">Save</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
-}
+    }
+</div>
 
-@*<form asp-controller="Customer" asp-action="" method="post">
-    <div class="text-danger" asp-validation-summary="ModelOnly">   </div>
-    <div class="form-group">
-        <label asp-for="@Model.NewOrder.OrderInstructions">Order Instructions</label>
-        <input asp-for="@Model.NewOrder.OrderInstructions" class="form-control" />
-        <span asp-validation-for="@Model.NewOrder.OrderInstructions" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="@Model.NewOrder.GuestQuantity">Guest Quantity</label>
-        <input asp-for="@Model.NewOrder.GuestQuantity" class="form-control" />
-        <span asp-validation-for="@Model.NewOrder.GuestQuantity" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="@Model.NewOrder.OrderDate">Order Date</label>
-        <input asp-for="@Model.NewOrder.OrderDate" class="form-control" />
-        <span asp-validation-for="@Model.NewOrder.OrderDate" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="@Model.NewOrder.TimeSlotId">Time Slot</label>
-        <input asp-for="@Model.NewOrder.TimeSlotId" class="form-control" />
-        <span asp-validation-for="@Model.NewOrder.TimeSlotId" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="@Model.NewOrder.RecipeId">Receipe ID</label>
-        <input asp-for="@Model.NewOrder.RecipeId" class="form-control" />
-        <span asp-validation-for="@Model.NewOrder.RecipeId" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="@Model.NewOrder.CustomerId">Customer ID</label>
-        <input asp-for="@Model.NewOrder.CustomerId" class="form-control" />
-        <span asp-validation-for="@Model.NewOrder.CustomerId" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="@Model.NewOrder.ChefId">Chef ID</label>
-        <input asp-for="@Model.NewOrder.ChefId" class="form-control" />
-        <span asp-validation-for="@Model.NewOrder.ChefId" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="@Model.NewOrder.OrderSubTotal">Order Sub Total</label>
-        <input asp-for="@Model.NewOrder.OrderSubTotal" class="form-control" />
-        <span asp-validation-for="@Model.NewOrder.OrderSubTotal" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="@Model.NewOrder.OrderTax">Order Tax</label>
-        <input asp-for="@Model.NewOrder.OrderTax" class="form-control" />
-        <span asp-validation-for="@Model.NewOrder.OrderTax" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="@Model.NewOrder.Charges">Extra Charges</label>
-        <input asp-for="@Model.NewOrder.Charges" class="form-control" />
-        <span asp-validation-for="@Model.NewOrder.Charges" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="@Model.NewOrder.OrderTotal">Order Total</label>
-        <input asp-for="@Model.NewOrder.OrderTotal" class="form-control" />
-        <span asp-validation-for="@Model.NewOrder.OrderTotal" class="text-danger"></span>
-    </div>
-    
-
-
-    <button type="submit" class="btn btn-primary">Save</button>
-</form>
-
-*@

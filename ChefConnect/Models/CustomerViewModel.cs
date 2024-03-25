@@ -14,7 +14,8 @@ namespace ChefConnect.Models
 		public Reviews? NewReview { get; set; }
 
 		public OrderDetails? NewOrder { get; set; }
-		public List<OrderRecipes>? cartList { get; set; }
+		public List<UserCartItem>? cartList { get; set; }
+		public List<TimeSlots>? TimeSlots { get; set; }
 	}
 }
 
