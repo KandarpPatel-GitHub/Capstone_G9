@@ -151,7 +151,7 @@ a:hover {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100vh; /* Full height to center the form vertically */
+     /* Full height to center the form vertically */
 }
 
 .form-container {
@@ -848,14 +848,14 @@ img#recipeImage {
 }
 /*css for register AS A CHEF*/
 .btn-chef {
-
     text-transform: uppercase;
     outline: 0;
-    background: white; /* White button background */
+    background: #FF753A !important;
+    /* White button background */
     width: 250px;
     border: 2px solid white; /* White border for the button */
     padding: 15px;
-    color: #2193b0; /* Color of the button text matches the darker blue in the gradient */
+    color: black !important; /* Color of the button text matches the darker blue in the gradient */
     font-size: 14px;
     cursor: pointer;
     border-radius: 5px;
@@ -863,21 +863,21 @@ img#recipeImage {
     text-decoration: none; /* Remove underline from anchor tags */
     box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.2);
 }
-.btn-chef {
-    background: #f8f8f8; /* Slightly grey background on hover for subtle effect */
-    color: #6dd5ed; /* Light blue text on hover to match the lighter blue in the gradient */
-    border-color: #f8f8f8; /* Border color changes on hover to match the hover background */
-}
+    .btn-chef:hover {
+        background: #305973 !important; /* Slightly grey background on hover for subtle effect */
+        color: white !important; /* Light blue text on hover to match the lighter blue in the gradient */
+        border-color: #f8f8f8; /* Border color changes on hover to match the hover background */
+    }
 
 /*css for register as a customer*/
 .btn-customer {
     text-transform: uppercase;
     outline: 0;
-    background: white; /* White button background */
+    background: #FF753A !important;
     width: 250px;
     border: 2px solid white; /* White border for the button */
     padding: 15px;
-    color: #2193b0; /* Color of the button text matches the darker blue in the gradient */
+    color: black; /* Color of the button text matches the darker blue in the gradient */
     font-size: 14px;
     cursor: pointer;
     border-radius: 5px;
@@ -885,12 +885,12 @@ img#recipeImage {
     text-decoration: none; /* Remove underline from anchor tags */
     box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.2);
 }
-.btn-customer {
-    background: #f8f8f8; /* Slightly grey background on hover for subtle effect */
-    color: #6dd5ed; /* Light blue text on hover to match the lighter blue in the gradient */
-    border-color: #f8f8f8; /* Border color changes on hover to match the hover background */
-}
-}
+    .btn-customer:hover {
+        background: #305973 !important; /* Slightly grey background on hover for subtle effect */
+        color: white; /* Light blue text on hover to match the lighter blue in the gradient */
+        border-color: #f8f8f8; /* Border color changes on hover to match the hover background */
+    }
+
 
 
 
