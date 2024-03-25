@@ -58,10 +58,12 @@
                 <div class="form-group">
                     @foreach (var item in Model.chefCuisines)
                     {
-
-                        <label style="border:1px solid black" class="styled-label">
+                        <a asp-controller="" asp-action="" style=" border: 1px solid black" class=" cuisine-tags styled-label">
                             @item.Cuisine.CuisineName
-                        </label>
+                        </a>
+                       @*  <label style="border:1px solid black" class="styled-label">
+                            @item.Cuisine.CuisineName
+                        </label> *@
                     }
                 </div>
                 <div class="form-group">
