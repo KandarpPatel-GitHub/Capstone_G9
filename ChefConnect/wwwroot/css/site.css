@@ -28,7 +28,6 @@ html {
     margin: 0;
 }
 
-
 /* Gives unique designing to Company Moto on homepage*/
 .company-moto-list {
     list-style-type: none;
@@ -572,6 +571,14 @@ footer {
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
     flex-basis: calc(50% - 10px);
 }
+.col-cuisine {
+    background: white;
+    padding: 20px;
+    margin-left: 10px;
+    border-radius: 8px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    flex-basis: calc(50% - 10px);
+}
 
 .my-recipe-heading {
     color: #333;
@@ -581,7 +588,7 @@ footer {
 }
 
 .btn-recipe-cuisine {
-    background-color: #04AA6D;
+    background-color: #808080;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -608,10 +615,12 @@ footer {
     text-align: left;
     padding: 10px;
 }
-
-    .table-recipe-cuisine th {
-        background-color: #4CAF50; /* Choose the color you like */
-         color:  white;
+ .table-recipe-cuisine th {
+        background-color: #305973; /* Choose the color you like */
+        color: white;
+    }
+    .table-recipe-cuisine tr td {
+        background-color: #eef1ff;
     }
 
 .styled-label {
@@ -645,6 +654,12 @@ footer {
 
 
 /*-------------------------*/
+.highlightedImage {
+    width: 309px;
+    height: 400px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.8);
+}
 
 
 .navbar-nav li a:hover::before {
