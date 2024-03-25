@@ -50,22 +50,27 @@
         </div>
         <div class="col-cuisine">
             <h2>My Cuisines</h2>
-            
+            <div class="form-group">
+                @foreach (var item in Model.chefCuisines)
+                {
+
+                    <a asp-controller="Chef" asp-action="RemoveCuisineFromChefProfile" style=" border: 1px solid black" class="cuisine-tags styled-label" asp-route-chefid="@item.ChefId" asp-route-cuisineid="@item.CuisineId">
+                        @item.Cuisine.CuisineName &#x274c
+                    </a>
+
+
+
+                }
+            </div>
 
             <form asp-controller="Chef" asp-action="AddCuisineForChefProfile" method="post">
                 <input type="hidden" asp-for="@Model.NewChefCuisine.ChefId" value="@Model.ActiveUser.Id" />
-
-                <div class="form-group">
-                    @foreach (var item in Model.chefCuisines)
-                    {
-                        <a asp-controller="Chef" asp-action="RemoveCuisineFromChefProfile" style=" border: 1px solid black" class="cuisine-tags styled-label" asp-route-id="@item.Cuisine.CuisinesId">
-                            @item.Cuisine.CuisineName
-                        </a>
-                      
-                    }
-                </div>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                
                 <div class="form-group">
                     <label asp-for="@Model.NewChefCuisine.CuisineId">Recipe Cuisine:</label>
+                    <span asp-validation-for="@Model.NewChefCuisine.CuisineId"
+                          class="text-danger"></span>
                     <select class="form-select" asp-for="@Model.NewChefCuisine.CuisineId">
                         @foreach (var cuisine in Model.allCuisines)
                         {

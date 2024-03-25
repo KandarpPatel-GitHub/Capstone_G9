@@ -17,7 +17,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ChefConnect.Controllers
 {
-    [Authorize(Roles ="Chef")]
+    [Authorize(Roles = "Chef")]
     public class ChefController : Controller
     {
         private UserManager<AppUser> _userManager;
@@ -69,7 +69,7 @@ namespace ChefConnect.Controllers
                 {
                     var user = new AppUser { UserName = registerViewModel.UserName, Name = registerViewModel.Name };
                     var result = await _userManager.CreateAsync(user, registerViewModel.Password);
-                   
+
                     if (result.Succeeded)
                     {
                         await _userManager.AddToRoleAsync(user, "Chef");
@@ -79,7 +79,7 @@ namespace ChefConnect.Controllers
                         await _userManager.UpdateAsync(user);
                         await _signInManager.SignInAsync(user, false);
                         var message = $"\nHi,\n\nThanks for getting started with ChefConnect!\n\nWe need a little more information to complete your registration, including a confirmation of your email address.\n\nClick below to confirm your email address:\n\nhttps://localhost:7042/{registerViewModel.UserName}/Email-Verification-Success\n\nIf you have problems, please paste the above URL into your web browser.";
-                         _helperServices.SendEmailAsync(registerViewModel.Email, "Email Verification", message);
+                        _helperServices.SendEmailAsync(registerViewModel.Email, "Email Verification", message);
                         if (!user.EmailConfirmed)
                         {
                             TempData["ConfirmEmailMessage"] = $"An email verification is sent to you. Please confirm your email there.";
@@ -165,7 +165,7 @@ namespace ChefConnect.Controllers
             {
                 ActiveUser = await _userManager.FindByNameAsync(username),
                 chefRecipes = await _chefConnectDbContext.ChefRecipes.Include(r => r.RecipeCuisine).Where(r => r.ChefId == User.Id).ToListAsync(),
-                chefCuisines = await _chefConnectDbContext.ChefCuisines.Include(cc=>cc.Cuisine).Where(r => r.ChefId == User.Id).ToListAsync(),
+                chefCuisines = await _chefConnectDbContext.ChefCuisines.Include(cc => cc.Cuisine).Where(r => r.ChefId == User.Id).ToListAsync(),
                 allCuisines = await _chefConnectDbContext.Cuisines.ToListAsync()
             };
             return View("MyRecipesAndCuisines", model);
@@ -200,11 +200,11 @@ namespace ChefConnect.Controllers
             _chefConnectDbContext.SaveChanges();
 
             return RedirectToAction("GetMyRecipesAndCuisinesPage", new { username = User.Identity.Name });
-            
+
         }
 
         [HttpGet("/{username}/Recipe-Details/{id}")]
-        public async Task<IActionResult> GetRecipeDetailsPage(string username,int id)
+        public async Task<IActionResult> GetRecipeDetailsPage(string username, int id)
         {
             ChefViewModel model = new ChefViewModel()
             {
@@ -216,9 +216,9 @@ namespace ChefConnect.Controllers
         }
 
         [HttpGet("/{username}/Edit-Recipe/{id}")]
-        public async Task<IActionResult> GetEditRecipesPage(string username,int id)
+        public async Task<IActionResult> GetEditRecipesPage(string username, int id)
         {
-            
+
             ChefViewModel model = new ChefViewModel()
             {
                 ActiveUser = await _userManager.FindByNameAsync(username),
@@ -270,11 +270,11 @@ namespace ChefConnect.Controllers
             ChefViewModel model = new ChefViewModel()
             {
                 ActiveUser = await _userManager.FindByNameAsync(username)
-                
+
             };
             Console.WriteLine(model.ActiveUser.UserName);
             Console.WriteLine(model.ActiveUser.Name);
-            
+
             return View("EditProfile", model);
         }
 
@@ -293,7 +293,7 @@ namespace ChefConnect.Controllers
                 user.Email = model.ActiveUser.Email;
                 //user.DateOfBirth = model.ActiveUser.DateOfBirth;
                 await _userManager.UpdateAsync(user);
-               
+
 
                 return RedirectToAction("ChefProfile", new { username = model.ActiveUser.UserName });
             }
@@ -308,25 +308,42 @@ namespace ChefConnect.Controllers
         [HttpPost()]
         public async Task<IActionResult> AddCuisineForChefProfile(ChefViewModel model)
         {
-            //var user = await _userManager.FindByNameAsync(model.ActiveUser.UserName);
 
-            //ChefCuisines chefCuisine = new ChefCuisines()
-            //{
-            //    ChefId = user.Id,
-            //    CuisineId = model.NewChefCuisine.CuisineId
-            //};
+            List<ChefCuisines> chefCuisineList = await _chefConnectDbContext.ChefCuisines.Include(cc => cc.Cuisine).Where(c => c.ChefId == model.NewChefCuisine.ChefId).ToListAsync();
+            if (isnewChefCuisine(chefCuisineList, model.NewChefCuisine))
+            {
+                _chefConnectDbContext.ChefCuisines.Add(model.NewChefCuisine);
+                _chefConnectDbContext.SaveChanges();
+                return RedirectToAction("GetMyRecipesAndCuisinesPage", new { username = User.Identity.Name });
 
-            _chefConnectDbContext.ChefCuisines.Add(model.NewChefCuisine);
-            _chefConnectDbContext.SaveChanges();
+            }
+            else
+            {
+                ModelState.AddModelError("CuisineId", "Cuisine already added to your profile");
+                return RedirectToAction("GetMyRecipesAndCuisinesPage", new { username = User.Identity.Name });
+            }
 
-            return RedirectToAction("GetMyRecipesAndCuisinesPage", new { username = User.Identity.Name });
+
+        }
+
+        public bool isnewChefCuisine(List<ChefCuisines> ChefCuisine, ChefCuisines item)
+        {
+            foreach (var it in ChefCuisine)
+            {
+                if (it.CuisineId == item.CuisineId && it.ChefId == item.ChefId)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         //Method to remove the cuisine from the chef profile
         [HttpGet()]
-        public async Task<IActionResult> RemoveCuisineFromChefProfile(int id)
+        public async Task<IActionResult> RemoveCuisineFromChefProfile(string chefId, int cuisineId)
         {
-            var cuisineToDelete = await _chefConnectDbContext.ChefCuisines.Include(cc => cc.Cuisine).FirstOrDefaultAsync();
+
+            var cuisineToDelete = await _chefConnectDbContext.ChefCuisines.Include(cc => cc.Cuisine).Where(c => c.ChefId == chefId).Where(c => c.CuisineId == cuisineId).FirstOrDefaultAsync();
 
             _chefConnectDbContext.ChefCuisines.Remove(cuisineToDelete);
             _chefConnectDbContext.SaveChanges();
@@ -354,14 +371,14 @@ namespace ChefConnect.Controllers
         public bool isUniquePhoneNumber(string phone)
         {
             var allUsers = _userManager.Users;
-           
-                foreach (var user in allUsers)
+
+            foreach (var user in allUsers)
+            {
+                if (user.PhoneNumber == phone)
                 {
-                    if (user.PhoneNumber == phone)
-                    {
-                      return false;
-                    }
+                    return false;
                 }
+            }
 
             return true;
         }
