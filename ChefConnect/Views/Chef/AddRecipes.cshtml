@@ -7,7 +7,7 @@
 
 <h2>Add New Recipe</h2>
 
-<form method="post" asp-action="AddNewRecipe" asp-controller="Chef" enctype="multipart/form-data" >
+<form method="post" asp-action="AddNewRecipe" asp-controller="Chef" enctype="multipart/form-data" class="add-recipe-form">
     <div class="text-danger" asp-validation-summary="All"></div>
     <input type="hidden" asp-for="@Model.NewRecipe.ChefId" value="@Model.ActiveUser.Id" />
     <div class="row">

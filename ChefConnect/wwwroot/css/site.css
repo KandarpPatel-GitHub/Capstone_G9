@@ -801,9 +801,33 @@ footer {
         border-color: #f0f0f0;
     }
 }
-/* Add responsiveness to the form 
+/*login page css*/
+.login-form input[type=text], input[type=password]{
+    width: 400px;
+}
+/*chef-register css*/
+.chef-register-form input[type=text],
+input[type=email],input[type=password],input[type=date]
+{
+    width: 400px;
+}
 
-
+/*customer-register form*/
+.customer-register-form input[type=text],
+input[type=email], input[type=password] {
+    width: 400px;
+}
+/*add-recipe form css*/
+.add-recipe-form input[type=text],input[type=number], select{
+    width: 510px;
+}
+.add-recipe-form {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    flex-basis: calc(50% - 10px);
+}
 
 
 
