@@ -322,6 +322,21 @@ namespace ChefConnect.Controllers
             return RedirectToAction("GetMyRecipesAndCuisinesPage", new { username = User.Identity.Name });
         }
 
+        //Method to remove the cuisine from the chef profile
+        [HttpGet()]
+        public async Task<IActionResult> RemoveCuisineFromChefProfile(int id)
+        {
+            var cuisineToDelete = await _chefConnectDbContext.ChefCuisines.Include(cc => cc.Cuisine).FirstOrDefaultAsync();
+
+            _chefConnectDbContext.ChefCuisines.Remove(cuisineToDelete);
+            _chefConnectDbContext.SaveChanges();
+
+            return RedirectToAction("GetMyRecipesAndCuisinesPage", new { username = User.Identity.Name });
+        }
+
+
+
+
 
         [HttpGet("/{username}/Reviews")]
         public async Task<IActionResult> GetChefReviewsPage(string username)
