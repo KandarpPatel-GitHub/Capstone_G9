@@ -4,6 +4,23 @@ $(document).ready(function () {
     $('.carousel').carousel();
 });
 
+document.addEventListener('DOMContentLoaded', (event) => {
+    let images = [
+        'images/foodImages/palak paneer.jpg',
+        'images/foodImages/chole.jpg',
+        'images/foodImages/vadapav.jpg',
+        'images/foodImages/dabeli.jpg',
+        'images/foodImages/friedchicken.jpg',
+    ];
+    let currentIndex = 0;
+    setInterval(() => {
+        // Update the src attribute of the image
+        document.getElementById('highlightedImage').src = images[currentIndex];
+        // Increment currentIndex, reset if it exceeds array length
+        currentIndex = (currentIndex + 1) % images.length;
+    }, 3000); // Change every 3000 milliseconds (3 seconds)
+});
+
 //Load the animated text when the document is ready
 document.addEventListener("DOMContentLoaded", function () {
     // Get the elements

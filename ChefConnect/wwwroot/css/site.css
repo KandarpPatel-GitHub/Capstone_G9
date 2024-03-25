@@ -645,7 +645,12 @@ footer {
 
 
 /*-------------------------*/
-
+.highlightedImage {
+    width: 309px;
+    height: 400px;
+border-radius: 10px;
+box-shadow: 0 4px 8px rgba(0,0,0,0.8);
+}
 
 .navbar-nav li a:hover::before {
     transform: scaleX(1);
