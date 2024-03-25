@@ -123,7 +123,7 @@ namespace ChefConnect.Controllers
             return View(model);
         }
 
-       
+
 
         //[HttpPost("/{username}/{id}")]
         //public async Task<IActionResult> AddCuisineForChefProfile(string username, int id)
@@ -317,17 +317,6 @@ namespace ChefConnect.Controllers
             //};
 
             _chefConnectDbContext.ChefCuisines.Add(model.NewChefCuisine);
-            _chefConnectDbContext.SaveChanges();
-
-            return RedirectToAction("GetMyRecipesAndCuisinesPage", new { username = User.Identity.Name });
-        }
-
-        //Remove the tag from CHef profile for Cuisine
-        [HttpGet("")]
-        public async Task<IActionResult> RemoveCuisine(int id)
-        {
-            var removeCuisine = await _chefConnectDbContext.ChefCuisines.Include(cc => cc.Cuisine).FirstOrDefaultAsync();
-            _chefConnectDbContext.ChefCuisines.Remove(removeCuisine);
             _chefConnectDbContext.SaveChanges();
 
             return RedirectToAction("GetMyRecipesAndCuisinesPage", new { username = User.Identity.Name });
