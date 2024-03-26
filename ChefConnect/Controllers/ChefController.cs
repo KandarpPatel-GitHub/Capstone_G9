@@ -186,21 +186,28 @@ namespace ChefConnect.Controllers
         [HttpPost("/New-Recipe-Added")]
         public async Task<IActionResult> AddNewRecipe(ChefViewModel model)
         {
-            if (Request.Form.Files.Count > 0)
+            if (Request.Form.Files.Count == 0)
             {
-                IFormFile file = Request.Form.Files.FirstOrDefault();
-                using (var dataStream = new MemoryStream())
-                {
-                    await file.CopyToAsync(dataStream);
-                    model.NewRecipe.RecipeImage = dataStream.ToArray();
-                }
+                TempData["imageerror"] = "Please select a picture for your recipe.";
+                return RedirectToAction("GetAddRecipesPage", new { username = User.Identity.Name });
             }
+            else
+            {
+                if (Request.Form.Files.Count > 0)
+                {
+                    IFormFile file = Request.Form.Files.FirstOrDefault();
+                    using (var dataStream = new MemoryStream())
+                    {
+                        await file.CopyToAsync(dataStream);
+                        model.NewRecipe.RecipeImage = dataStream.ToArray();
+                    }
+                }
 
-            _chefConnectDbContext.ChefRecipes.Add(model.NewRecipe);
-            _chefConnectDbContext.SaveChanges();
+                _chefConnectDbContext.ChefRecipes.Add(model.NewRecipe);
+                _chefConnectDbContext.SaveChanges();
 
-            return RedirectToAction("GetMyRecipesAndCuisinesPage", new { username = User.Identity.Name });
-
+                return RedirectToAction("GetMyRecipesAndCuisinesPage", new { username = User.Identity.Name });
+            }
         }
 
         [HttpGet("/{username}/Recipe-Details/{id}")]
@@ -319,7 +326,7 @@ namespace ChefConnect.Controllers
             }
             else
             {
-                ModelState.AddModelError("CuisineId", "Cuisine already added to your profile");
+                TempData["error"] = "Cuisine already added to your profile";
                 return RedirectToAction("GetMyRecipesAndCuisinesPage", new { username = User.Identity.Name });
             }
 
@@ -365,6 +372,30 @@ namespace ChefConnect.Controllers
             };
 
             return View("MyReviews", model);
+        }
+
+        [HttpGet("{id}/{username}")]
+        public async Task<IActionResult> AddRecipeToChefProfile(int id, string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            var recipe = await _chefConnectDbContext.ChefRecipes.Where(r => r.ChefRecipesId == id).FirstOrDefaultAsync();
+
+            ChefRecipes newRecipe = new ChefRecipes()
+            {
+                RecipeName = recipe.RecipeName,
+                RecipeDescription = recipe.RecipeDescription,
+                RecipeImage = recipe.RecipeImage,
+                NumberOfPeople = recipe.NumberOfPeople,
+                Price = recipe.Price,
+                PricePerExtraPerson = recipe.PricePerExtraPerson,
+                ChefId = user.Id,
+                CuisineId = recipe.CuisineId
+            };
+
+            _chefConnectDbContext.ChefRecipes.Add(newRecipe);
+            _chefConnectDbContext.SaveChanges();
+
+            return RedirectToAction("GetMyRecipesAndCuisinesPage", new { username = user.UserName });
         }
 
 

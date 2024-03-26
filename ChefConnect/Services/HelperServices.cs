@@ -59,35 +59,16 @@ namespace ChefConnect.Services
 
 		public async void SendEmailAsync(string email, string mailSubject, string mailMessage)
 		{
-            //var mail = "teamchefconnect@outlook.com";
-            //var password = "#(Admin@Chefconnect)113!";
-            //var subject = mailSubject;
-            ////var message = $"\nHi,\n\nThanks for getting started with ChefConnect!\n\nWe need a little more information to complete your registration, including a confirmation of your email address.\n\nClick below to confirm your email address:\n\nhttps://localhost:7042/{username}/Email-Verification-Success\n\nIf you have problems, please paste the above URL into your web browser.";
-            //var message = mailMessage;
-
-            //var client = new SmtpClient("smtp-mail.outlook.com", 587)
-            //{
-            //	EnableSsl = true,
-            //	Credentials = new NetworkCredential(mail,password)
-            //};
-            //         return client.SendMailAsync(
-            //             new MailMessage(
-            //                 from: mail,
-            //                 to: email,
-            //                 subject,
-            //                 message
-            //                 ));
-
             var message = new MimeMessage();
-            message.From.Add(new MailboxAddress("Team ChefConnect", "teamchefconnect@outlook.com"));
+            message.From.Add(new MailboxAddress("Team ChefConnect", "teamchefconnect@gmail.com"));
             message.To.Add(new MailboxAddress("", email));
             message.Subject = mailSubject;
             message.Body = new TextPart("plain") { Text = mailMessage };
 
             using (var client = new SmtpClient())
             {
-                client.Connect("smtp-mail.outlook.com", 587, SecureSocketOptions.StartTls);
-                client.Authenticate("teamchefconnect@outlook.com", "#(Admin@Chefconnect)113!");
+                client.Connect("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
+                client.Authenticate("teamchefconnect@gmail.com", "gbkv fqra kkga jpet");
                 client.Send(message);
                 client.Disconnect(true);
             }

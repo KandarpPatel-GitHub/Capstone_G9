@@ -76,7 +76,7 @@
     <h1>Suggested Recipes:</h1>
     <div id="recipeCarousel-other" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
-            @for (int slideIndex = 0; slideIndex < slideCount; slideIndex++)
+            @for (int slideIndex = 0; slideIndex < slideCount2; slideIndex++)
             {
                 <div class="carousel-item @(slideIndex == 0 ? "active" : "")">
                     <div class="row">
@@ -92,7 +92,7 @@
                                         <h5 class="card-title">@recipe.RecipeName</h5>
                                         <p class="card-text">@recipe.RecipeDescription</p>
                                         <a asp-controller="Chef" asp-action="GetRecipeDetailsPage" asp-route-id="@recipe.ChefRecipesId" asp-route-username="@Model.ActiveUser.UserName" class="btn btn-primary">View Recipe</a>
-                                        <a asp-controller="Chef" asp-action="AddCuisineForChefProfile" asp-route-id="@recipe.ChefRecipesId" asp-route-username="@Model.ActiveUser.UserName" class="btn btn-primary">Add to your recipes</a>
+                                        <a asp-controller="Chef" asp-action="AddRecipeToChefProfile" asp-route-id="@recipe.ChefRecipesId" asp-route-username="@Model.ActiveUser.UserName" class="btn btn-primary">Add to your recipes</a>
                                     </div>
                                 </div>
                             </div>
