@@ -347,20 +347,16 @@ namespace ChefConnect.Controllers
 
         //Method to remove the cuisine from the chef profile
         [HttpGet()]
-        public async Task<IActionResult> RemoveCuisineFromChefProfile(string chefId, int cuisineId)
+        public async Task<IActionResult> RemoveCuisineFromChefProfile(int cuisineId)
         {
-
-            var cuisineToDelete = await _chefConnectDbContext.ChefCuisines.Include(cc => cc.Cuisine).Where(c => c.ChefId == chefId).Where(c => c.CuisineId == cuisineId).FirstOrDefaultAsync();
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            var cuisineToDelete = await _chefConnectDbContext.ChefCuisines.Include(cc => cc.Cuisine).Where(c => c.ChefId == user.Id).Where(c => c.CuisineId == cuisineId).FirstOrDefaultAsync();
 
             _chefConnectDbContext.ChefCuisines.Remove(cuisineToDelete);
             _chefConnectDbContext.SaveChanges();
 
             return RedirectToAction("GetMyRecipesAndCuisinesPage", new { username = User.Identity.Name });
         }
-
-
-
-
 
         [HttpGet("/{username}/Reviews")]
         public async Task<IActionResult> GetChefReviewsPage(string username)
@@ -374,7 +370,7 @@ namespace ChefConnect.Controllers
             return View("MyReviews", model);
         }
 
-        [HttpGet("{id}/{username}")]
+        [HttpGet("{id}/{username}/Add-Recipe")]
         public async Task<IActionResult> AddRecipeToChefProfile(int id, string username)
         {
             var user = await _userManager.FindByNameAsync(username);
