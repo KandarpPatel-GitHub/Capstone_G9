@@ -311,7 +311,7 @@ namespace ChefConnect.Controllers
         }
 
 
-
+        // Check this method
         [HttpPost()]
         public async Task<IActionResult> AddCuisineForChefProfile(ChefViewModel model)
         {
