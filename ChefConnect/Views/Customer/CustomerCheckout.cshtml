@@ -3,7 +3,12 @@
 @{
     ViewData["title"] = "Secure Checkout Page";
 }
-
+<style>
+    .error-message {
+        color: red;
+        font-size: 0.8em;
+    }
+</style>
 
 <div class="row">
     <div class="col-md-8">
@@ -19,11 +24,12 @@
                     <div class="cart-item">
 
                         <div class="row">
-                            <form asp-controller="Customer" asp-action="" method="post">
+                            <form asp-controller="" asp-action="" method="post">
                                 <input type="hidden" asp-for="@Model.ActiveUser.CustomerAddress.CustomerId" value="@Model.ActiveUser.Id" />
                                 <div class="form-group">
                                     <label asp-for="@Model.ActiveUser.CustomerAddress.Name">Name:</label>
-                                    <input type="text" asp-for="@Model.ActiveUser.CustomerAddress.Name" value="@Model.ActiveUser.Name" />
+                                    <input type="text"  asp-for="@Model.ActiveUser.CustomerAddress.Name" value="@Model.ActiveUser.Name" />
+                                    <span class="error-message" id="addressName-error"></span>
                                     <label asp-for="@Model.ActiveUser.CustomerAddress.AptNumber">Apt/Suite Number</label>
                                     <input type="text" asp-for="@Model.ActiveUser.CustomerAddress.AptNumber" />
                                     <label asp-for="@Model.ActiveUser.CustomerAddress.StreetAddress">Street Address</label>
@@ -81,6 +87,37 @@
                 </div>
             </div>
         </section>
+
+
+        <section>
+<div class="cart-header">
+                <h2>Order Summary</h2>
+            </div>
+            <div class="cart-container">
+                <div class="cart-items pb-3">
+                    <div class="cart-item">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h4>Items</h4>
+                                <ul>
+                                    @foreach (var item in Model.cartList)
+                                    {
+                                        <li>@item.ChefRecipe.RecipeName</li>
+                                    }
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <h4>Total:</h4>
+                                <span>$ @Model.cartList.Sum(x => x.RecipeTotal)</span>
+                            </div>
+                            <a asp-controller="Customer" asp-action="PlaceCustomerOrderAndNotifyChef" class="btn btn-primary">Place Order</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
     </div>
 
 

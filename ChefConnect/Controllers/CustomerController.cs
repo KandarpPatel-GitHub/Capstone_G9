@@ -292,6 +292,7 @@ namespace ChefConnect.Controllers
             CustomerViewModel model = new CustomerViewModel()
             {
                 ActiveUser = user,
+                cartList = await _dbcontext.UserCartItems.Include(o => o.ChefRecipe).Where(o => o.CustomerId == user.Id).ToListAsync(),
                 
             };
             return View("CustomerCheckout",model);
