@@ -18,7 +18,6 @@ namespace ChefConnect.Models
 		public List<TimeSlots>? TimeSlots { get; set; }
 		public PaymentMethods? NewPaymentMethod { get; set; }
 
-		public Dictionary<string, string>? Errors { get; set; }
 	}
 }
 

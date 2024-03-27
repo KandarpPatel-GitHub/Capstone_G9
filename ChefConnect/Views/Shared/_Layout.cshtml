@@ -86,7 +86,7 @@
                                             </button>
                                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                 <li><a class="dropdown-item" asp-controller="Chef" asp-action="GetChefAccountSettings" asp-route-username="@ActiveUser.UserName">Update Profile</a></li>
-                                                
+
                                             </ul>
                                         </div>
                                     </div>
@@ -115,9 +115,12 @@
                                             </button>
                                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                 <li><a class="dropdown-item" asp-controller="Customer" asp-action="GetCustomerAccountSettings" asp-route-username="@ActiveUser.UserName">Update Profile</a></li>
-                                                
+
                                                 <li>
-<a class="dropdown-item" asp-controller="Customer" asp-action="GetCustomerCart" asp-route-username="@ActiveUser.UserName">Cart</a>
+                                                    <a class="dropdown-item" asp-controller="Customer" asp-action="GetCustomerCart" asp-route-username="@ActiveUser.UserName">Cart</a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item" asp-controller="Customer" asp-action="GetCustomerAddressPage" asp-route-username="@ActiveUser.UserName">Manage Address</a>
                                                 </li>
                                             </ul>
                                         </div>

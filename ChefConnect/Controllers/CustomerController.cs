@@ -293,7 +293,7 @@ namespace ChefConnect.Controllers
             {
                 ActiveUser = user,
                 cartList = await _dbcontext.UserCartItems.Include(o => o.ChefRecipe).Where(o => o.CustomerId == user.Id).ToListAsync(),
-                Errors = new Dictionary<string, string>()
+               
             };
             return View("CustomerCheckout",model);
         }
@@ -301,14 +301,14 @@ namespace ChefConnect.Controllers
 
         //Validation with Idictionary
         [HttpPost()]
-        public async Task<IActionResult> CheckValidations(CommonViewModel model)
+        public async Task<IActionResult> CheckValidations(CustomerViewModel model)
         {
 
             
             
                 Addresses _address = new Addresses();
-                _address.Name = model.NewCustomerModel.ActiveUser.CustomerAddress.Name;
-                _address.CustomerId = model.NewCustomerModel.ActiveUser.CustomerAddress.CustomerId;
+                _address.Name = model.ActiveUser.CustomerAddress.Name;
+                _address.CustomerId = model.ActiveUser.CustomerAddress.CustomerId;
         
                 //_dbcontext.Addresses.Add(_address);
                 //_dbcontext.SaveChanges();
@@ -318,6 +318,62 @@ namespace ChefConnect.Controllers
         }
 
 
+
+        //Get the customer to address page
+        [HttpGet("/{username}/Address")]
+        public async Task<IActionResult> GetCustomerAddressPage(string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            var address = await _dbcontext.Addresses.Where(a => a.CustomerId == user.Id).FirstOrDefaultAsync();
+            AddressViewModel model = new AddressViewModel();
+            if (address != null)
+            {
+                model.Name = address.Name;
+                model.AptNumber = address.AptNumber;
+                model.StreetAddress = address.StreetAddress;
+                model.City = address.City;
+                model.Province = address.Province;
+                model.Country = address.Country;
+                model.PostalCode = address.PostalCode;
+                model.PhoneNumber = address.PhoneNumber;
+                model.CustomerId = address.CustomerId;
+            }
+            
+            
+           
+
+            return View("CustomerAddress", model);
+        }
+
+
+        //Post Method for Customer to add address
+        [HttpPost()]
+        public async Task<IActionResult> AddCustomerAddress(AddressViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByNameAsync(User.Identity.Name);
+                Addresses address = new Addresses()
+                {
+                    Name = model.Name,
+                    AptNumber = model.AptNumber,
+                    StreetAddress = model.StreetAddress,
+                    City = model.City,
+                    Province = model.Province,
+                    Country = model.Country,
+                    PostalCode = model.PostalCode,
+                    PhoneNumber = model.PhoneNumber,
+                    CustomerId = user.Id
+                };
+                _dbcontext.Addresses.Add(address);
+                _dbcontext.SaveChanges();
+                return RedirectToAction("GetCustomerHome", new { username = user.UserName });
+            }
+            else
+            {
+                return View("CustomerAddress", model);
+            }
+        }
 
 
         //[HttpPost()]
