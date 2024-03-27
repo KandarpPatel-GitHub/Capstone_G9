@@ -112,7 +112,7 @@ namespace ChefConnect.Controllers
             CustomerViewModel model = new CustomerViewModel()
             {
                 ActiveUser = await _userManager.FindByNameAsync(username),
-                AllRecipes = await _dbcontext.ChefRecipes.Include(r => r.RecipeCuisine).ToListAsync()
+                AllRecipes = await _dbcontext.ChefRecipes.Include(r => r.RecipeCuisine).Include(r => r.Chef).ToListAsync()
             };
 
             return View("CustomerHome", model);
@@ -179,23 +179,37 @@ namespace ChefConnect.Controllers
 
 
         //Get Method for Customer to Book a Chef
-        [HttpGet("/{username}/{id}/Book-Chef")]
-        public async Task<IActionResult> GetBookChefPage(string username, int id)
+        //[HttpGet("/{username}/{id}/Book-Chef")]
+        //public async Task<IActionResult> GetBookChefPage(string username, int id)
+        //{
+        //    CustomerViewModel model = new CustomerViewModel()
+        //    {
+        //        ActiveUser = await _userManager.FindByNameAsync(username),
+        //        ActiveRecipe = await _dbcontext.ChefRecipes.Include(r => r.RecipeCuisine).Where(r => r.ChefRecipesId == id).FirstOrDefaultAsync()
+
+        //    };
+
+        //    return View("CustomerBookChef", model);
+        //}
+        [HttpGet("/{username}/Cart")]
+        public async Task<IActionResult> GetCustomerCart(string username)
         {
+            var user = await _userManager.FindByNameAsync(username);
+            List<UserCartItem> _cartList = await _dbcontext.UserCartItems.Include(o => o.ChefRecipe).Where(o => o.CustomerId == user.Id).ToListAsync();
+
             CustomerViewModel model = new CustomerViewModel()
             {
-                ActiveUser = await _userManager.FindByNameAsync(username),
-                ActiveRecipe = await _dbcontext.ChefRecipes.Include(r => r.RecipeCuisine).Where(r => r.ChefRecipesId == id).FirstOrDefaultAsync()
+                ActiveUser = user,
+                cartList = _cartList,
+                TimeSlots = await _dbcontext.TimeSlots.ToListAsync()
 
             };
-
-            return View("CustomerBookChef", model);
+            return View("CustomerCart", model);
         }
 
-
         //Get Method for Customer to add to cart feature
-        [HttpGet("/{username}/{id}/Add-To-Cart")]
-        public async Task<IActionResult> GetCartPage(string username, int id)
+        [HttpGet("/{username}/{id}/Cart")]
+        public async Task<IActionResult> AddRecipeToCart(string username,int id)
         {
 
             var user = await _userManager.FindByNameAsync(username);
@@ -224,19 +238,19 @@ namespace ChefConnect.Controllers
 
                 
             }
-           _cartList = await _dbcontext.UserCartItems.Include(o => o.ChefRecipe).Where(o => o.CustomerId == user.Id).ToListAsync();
+            //_cartList = await _dbcontext.UserCartItems.Include(o => o.ChefRecipe).Where(o => o.CustomerId == user.Id).ToListAsync();
 
-            
 
-            CustomerViewModel model = new CustomerViewModel()
-            {
-                ActiveUser = user,
-                ActiveRecipe = recipe,
-                cartList = _cartList,
-                TimeSlots = await _dbcontext.TimeSlots.ToListAsync()
 
-            };
-            return View("CustomerCart", model);
+            // CustomerViewModel model = new CustomerViewModel()
+            // {
+            //     ActiveUser = user,
+            //     ActiveRecipe = recipe,
+            //     cartList = _cartList,
+            //     TimeSlots = await _dbcontext.TimeSlots.ToListAsync()
+
+            // };
+            return RedirectToAction("GetCustomerCart", new { username = user.UserName });
         }
 
         //Method to update checkout page with cart items
@@ -266,7 +280,17 @@ namespace ChefConnect.Controllers
             return View("CustomerCart", model);
         }
 
+        [HttpGet("/{username}/{id}")]
+        public async Task<IActionResult> RemoveItemFromCart(string username, int id)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            var cartItem = await _dbcontext.UserCartItems.Where(u => u.UserCartItemId == id).FirstOrDefaultAsync();
 
+            _dbcontext.UserCartItems.Remove(cartItem);
+            _dbcontext.SaveChanges();
+
+            return RedirectToAction("GetCustomerCart", new { username = user.UserName });
+        }
 
         public bool isUniquePhoneNumber(string phone)
         {

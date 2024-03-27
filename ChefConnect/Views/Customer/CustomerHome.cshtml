@@ -47,6 +47,7 @@
                                         <!-- Card body -->
                                         <div class="card-body">
                                             <h5 class="card-title">Name: @recipe.RecipeName</h5>
+                                            <p class="card-text">Chef: @recipe.Chef.Name </p>
                                             <p class="card-text">Cuisine Type: @recipe.RecipeCuisine.CuisineName</p>
                                             <p class="card-text">Description: @recipe.RecipeDescription</p>
                                             <p class="card-text">Price: $@recipe.Price</p>
@@ -60,7 +61,7 @@
 
                                             <a asp-controller="Customer" asp-action="GetReviewsPage" asp-route-id="@recipe.ChefRecipesId" asp-route-username="@Model.ActiveUser.UserName" class="btn button-cart btn-primary">Add Review</a>
                                             @*    <a asp-controller="Customer" asp-action="GetBookingPage" asp-route-id="@recipe.ChefRecipesId" asp-route-username="@Model.ActiveUser.UserName" class="btn button-cart book btn-primary">Book</a> *@
-                                            <a asp-controller="Customer" asp-action="GetCartPage" asp-route-id="@recipe.ChefRecipesId" asp-route-username="@Model.ActiveUser.UserName" class="btn button-cart add-to-cart btn-primary">Add to Cart</a>
+                                            <a asp-controller="Customer" asp-action="AddRecipeToCart" asp-route-id="@recipe.ChefRecipesId" asp-route-username="@Model.ActiveUser.UserName" class="btn button-cart add-to-cart btn-primary">Add to Cart</a>
                                         </div>
                                     </div>
                                 </div>

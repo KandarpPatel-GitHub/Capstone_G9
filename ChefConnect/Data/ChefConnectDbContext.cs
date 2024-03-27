@@ -26,7 +26,7 @@ public class ChefConnectDbContext : IdentityDbContext<AppUser>
         string roleName = "Admin";
 
         // if role doesn't exist, create it
-        if (await roleManager.FindByNameAsync(roleName) == null)
+            if (await roleManager.FindByNameAsync(roleName) == null)
         {
             await roleManager.CreateAsync(new IdentityRole(roleName));
         }

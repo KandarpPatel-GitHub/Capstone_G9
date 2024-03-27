@@ -4,7 +4,7 @@
     ViewData["title"] = "Cart";
 
 }
-
+<h2>Cart Items: @Model.cartList.Count</h2>
 <div class="row">
     @foreach (var item in Model.cartList)
     {
@@ -42,6 +42,7 @@
                             <button type="submit" class="btn btn-primary" style="margin-top:10px">Save</button>
                         </div>
                     </form>
+                    <a class="btn btn-danger" asp-controller="Customer" asp-action="RemoveItemFromCart" asp-route-id="@item.UserCartItemId" asp-route-username="@Model.ActiveUser.UserName">Remove Item</a>
                 </div>
             </div>
         </div>
