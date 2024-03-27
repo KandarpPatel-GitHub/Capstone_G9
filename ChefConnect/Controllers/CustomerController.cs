@@ -338,23 +338,23 @@ namespace ChefConnect.Controllers
         public async Task<IActionResult> GetCustomerAddressPage(string username)
         {
             var user = await _userManager.FindByNameAsync(username);
-            var address = await _dbcontext.Addresses.Where(a => a.CustomerId == user.Id).FirstOrDefaultAsync();
+            //var address = await _dbcontext.Addresses.Where(a => a.CustomerId == user.Id).FirstOrDefaultAsync();
+
+            //if (address != null)
+            //{
+            //    model.Name = address.Name;
+            //    model.AptNumber = address.AptNumber;
+            //    model.StreetAddress = address.StreetAddress;
+            //    model.City = address.City;
+            //    model.Province = address.Province;
+            //    model.Country = address.Country;
+            //    model.PostalCode = address.PostalCode;
+            //    model.PhoneNumber = address.PhoneNumber;
+            //    model.CustomerId = address.CustomerId;
+            //}
+
+
             AddressViewModel model = new AddressViewModel();
-            if (address != null)
-            {
-                model.Name = address.Name;
-                model.AptNumber = address.AptNumber;
-                model.StreetAddress = address.StreetAddress;
-                model.City = address.City;
-                model.Province = address.Province;
-                model.Country = address.Country;
-                model.PostalCode = address.PostalCode;
-                model.PhoneNumber = address.PhoneNumber;
-                model.CustomerId = address.CustomerId;
-            }
-            
-            
-           
 
             return View("CustomerAddress", model);
         }
@@ -381,7 +381,7 @@ namespace ChefConnect.Controllers
                 };
                 _dbcontext.Addresses.Add(address);
                 _dbcontext.SaveChanges();
-                return RedirectToAction("GetCustomerHome", new { username = user.UserName });
+                return RedirectToAction("GetAllAddresses", new { username = user.UserName });
             }
             else
             {

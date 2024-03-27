@@ -32,7 +32,7 @@ namespace ChefConnect.Models
         public string PhoneNumber { get; set; }
 
 
-        public string CustomerId { get; set; }
+        //public string CustomerId { get; set; }
 
        
     }
