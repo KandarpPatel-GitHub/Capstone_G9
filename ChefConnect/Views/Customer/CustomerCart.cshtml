@@ -86,7 +86,7 @@
 
                         <div class="row">
                             <div class="cart-item-details pl-3 col-md-8">
-                                <form asp-controller="Customer" asp-action="UpdateCartPage" method="post" >
+                                <form asp-controller="Customer" asp-action="UpdateCartPage" method="post">
                                     <input type="hidden" name="itemId" value="@item.UserCartItemId" />
 
 
@@ -108,7 +108,8 @@
                                         <input class="form-control" asp-for="@item.GuestQuantity" id="GuestQuantity" name="GuestQuantity" />
 
 
-                                        <button type="submit" class="btn btn-primary">Check Out</button>
+                                        <button type="submit" class="btn btn-primary">Save</button>
+                                        <a asp-controller="Customer" asp-action="RemoveItemFromCart" class="btn btn-danger" asp-route-id="@item.UserCartItemId">Remove</a>
                                     </div>
                                 </form>
 
@@ -139,9 +140,9 @@
                 <div class="row">
                     <label>Tax(13% Tax) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$<span class=""></span></label>
                     <label>Sub Total &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$<span class="">@Model.cartList.Sum(x => x.RecipeTotal)</span></label>
-                    <a asp-controller="" asp-action="" class="btn btn-primary">Pay</a>
+                    <a asp-controller="Customer" asp-action="GetSecureCheckoutPage" asp-route-username="@Model.ActiveUser.UserName" class="btn btn-primary">Proceed to Checkout</a>
                 </div>
             </div>
         </div>
     </div>
-
+</div>

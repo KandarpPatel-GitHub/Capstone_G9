@@ -271,10 +271,10 @@ namespace ChefConnect.Controllers
             return RedirectToAction("GetCustomerCart", new { username = user.UserName });
         }
 
-        [HttpGet("/{username}/{id}")]
-        public async Task<IActionResult> RemoveItemFromCart(string username, int id)
+        [HttpGet()]
+        public async Task<IActionResult> RemoveItemFromCart( int id)
         {
-            var user = await _userManager.FindByNameAsync(username);
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
             var cartItem = await _dbcontext.UserCartItems.Where(u => u.UserCartItemId == id).FirstOrDefaultAsync();
 
             _dbcontext.UserCartItems.Remove(cartItem);
@@ -282,6 +282,22 @@ namespace ChefConnect.Controllers
 
             return RedirectToAction("GetCustomerCart", new { username = user.UserName });
         }
+
+
+        //Navigate to Secure Checkout page
+        [HttpGet("/{username}/Checkout")]
+        public async Task<IActionResult> GetSecureCheckoutPage(string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            CustomerViewModel model = new CustomerViewModel()
+            {
+                ActiveUser = user,
+                
+            };
+            return View("CustomerCheckout",model);
+        }
+
+
 
         public bool isUniquePhoneNumber(string phone)
         {
