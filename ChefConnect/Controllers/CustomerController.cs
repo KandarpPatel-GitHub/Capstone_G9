@@ -255,29 +255,20 @@ namespace ChefConnect.Controllers
 
         //Method to update checkout page with cart items
         [HttpPost()]
-        public async Task<IActionResult> UpdateCartPage(CustomerViewModel model)
+        public async Task<IActionResult> UpdateCartPage(IFormCollection form)
         {
+            int id = int.Parse(form["itemId"]);
+            var timeSlotId = form["timeSlotId"];
+            var guestCount = form["GuestQuantity"];
+            
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
-            //var recipe = await _dbcontext.ChefRecipes.Include(r => r.RecipeCuisine).Where(r => r.ChefRecipesId == model.ActiveRecipe.ChefRecipesId).FirstOrDefaultAsync();
-            //List<UserCartItem> _cartList = await _dbcontext.UserCartItems.Include(o => o.ChefRecipe).Where(o => o.CustomerId == user.Id).ToListAsync();
-
-            foreach (var item in model.cartList)
-            {
-                
-                item.RecipeTotal = (item.ChefRecipe.Price + ((item.GuestQuantity - item.ChefRecipe.NumberOfPeople)* item.ChefRecipe.PricePerExtraPerson));
-
-                _dbcontext.UserCartItems.Update(item);
-                _dbcontext.SaveChanges();
-            }
-
-            List<UserCartItem> _cartList = await _dbcontext.UserCartItems.Include(o => o.ChefRecipe).Where(o => o.CustomerId == user.Id).ToListAsync();
-
-            model.ActiveUser = user;
-           
-            model.cartList = _cartList;
-            model.TimeSlots = await _dbcontext.TimeSlots.ToListAsync();
-
-            return View("CustomerCart", model);
+           var userCartItem = await _dbcontext.UserCartItems.Include(uc => uc.ChefRecipe).Where(o => o.UserCartItemId == id).FirstOrDefaultAsync();
+            userCartItem.TimeSlotId = Convert.ToInt32(timeSlotId);
+            userCartItem.GuestQuantity = Convert.ToInt32(guestCount);
+            userCartItem.RecipeTotal = (userCartItem.ChefRecipe.Price + (userCartItem.GuestQuantity*userCartItem.ChefRecipe.PricePerExtraPerson));
+            _dbcontext.UserCartItems.Update(userCartItem);
+            _dbcontext.SaveChanges();
+            return RedirectToAction("GetCustomerCart", new { username = user.UserName });
         }
 
         [HttpGet("/{username}/{id}")]

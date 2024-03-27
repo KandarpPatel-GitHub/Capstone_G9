@@ -4,48 +4,144 @@
     ViewData["title"] = "Cart";
 
 }
-<h2>Cart Items: @Model.cartList.Count</h2>
-<div class="row">
-    @foreach (var item in Model.cartList)
-    {
-        <div class="col-md-4">
-            <!-- Card -->
-            <div class="card-home">
-                <!-- Card image -->
-                <img style="width:350px;height:350px; object-fit:cover" src="data:image/*;base64,@(Convert.ToBase64String(item.ChefRecipe.RecipeImage))" class="card-img-top" alt="@item.ChefRecipe.RecipeName">
-                <!-- Card body -->
-                <div class="card-body">
-                    <h5 class="card-title">@item.ChefRecipe.RecipeName</h5>
-                    <p class="card-text">@item.ChefRecipe.RecipeDescription</p>
-                    <form asp-controller="Customer" asp-action="UpdateCartPage" method="post">
-                        <div class="form-group">
-                            <label asp-for="@item.TimeSlotId">Time Slot:</label>
-                            <select class="form-select" asp-for="@item.TimeSlotId">
-                                @foreach (var ts in Model.TimeSlots)
-                                {
-                                    <option value="@ts.TimeSlotsId">
-                                        @ts.TimeSlot
-                                    </option>
-                                }
-                            </select>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
 
+    .cart-container {
+        width: 80%;
+        margin: 0 auto;
+    }
+
+    .cart-header h2 {
+        background-color: #f0f0f0;
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    .cart-item {
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid #e0e0e0;
+        padding: 10px 0;
+    }
+
+        .cart-item img {
+            width: 100px; /* Adjust as needed */
+        }
+
+    .product-name {
+        flex-grow: 1;
+        margin-left: 10px;
+    }
+
+    .product-price {
+        font-weight: bold;
+    }
+
+    .quantity-selector {
+        display: flex;
+    }
+
+        .quantity-selector button {
+            width: 25px;
+            height: 25px;
+        }
+
+        .quantity-selector input {
+            width: 50px;
+            text-align: center;
+        }
+
+    .cart-summary {
+        display: flex;
+        justify-content: space-between;
+        padding: 20px 0;
+    }
+
+    .checkout button {
+        background-color: #ff6000;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+</style>
+
+<div class="row">
+    <div class="col-md-8">
+        <h2>Cart Items: @Model.cartList.Count</h2>
+        @foreach (var item in Model.cartList)
+        {
+            <div class="cart-header">
+                <h2>Recipe: @item.ChefRecipe.RecipeName</h2>
+            </div>
+            <div class="cart-container">
+
+
+                <div class="cart-items pb-3">
+                    <div class="cart-item">
+
+                        <div class="row">
+                            <div class="cart-item-details pl-3 col-md-8">
+                                <form asp-controller="Customer" asp-action="UpdateCartPage" method="post" >
+                                    <input type="hidden" name="itemId" value="@item.UserCartItemId" />
+
+
+                                    <div class="form-group">
+                                        <p>Price: $@item.ChefRecipe.Price</p>
+
+
+                                        <label class="pb-3" for="timeSlot" asp-for="@item.TimeSlotId">Select TimeSlot:</label>
+                                        <select class="form-select" id="timeSlot" name="timeSlotId" asp-for="@item.TimeSlotId">
+                                            @foreach (var ts in Model.TimeSlots)
+                                            {
+                                                <option value="@ts.TimeSlotsId">
+                                                    @ts.TimeSlot
+                                                </option>
+                                            }
+                                        </select>
+
+                                        <label class="pb-3" for="GuestQuantity" asp-for="@item.GuestQuantity">Price Per extra person</label>
+                                        <input class="form-control" asp-for="@item.GuestQuantity" id="GuestQuantity" name="GuestQuantity" />
+
+
+                                        <button type="submit" class="btn btn-primary">Check Out</button>
+                                    </div>
+                                </form>
+
+
+
+
+                            </div>
+                            <div class="cart-img col-md-3">
+                                <img src="data:image/*;base64,@(Convert.ToBase64String(item.ChefRecipe.RecipeImage))" style="width:250px;height:250px;" alt="@item.ChefRecipe.RecipeName">
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label asp-for="@item.GuestQuantity">Guest Quantity:</label>
-                            <input type="number" class="form-control" asp-for="@item.GuestQuantity" />
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="@item.RecipeTotal">Price:</label>
-                            <input type="number" class="form-control" asp-for="@item.RecipeTotal" />
-                        </div>
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary" style="margin-top:10px">Save</button>
-                        </div>
-                    </form>
-                    <a class="btn btn-danger" asp-controller="Customer" asp-action="RemoveItemFromCart" asp-route-id="@item.UserCartItemId" asp-route-username="@Model.ActiveUser.UserName">Remove Item</a>
+                    </div>
+
+                </div>
+
+            </div>
+        }
+    </div>
+    <div class="col-md-3">
+        <h1>Checkout Summary</h1>
+
+
+        <div class="card">
+            <div class="card-header">
+                <h2>Cart Summary</h2>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <label>Tax(13% Tax) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$<span class=""></span></label>
+                    <label>Sub Total &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$<span class="">@Model.cartList.Sum(x => x.RecipeTotal)</span></label>
+                    <a asp-controller="" asp-action="" class="btn btn-primary">Pay</a>
                 </div>
             </div>
         </div>
-    }
-</div>
+    </div>
 
