@@ -68,8 +68,7 @@ namespace ChefConnect.Migrations
 
                     b.HasKey("AddressesId");
 
-                    b.HasIndex("CustomerId")
-                        .IsUnique();
+                    b.HasIndex("CustomerId");
 
                     b.ToTable("Addresses", "Identity");
                 });
@@ -80,9 +79,6 @@ namespace ChefConnect.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("AddressId")
                         .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -898,8 +894,8 @@ namespace ChefConnect.Migrations
             modelBuilder.Entity("ChefConnect.Entities.Addresses", b =>
                 {
                     b.HasOne("ChefConnect.Entities.AppUser", "Customer")
-                        .WithOne("CustomerAddress")
-                        .HasForeignKey("ChefConnect.Entities.Addresses", "CustomerId")
+                        .WithMany("Addresses")
+                        .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1074,11 +1070,11 @@ namespace ChefConnect.Migrations
 
             modelBuilder.Entity("ChefConnect.Entities.AppUser", b =>
                 {
+                    b.Navigation("Addresses");
+
                     b.Navigation("ChefCuisines");
 
                     b.Navigation("ChefRecipes");
-
-                    b.Navigation("CustomerAddress");
 
                     b.Navigation("OrderDetails");
 

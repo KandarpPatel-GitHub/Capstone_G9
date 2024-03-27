@@ -1,0 +1,51 @@
+﻿@model CustomerViewModel
+@{
+    ViewData["title"] = "Manage Addresses";
+
+}
+
+
+<a asp-controller="Customer" asp-action="GetCustomerAddressPage" asp-route-username="@Model.ActiveUser.UserName" class="btn button-cart add-to-cart btn-primary">Add A new Address</a>
+
+@if (Model.addressList.Count <= 0)
+{
+    <div>
+        <h2>
+            No Address Available
+        </h2>
+    </div>
+}
+else
+{
+    @foreach (var address in Model.addressList)
+    {
+
+        <div class="col-md-4">
+            <!-- Card -->
+            <div class="card-home">
+                <!-- Card image -->
+                <!-- Card body -->
+                <div class="card-body">
+                    <h5 class="card-title">Name: @address.Name</h5>
+                    <p class="card-text">Apt Number: @address.AptNumber </p>
+                    <p class="card-text">Street Address: @address.StreetAddress</p>
+                    <p class="card-text">City: @address.City</p>
+                    <p class="card-text">Province: $@address.Province</p>
+                    <p class="card-text">
+                        Postal Code: @address.PostalCode
+                    </p>
+                    <p class="card-text">
+                        Country: $@address.Country
+                    </p>
+                    <p class="card-text">
+                        Phone Number: $@address.PhoneNumber
+                    </p>
+
+
+
+
+                </div>
+            </div>
+        </div>
+    }
+}

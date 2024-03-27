@@ -299,24 +299,38 @@ namespace ChefConnect.Controllers
         }
 
 
-        //Validation with Idictionary
-        [HttpPost()]
-        public async Task<IActionResult> CheckValidations(CustomerViewModel model)
+        ////Validation with Idictionary
+        //[HttpPost()]
+        //public async Task<IActionResult> CheckValidations(CustomerViewModel model)
+        //{
+
+
+
+        //        Addresses _address = new Addresses();
+        //        _address.Name = model.ActiveUser.CustomerAddress.Name;
+        //        _address.CustomerId = model.ActiveUser.CustomerAddress.CustomerId;
+
+        //        //_dbcontext.Addresses.Add(_address);
+        //        //_dbcontext.SaveChanges();
+        //        return RedirectToAction("GetSecureCheckoutPage", new { username = User.Identity.Name });
+
+
+        //}
+
+
+        //Get Method to navigate to All Addresses page
+        [HttpGet("/{username}/All-Addresses")]
+        public async Task<IActionResult> GetAllAddresses(string username)
         {
-
-            
-            
-                Addresses _address = new Addresses();
-                _address.Name = model.ActiveUser.CustomerAddress.Name;
-                _address.CustomerId = model.ActiveUser.CustomerAddress.CustomerId;
-        
-                //_dbcontext.Addresses.Add(_address);
-                //_dbcontext.SaveChanges();
-                return RedirectToAction("GetSecureCheckoutPage", new { username = User.Identity.Name });
-
-            
+            var user = await _userManager.FindByNameAsync(username);
+            var addressList = await _dbcontext.Addresses.Where(a => a.CustomerId == user.Id).ToListAsync();
+            CustomerViewModel model = new CustomerViewModel()
+            {
+                ActiveUser = user,
+                addressList = addressList
+            };
+            return View("CustomerManageAddresses", model);
         }
-
 
 
         //Get the customer to address page

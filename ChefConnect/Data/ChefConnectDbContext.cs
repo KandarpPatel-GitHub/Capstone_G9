@@ -157,6 +157,10 @@ public class ChefConnectDbContext : IdentityDbContext<AppUser>
         //one-to-many relationship between TimeSlots and UserCartItems
         builder.Entity<UserCartItem>().HasOne(r => r.TimeSlot).WithMany(c => c.UserCartItems).HasForeignKey(r => r.TimeSlotId).IsRequired();
 
+
+        //one-to-many relationship between AppUser and address
+        builder.Entity<Addresses>().HasOne(r => r.Customer).WithMany(c => c.Addresses).HasForeignKey(r => r.CustomerId).IsRequired();
+
         //builder.Entity<OrderDetails>().HasOne(o => o.Chef).WithMany(c => c.OrderDetails).HasForeignKey(o => o.ChefId).IsRequired();
         //builder.Entity<OrderDetails>().HasOne(o => o.Customer).WithMany(c => c.OrderDetails).HasForeignKey(o => o.CustomerId).IsRequired();
 
