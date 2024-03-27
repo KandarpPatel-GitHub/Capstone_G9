@@ -1007,6 +1007,87 @@ img#recipeImage {
         color: white; /* Light blue text on hover to match the lighter blue in the gradient */
         border-color: #f8f8f8; /* Border color changes on hover to match the hover background */
     }
+/*css for customer cart page*/
+.cart-container {
+    width: 80%;
+    margin: 0 auto;
+    max-height: 100vh; /* Ensure the container fits the viewport height */
+    overflow: hidden; /* Hide the overflow */
+}
+
+.cart-header h2 {
+    background-color: #f0f0f0;
+    padding: 5px; /* Further reduced padding */
+    border-radius: 5px;
+    font-size: 14px; /* Reduced font size */
+    margin-bottom: 5px; /* Reduced margin for spacing */
+}
+
+.cart-item {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 2px 0; /* Further reduced padding */
+}
+
+    .cart-item img {
+        width: 60px; /* Further reduced width */
+        height: auto; /* Maintain aspect ratio */
+        margin-right: 10px; /* Ensure some space between image and text */
+    }
+
+.product-name,
+.product-price,
+.quantity-selector,
+.quantity-selector button,
+.quantity-selector input,
+.cart-summary,
+.checkout button {
+    font-size: 12px; /* Further reduced font size for all elements */
+}
+
+.product-name {
+    margin-left: 5px; /* Adjusted margin */
+}
+
+.product-price {
+    font-weight: bold;
+    margin-right: 5px; /* Adjusted margin */
+}
+
+.quantity-selector {
+    margin-left: auto; /* Align to the right */
+}
+
+    .quantity-selector button {
+        width: 15px; /* Further reduced width */
+        height: 15px; /* Further reduced height */
+        padding: 0; /* Remove padding */
+        line-height: 15px; /* Adjust line height to match the height */
+    }
+
+    .quantity-selector input {
+        width: 30px; /* Further reduced width */
+    }
+
+.cart-summary {
+    padding: 5px 0; /* Further reduced padding */
+    align-items: center; /* Align summary items vertically */
+}
+
+.checkout button {
+    padding: 3px 10px; /* Further reduced padding */
+    border-radius: 3px; /* Adjusted border radius */
+}
+.cart-item-details .form-group .btn{
+    margin-top:10px;
+   
+}
+.cart-item-details .form-group select,
+.cart-item-details .form-group input[type=number] {
+    width: 60%;
+}
+
 
 
 

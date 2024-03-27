@@ -4,71 +4,7 @@
     ViewData["title"] = "Cart";
 
 }
-<style>
-    body {
-        font-family: Arial, sans-serif;
-    }
 
-    .cart-container {
-        width: 80%;
-        margin: 0 auto;
-    }
-
-    .cart-header h2 {
-        background-color: #f0f0f0;
-        padding: 10px;
-        border-radius: 5px;
-    }
-
-    .cart-item {
-        display: flex;
-        align-items: center;
-        border-bottom: 1px solid #e0e0e0;
-        padding: 10px 0;
-    }
-
-        .cart-item img {
-            width: 100px; /* Adjust as needed */
-        }
-
-    .product-name {
-        flex-grow: 1;
-        margin-left: 10px;
-    }
-
-    .product-price {
-        font-weight: bold;
-    }
-
-    .quantity-selector {
-        display: flex;
-    }
-
-        .quantity-selector button {
-            width: 25px;
-            height: 25px;
-        }
-
-        .quantity-selector input {
-            width: 50px;
-            text-align: center;
-        }
-
-    .cart-summary {
-        display: flex;
-        justify-content: space-between;
-        padding: 20px 0;
-    }
-
-    .checkout button {
-        background-color: #ff6000;
-        color: white;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-</style>
 
 <div class="row">
     <div class="col-md-8">
@@ -104,7 +40,7 @@
                                             }
                                         </select>
 
-                                        <label class="pb-3" for="GuestQuantity" asp-for="@item.GuestQuantity">Price Per extra person</label>
+                                        <label class="pb-3" for="GuestQuantity" asp-for="@item.GuestQuantity">Extra Person:</label>
                                         <input class="form-control" asp-for="@item.GuestQuantity" id="GuestQuantity" name="GuestQuantity" />
 
 
