@@ -1030,11 +1030,7 @@ img#recipeImage {
     padding: 2px 0; /* Further reduced padding */
 }
 
-    .cart-item img {
-        width: 60px; /* Further reduced width */
-        height: auto; /* Maintain aspect ratio */
-        margin-right: 10px; /* Ensure some space between image and text */
-    }
+
 
 .product-name,
 .product-price,
@@ -1086,7 +1082,27 @@ img#recipeImage {
 .cart-item-details .form-group select,
 .cart-item-details .form-group input[type=number] {
     width: 60%;
+    margin-top:10px;
 }
+.cart-item-details .form-group label,
+.cart-item-details .form-group .form-select,
+.cart-item-details .form-group .form-control {
+    display: inline-block; /* Make the label and input inline elements */
+    margin-right: 10px; /* Add some space between the elements */
+    vertical-align: middle; /* Align the elements vertically */
+    margin-top:10px;
+}
+
+/* Adjust widths as necessary to fit side-by-side */
+.cart-item-details .form-group label {
+    width: 30%; /* Adjust if necessary */
+    white-space: nowrap; /* Keeps the label in a single line */
+}
+
+
+
+/* Style for buttons to ensure they are aligned correctly */
+
 
 
 
