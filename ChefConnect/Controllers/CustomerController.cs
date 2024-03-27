@@ -293,11 +293,74 @@ namespace ChefConnect.Controllers
             {
                 ActiveUser = user,
                 cartList = await _dbcontext.UserCartItems.Include(o => o.ChefRecipe).Where(o => o.CustomerId == user.Id).ToListAsync(),
-                
+                Errors = new Dictionary<string, string>()
             };
             return View("CustomerCheckout",model);
         }
 
+
+        //Validation with Idictionary
+        [HttpPost()]
+        public async Task<IActionResult> CheckValidations(CommonViewModel model)
+        {
+
+            
+            
+                Addresses _address = new Addresses();
+                _address.Name = model.NewCustomerModel.ActiveUser.CustomerAddress.Name;
+                _address.CustomerId = model.NewCustomerModel.ActiveUser.CustomerAddress.CustomerId;
+        
+                //_dbcontext.Addresses.Add(_address);
+                //_dbcontext.SaveChanges();
+                return RedirectToAction("GetSecureCheckoutPage", new { username = User.Identity.Name });
+
+            
+        }
+
+
+
+
+        //[HttpPost()]
+        //public async Task<IActionResult> SecureCheckout(CustomerViewModel model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var user = await _userManager.FindByNameAsync(model.ActiveUser.UserName);
+        //        var cartList = await _dbcontext.UserCartItems.Include(o => o.ChefRecipe).Where(o => o.CustomerId == user.Id).ToListAsync();
+        //        var order = new OrderDetails()
+        //        {
+        //            CustomerId = user.Id,
+        //            OrderDate = DateTime.Now,
+        //            OrderTotal = cartList.Sum(o => o.RecipeTotal),
+        //            OrderStatus = "Pending",
+        //            PaymentMethodId = model.NewPaymentMethod.PaymentMethodId
+        //        };
+        //        _dbcontext.OrderDetails.Add(order);
+        //        _dbcontext.SaveChanges();
+
+        //        foreach (var item in cartList)
+        //        {
+        //            var orderItem = new OrderItems()
+        //            {
+        //                OrderId = order.OrderId,
+        //                RecipeId = item.RecipeId,
+        //                GuestQuantity = item.GuestQuantity,
+        //                TimeSlotId = item.TimeSlotId,
+        //                RecipeTotal = item.RecipeTotal
+        //            };
+        //            _dbcontext.OrderItems.Add(orderItem);
+        //            _dbcontext.SaveChanges();
+        //        }
+
+        //        return RedirectToAction("GetCustomerHome", new { username = user.UserName });
+        //    }
+        //    else
+        //    {
+        //        var user = await _userManager.FindByNameAsync(model.ActiveUser.UserName);
+        //        model.cartList = await _dbcontext.UserCartItems.Include(o => o.ChefRecipe).Where(o => o.CustomerId == user.Id).ToListAsync();
+        //        return View("CustomerCheckout", model);
+        //    }
+        //}   
 
 
         public bool isUniquePhoneNumber(string phone)

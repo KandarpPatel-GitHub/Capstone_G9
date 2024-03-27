@@ -1,10 +1,12 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 namespace ChefConnect.Entities
 {
 	public class PaymentMethods
 	{
 		public int PaymentMethodsId { get; set; }
 
+		[Required()]
 		public string PaymentType { get; set; }
 
 		public string NameOnCard { get; set; }

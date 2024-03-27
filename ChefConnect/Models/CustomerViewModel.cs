@@ -17,6 +17,8 @@ namespace ChefConnect.Models
 		public List<UserCartItem>? cartList { get; set; }
 		public List<TimeSlots>? TimeSlots { get; set; }
 		public PaymentMethods? NewPaymentMethod { get; set; }
+
+		public Dictionary<string, string>? Errors { get; set; }
 	}
 }
 
