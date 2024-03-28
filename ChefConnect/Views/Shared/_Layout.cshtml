@@ -102,7 +102,10 @@
                         {
                             <ul class="navbar-nav flex-grow-1">
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark navbar-font @(currentController == "Customer" && currentAction == "Index" ? "active" : "")" asp-area="" asp-controller="Customer" asp-action="GetCustomerHome" asp-route-username="@ActiveUser.UserName">Home</a>
+                                    <a class="nav-link text-dark navbar-font @(currentController == "Customer" && currentAction == "GetCustomerHome" ? "active" : "")" asp-area="" asp-controller="Customer" asp-action="GetCustomerHome" asp-route-username="@ActiveUser.UserName">Home</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark navbar-font @(currentController == "Customer" && currentAction == "GetSearchPage" ? "active" : "")" asp-area="" asp-controller="Customer" asp-action="GetSearchPage" asp-route-username="@ActiveUser.UserName">Search</a>
                                 </li>
 
                             </ul>

@@ -14,11 +14,18 @@ namespace ChefConnect.Models
 		public Reviews? NewReview { get; set; }
 
 		public OrderDetails? NewOrder { get; set; }
+
 		public List<UserCartItem>? cartList { get; set; }
+
 		public List<TimeSlots>? TimeSlots { get; set; }
+
 		public PaymentMethods? NewPaymentMethod { get; set; }
 
 		public List<Addresses>? addressList { get; set; }
+
+		public List<AppUser>? ChefsList { get; set; }
+
+		public List<Cuisines>? CuisinesList { get; set; }
 
 	}
 }

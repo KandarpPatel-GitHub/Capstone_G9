@@ -390,7 +390,34 @@ namespace ChefConnect.Controllers
             }
         }
 
+        [HttpGet("/{username}/Search")]
+        public async Task<IActionResult> GetSearchPage(string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            CustomerViewModel model = new CustomerViewModel()
+            {
+                ActiveUser = user,
+                CuisinesList = await _dbcontext.Cuisines.ToListAsync(),
+                AllRecipes = new List<ChefRecipes>(),
+                ChefsList = new List<AppUser>()
+            };
+            return View("CustomerSearch",model);
+        }
 
+        [HttpGet("/{name}/Recipes")]
+        public async Task<IActionResult> GetRecipesFromCuisine(string name)
+        {
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            var recipes = await _dbcontext.ChefRecipes.Include(r => r.Chef).Include(r => r.RecipeCuisine).Where(r => r.RecipeCuisine.CuisineName == name).ToListAsync();
+            CustomerViewModel model = new CustomerViewModel()
+            {
+                ActiveUser = user,
+                CuisinesList = await _dbcontext.Cuisines.ToListAsync(),
+                AllRecipes = recipes,
+                ChefsList = new List<AppUser>()
+            };
+            return View("CustomerSearch", model);
+        }
         //[HttpPost()]
         //public async Task<IActionResult> SecureCheckout(CustomerViewModel model)
         //{

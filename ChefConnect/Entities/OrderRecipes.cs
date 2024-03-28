@@ -19,9 +19,6 @@ namespace ChefConnect.Entities
 
 		public double RecipeTotal { get; set; }
 
-	
-
-
     }
 }
 
