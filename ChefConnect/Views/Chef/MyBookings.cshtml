@@ -8,8 +8,11 @@
         <tr>
             <th>Customer Name</th>
             <th>Customer Phone</th>
-            <th>Booking Time</th>
-            <th>Booking Status</th>
+            <th>Order Recipe</th>
+            <th>Order Date</th>
+            <th>Time</th>
+            <th>Guest Quantity</th>
+            <th>Total</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -19,10 +22,13 @@
             <tr>
                 <td>@booking.Customer.Name</td>
                 <td>@booking.Customer.PhoneNumber</td>
-                <td>@booking.Customer.</td>
-                <td>@booking
-                <td>@booking.Customer.Name</td>
-               </tr>
+                <td>@booking.OrderRecipes.FirstOrDefault().ChefRecipes.RecipeName</td>
+                <td>@booking.OrderRecipes.FirstOrDefault().OrderDate</td>
+                <td>@booking.OrderRecipes.FirstOrDefault().TimeSlot.TimeSlot</td>
+                <td>@booking.OrderRecipes.FirstOrDefault().GuestQuantity</td>
+                <td>@booking.OrderRecipes.FirstOrDefault().RecipeTotal</td>
+                <td><a href="#">View</a></td>
+            </tr>
         }   
     </tbody>
 </table>

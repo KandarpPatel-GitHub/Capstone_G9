@@ -18,8 +18,8 @@ namespace ChefConnect.Entities
 		public TimeSlots? TimeSlot { get; set; }
 
 		public double RecipeTotal { get; set; }
-		public DateTime OrderDate { get; set; }
 
+		public DateTime OrderDate { get; set; }
     }
 }
 

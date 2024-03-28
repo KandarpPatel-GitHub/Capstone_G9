@@ -138,7 +138,7 @@ namespace ChefConnect.Controllers
                 UpComingOrders = await _chefConnectDbContext.OrderDetails.Include(o => o.Customer).Include(o => o.Address).Include(o => o.PaymentMethod).Include(o => o.OrderRecipes).ThenInclude(or => or.ChefRecipes).Where(o => o.OrderRecipes.Any(or => or.ChefRecipes.ChefId == user.Id)).Where(o => o.Status == OrderDetails.OrderStatus.Pending).ToListAsync(),
                 PastOrders = await _chefConnectDbContext.OrderDetails.Include(o => o.Customer).Include(o => o.Address).Include(o => o.PaymentMethod).Include(o => o.OrderRecipes).ThenInclude(or => or.ChefRecipes).Where(o => o.OrderRecipes.Any(or => or.ChefRecipes.ChefId == user.Id)).Where(o => o.Status == OrderDetails.OrderStatus.Confirmed).ToListAsync()
             };
-            return View("MyBookings");
+            return View("MyBookings",model);
         }
 
         [HttpGet("/{username}/My-Recipes-Cuisines")]
