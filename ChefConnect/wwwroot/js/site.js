@@ -21,7 +21,21 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }, 3000); // Change every 3000 milliseconds (3 seconds)
 })
 
+function selectCard(cardElement) {
+    // Remove 'selected-card' class from all cards
+    document.querySelectorAll('.card-home').forEach(function (card) {
+        card.classList.remove('selected-card');
+    });
 
+    // Add 'selected-card' class to the clicked card
+    cardElement.classList.add('selected-card');
+
+    // Find the radio button inside the clicked card and check it
+    var radio = cardElement.querySelector('.card-radio');
+    if (radio) {
+        radio.checked = true;
+    }
+}
 
 //Load the animated text when the document is ready
 document.addEventListener("DOMContentLoaded", function () {

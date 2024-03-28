@@ -209,7 +209,7 @@ namespace ChefConnect.Controllers
 
         //Get Method for Customer to add to cart feature
         [HttpGet("/{username}/{id}/Cart")]
-        public async Task<IActionResult> AddRecipeToCart(string username,int id)
+        public async Task<IActionResult> AddRecipeToCart(string username, int id)
         {
 
             var user = await _userManager.FindByNameAsync(username);
@@ -227,16 +227,16 @@ namespace ChefConnect.Controllers
 
             if (_cartList.Count == 0)
             {
-                
+
                 _dbcontext.UserCartItems.Add(item);
                 _dbcontext.SaveChanges();
             }
-            else if(isNewCartItem(_cartList, item))
+            else if (isNewCartItem(_cartList, item))
             {
                 _dbcontext.UserCartItems.Add(item);
                 _dbcontext.SaveChanges();
 
-                
+
             }
             //_cartList = await _dbcontext.UserCartItems.Include(o => o.ChefRecipe).Where(o => o.CustomerId == user.Id).ToListAsync();
 
@@ -260,19 +260,19 @@ namespace ChefConnect.Controllers
             int id = int.Parse(form["itemId"]);
             var timeSlotId = form["timeSlotId"];
             var guestCount = form["GuestQuantity"];
-            
+
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
-           var userCartItem = await _dbcontext.UserCartItems.Include(uc => uc.ChefRecipe).Where(o => o.UserCartItemId == id).FirstOrDefaultAsync();
+            var userCartItem = await _dbcontext.UserCartItems.Include(uc => uc.ChefRecipe).Where(o => o.UserCartItemId == id).FirstOrDefaultAsync();
             userCartItem.TimeSlotId = Convert.ToInt32(timeSlotId);
             userCartItem.GuestQuantity = Convert.ToInt32(guestCount);
-            userCartItem.RecipeTotal = (userCartItem.ChefRecipe.Price + (userCartItem.GuestQuantity*userCartItem.ChefRecipe.PricePerExtraPerson));
+            userCartItem.RecipeTotal = (userCartItem.ChefRecipe.Price + ((userCartItem.GuestQuantity - userCartItem.ChefRecipe.NumberOfPeople) * userCartItem.ChefRecipe.PricePerExtraPerson));
             _dbcontext.UserCartItems.Update(userCartItem);
             _dbcontext.SaveChanges();
             return RedirectToAction("GetCustomerCart", new { username = user.UserName });
         }
 
         [HttpGet()]
-        public async Task<IActionResult> RemoveItemFromCart( int id)
+        public async Task<IActionResult> RemoveItemFromCart(int id)
         {
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
             var cartItem = await _dbcontext.UserCartItems.Where(u => u.UserCartItemId == id).FirstOrDefaultAsync();
@@ -293,9 +293,10 @@ namespace ChefConnect.Controllers
             {
                 ActiveUser = user,
                 cartList = await _dbcontext.UserCartItems.Include(o => o.ChefRecipe).Where(o => o.CustomerId == user.Id).ToListAsync(),
-               
+                addressList = await _dbcontext.Addresses.Where(a => a.CustomerId == user.Id).ToListAsync()
+
             };
-            return View("CustomerCheckout",model);
+            return View("CustomerCheckout", model);
         }
 
 

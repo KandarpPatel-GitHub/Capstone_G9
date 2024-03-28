@@ -40,8 +40,8 @@
                                             }
                                         </select>
 
-                                        <label class="pb-3" for="GuestQuantity" asp-for="@item.GuestQuantity">Extra Person:</label>
-                                        <input class="form-control" asp-for="@item.GuestQuantity" id="GuestQuantity" name="GuestQuantity" />
+                                        <label class="pb-3" for="GuestQuantity" asp-for="@item.GuestQuantity">Guest Quantity:</label>
+                                        <input class="form-control" asp-for="@item.GuestQuantity" id="GuestQuantity" name="GuestQuantity" min="@item.ChefRecipe.NumberOfPeople" max="20"/>
 
 
                                         <button type="submit" class="btn btn-primary">Save</button>

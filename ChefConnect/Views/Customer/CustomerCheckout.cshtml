@@ -12,8 +12,48 @@
 
 <div class="row">
     <div class="col-md-8">
+        <section>
+            <div class="cart-header">
+                <h2>Address</h2>
+            </div>
+            <div class="row">
+                @foreach (var address in Model.addressList)
+                {
 
-        
+                    <div class="col-md-6">
+                        <!-- Card -->
+                        <div class="card-home" onclick="selectCard(this)">
+                            <!-- Card image -->
+                            <!-- Card body -->
+                            <div class="card-body" >
+                                <div class="form-group" id="addressCard" >
+                                    <label for="selectAddress">
+                                        <input type="radio" name="selectAddress" value="@address.AddressesId" id="@address.AddressesId" class="card-radio" />
+                                        <h5 class="card-title">Name: @address.Name</h5>
+                                        <p class="card-text">Apt Number: @address.AptNumber </p>
+                                        <p class="card-text">Street Address: @address.StreetAddress</p>
+                                        <p class="card-text">City: @address.City</p>
+                                        <p class="card-text">Province: @address.Province</p>
+                                        <p class="card-text">
+                                            Postal Code: @address.PostalCode
+                                        </p>
+                                        <p class="card-text">
+                                            Country: @address.Country
+                                        </p>
+                                        <p class="card-text">
+                                            Phone Number: @address.PhoneNumber
+                                        </p>
+                                    </label>
+                                </div>
+                               
+
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </section>
+
         <section>
             <div class="cart-header">
                 <h2>Payment Information</h2>
