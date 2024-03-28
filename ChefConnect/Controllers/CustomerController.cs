@@ -422,11 +422,10 @@ namespace ChefConnect.Controllers
 
 
 
-        [HttpPost()]
+        [HttpPost("/Secure-Checkout")]
         public async Task<IActionResult> SecureCheckout(IFormCollection form)
         {
-            if (ModelState.IsValid)
-            {
+           
                 var user = await _userManager.FindByNameAsync(User.Identity.Name);
                 var cartList = await _dbcontext.UserCartItems.Include(o => o.ChefRecipe).Where(o => o.GuestQuantity != null).Where(o => o.CustomerId == user.Id).ToListAsync();
                 var order = new OrderDetails()
@@ -434,34 +433,34 @@ namespace ChefConnect.Controllers
                     CustomerId = user.Id,
                     OrderDate = DateTime.Now,
                     OrderTotal = (double)cartList.Sum(o => o.RecipeTotal),
-                    paymentMethodId = int.Parse(form["paymentMethodId"]),
-                    addressId = int.Parse(form["addressId"]),
+                    paymentMethodId = int.Parse(form["selectPayment"]),
+                    addressId = int.Parse(form["selectAddress"])
                 };
                 _dbcontext.OrderDetails.Add(order);
                 _dbcontext.SaveChanges();
 
                 foreach (var item in cartList)
                 {
-                    var orderItem = new OrderItems()
+                    var orderItem = new OrderRecipes()
                     {
-                        OrderId = order.OrderId,
-                        RecipeId = item.RecipeId,
-                        GuestQuantity = item.GuestQuantity,
-                        TimeSlotId = item.TimeSlotId,
-                        RecipeTotal = item.RecipeTotal
+                       OrderDetailsId = order.OrderDetailsId,
+                        ChefRecipesId = item.RecipeId,
+                       GuestQuantity = (int)item.GuestQuantity,
+                       TimeSlotId = (int)item.TimeSlotId,
+                       RecipeTotal = (double)item.RecipeTotal
+
+                        
                     };
-                    _dbcontext.OrderItems.Add(orderItem);
+                    _dbcontext.OrderRecipes.Add(orderItem);
+                    _dbcontext.UserCartItems.Remove(item);
                     _dbcontext.SaveChanges();
                 }
+                
 
                 return RedirectToAction("GetCustomerHome", new { username = user.UserName });
-            }
-            else
-            {
-                var user = await _userManager.FindByNameAsync(model.ActiveUser.UserName);
-                model.cartList = await _dbcontext.UserCartItems.Include(o => o.ChefRecipe).Where(o => o.CustomerId == user.Id).ToListAsync();
-                return View("CustomerCheckout", model);
-            }
+           
+            
+                
         }
 
         //Get method for customer to manage payment methods
