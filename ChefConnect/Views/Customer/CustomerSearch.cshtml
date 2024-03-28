@@ -6,49 +6,69 @@
     int slideCount = (int)Math.Ceiling(totalItems / (double)itemPerSlide);
 }
 <style>
+    /* Search Form Styling */
     .form-search {
-        margin: 0 auto;
+        margin: 20px auto;
         text-align: center;
         font: bold 13px sans-serif;
         max-width: 70%;
         position: relative;
     }
 
+        .form-search input, .form-search button {
+            height: 40px; /* Ensure consistent height */
+        }
+
         .form-search input {
             width: 60%;
             box-sizing: border-box;
-            border-bottom-left-radius: 2px;
-            border-top-left-radius: 2px;
+            border-radius: 2px 0 0 2px; /* Simplified */
             background-color: #ffffff;
-            box-shadow: 1px 2px 4px 0 rgba(0, 0, 0, 0.08);
-            padding: 14px 15px 14px 40px;
+            box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.08);
+            padding: 0 15px 0 40px;
             border: 1px solid #b6c3cd;
             border-right: 0;
             color: #4E565C;
             outline: none;
-            -webkit-appearance: none;
         }
 
         .form-search button {
-            border-bottom-right-radius: 2px;
-            border-top-right-radius: 2px;
+            border-radius: 0 2px 2px 0; /* Simplified */
             background-color: #6caee0;
-            box-shadow: 1px 2px 4px 0 rgba(0, 0, 0, 0.08);
+            box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.08);
             color: #ffffff;
-            padding: 15px 22px;
+            padding: 0 22px; /* Adjusted padding */
             margin-left: -4px;
             cursor: pointer;
             border: none;
             outline: none;
         }
 
-        .form-search i {
-            position: absolute;
-            top: 15px;
-            left: 20px;
-            font-size: 16px;
-            color: #80A3BD;
+    /* Cuisine List Styling */
+    .cuisine-row {
+        margin-top: 30px; /* Add space above the cuisine list */
+        justify-content: center; /* Center the cuisines horizontally */
+    }
+
+    .cuisine-item {
+        margin: 10px; /* Existing margin */
+        width: 15%; /* Existing width */
+        border: 2px solid #6caee0; /* Solid border with a light blue color */
+        border-radius: 10px; /* Rounded corners for a modern look */
+        transition: transform 0.3s ease, border-color 0.3s ease; /* Smooth transition for hover effects */
+    }
+
+        .cuisine-item:hover {
+            transform: scale(1.05); /* Slightly enlarge item on hover */
+            border-color: #3498db; /* Change border color on hover for visual feedback */
         }
+
+
+    .cuisine-link {
+        display: block; /* Make the anchor fill the container */
+        text-align: center; /* Center text within the button */
+        padding: 5px 20px; /* Increase padding for better appearance */
+    }
 
 </style>
 
@@ -58,13 +78,13 @@
 
 </form>
 
-<div class="row">
+<div class="row cuisine-row">
     @foreach (var cuisine in Model.CuisinesList)
-     {
-        <div class="col-md-1">
-            <a asp-controller="Customer" asp-action="GetRecipesFromCuisine" asp-route-name="@cuisine.CuisineName" class="btn btn-light border rounded-pill">@cuisine.CuisineName</a>
+    {
+        <div class="col-md-1 cuisine-item">
+            <a asp-controller="Customer" asp-action="GetRecipesFromCuisine" asp-route-name="@cuisine.CuisineName" class="btn btn-light  cuisine-link">@cuisine.CuisineName</a>
         </div>
-     }
+    }
 </div>
 
 <div class="row">

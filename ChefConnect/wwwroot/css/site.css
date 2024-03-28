@@ -782,6 +782,48 @@ footer {
     }
 }
 
+
+/* Media Queries */
+
+/* Tablets (landscape) */
+@media (max-width: 1024px) {
+    .cuisine-item {
+        width: 20%;
+        border: 2px solid #6caee0; /* Increase width for better spacing on smaller devices */
+    }
+}
+
+/* Tablets (portrait) */
+@media (max-width: 768px) {
+    .cuisine-item {
+        width: 30%;
+        border: 2px solid #5b9bd5; /* Slightly different color to adjust for smaller displays */
+        
+        /* Adjust width for medium-sized devices */
+    }
+}
+
+/* Large smartphones */
+@media (max-width: 600px) {
+    .cuisine-item {
+        width: 45%;
+        border: 1px solid #6caee0; /* Thinner border for small devices */
+         /* Adjusted margin */
+        border-radius: 8px; /* Adjust width for small devices to show two items per row */
+    }
+}
+
+/* Small smartphones */
+@media (max-width: 480px) {
+    .cuisine-item {
+        border: 1px solid #3498db; /* Change border color for visual distinction */
+        /* Adjusted margin for very small screens */
+        border-radius: 5px; /* More subtle rounded corners */
+        width: 90%; /* Center the buttons in the viewport */
+    }
+}
+
+
 @keyframes diagonalMove {
     from {
         background-position: 0 0;
