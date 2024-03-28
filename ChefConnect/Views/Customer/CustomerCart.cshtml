@@ -4,8 +4,6 @@
     ViewData["title"] = "Cart";
 
 }
-
-
 <div class="row">
     <div class="col-md-8">
         <h2>Cart Items: @Model.cartList.Count</h2>
@@ -64,19 +62,17 @@
             </div>
         }
     </div>
-    <div class="col-md-3">
+    <div class="col-md-3 checkout-summary">
         <h1>Checkout Summary</h1>
 
 
         <div class="card">
-            <div class="card-header">
-                <h2>Cart Summary</h2>
-            </div>
+            
             <div class="card-body">
                 <div class="row">
-                    <label>Tax(13% Tax) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$<span class=""></span></label>
-                    <label>Sub Total &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$<span class="">@Model.cartList.Sum(x => x.RecipeTotal)</span></label>
-                    <a asp-controller="Customer" asp-action="GetSecureCheckoutPage" asp-route-username="@Model.ActiveUser.UserName" class="btn btn-primary">Proceed to Checkout</a>
+                    <label>Tax(13% Tax) <span class="">$ </span></label>
+                    <label>Sub Total <span class="">$@Model.cartList.Sum(x => x.RecipeTotal)</span></label>
+                    <a asp-controller="Customer" asp-action="GetSecureCheckoutPage" asp-route-username="@Model.ActiveUser.UserName" class="btn btn-primary checkout-btn">Proceed to Checkout</a>
                 </div>
             </div>
         </div>

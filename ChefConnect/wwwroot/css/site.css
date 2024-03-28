@@ -1154,8 +1154,56 @@ img#recipeImage {
     width: 30%; /* Adjust if necessary */
     white-space: nowrap; /* Keeps the label in a single line */
 }
-
-
+.checkout-summary {
+    font-family: Arial, sans-serif; /* Modern, readable font */
+    color: #333; /* Dark grey for better readability */
+    max-width: 400px;
+    max-height:280px;/* Fixed width for consistency */
+    margin: 0 auto; /* Center the summary in its parent */
+    padding: 20px; /* Spacing around the content */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.6); /* Subtle shadow for depth */
+    border-radius: 8px; /* Rounded corners for a softer look */
+    margin-top:47px;
+}
+.cart-header h2 {
+     /* Theme color for headings */
+    text-align: center; /* Center-align headings */
+}
+.checkout-summary .card {
+    background-color: #f9f9f9; /* Light background for the card */
+    border: 1px solid #ddd; /* Light border for definition */
+    border-radius: 8px; /* Consistent rounded corners */
+    margin-top: 20px; /* Space above the card */
+}
+.card-header, .card-body {
+    padding: 15px; /* Padding for spacing within the card */
+}
+.card-body .row {
+        display: flex; /* Flexbox for alignment */
+        flex-direction: column; /* Stack elements vertically */
+        align-items: flex-start; /* Align items to the start (left) */
+        gap: 10px; /* Space between items */
+        padding: 10px; /* Padding inside the body */
+    }
+.card-body label {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+.checkout-btn {
+    background-color: #007bff; /* Theme color for button */
+    border: none; /* Remove default border */
+    padding: 10px 20px; /* Button padding for larger click area */
+    color: #ffffff; /* White text color */
+    border-radius: 5px; /* Rounded corners for the button */
+    text-decoration: none; /* Remove underline from link */
+    display: inline-block; /* Allow width adjustment */
+    margin-top: 15px; /* Space above the button */
+    text-align: center; /* Center text within the button */
+}
+    .checkout-btn:hover {
+        background-color: #0056b3;
+    }
 
 /* Style for buttons to ensure they are aligned correctly */
 

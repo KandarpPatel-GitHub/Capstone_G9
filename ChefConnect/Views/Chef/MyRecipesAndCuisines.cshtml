@@ -31,9 +31,9 @@
                             <tr>
                                 <td>
                                     @recipe.RecipeName
-                                </td>
+                                </td>   
                                 <td>
-                                    @recipe.Price
+                                    $@recipe.Price
                                 </td>
                                 <td>
                                     <a type="button" asp-controller="chef" asp-action="GetRecipeDetailsPage" asp-route-id="@recipe.ChefRecipesId" asp-route-username="@Model.ActiveUser.UserName" class="btn btn-primary btn-recipe-cuisine">View</a>

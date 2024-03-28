@@ -117,7 +117,7 @@ namespace ChefConnect.Controllers
             {
                 ActiveUser = await _userManager.FindByNameAsync(username),
                 chefRecipes = await _chefConnectDbContext.ChefRecipes.Include(r => r.RecipeCuisine).Where(r => r.ChefId == _userManager.FindByNameAsync(username).Result.Id).ToListAsync(),
-                otherChefRecipes = await _chefConnectDbContext.ChefRecipes.Include(r => r.RecipeCuisine).Where(r => r.ChefId != _userManager.FindByNameAsync(username).Result.Id).ToListAsync()
+                otherChefRecipes = await _chefConnectDbContext.ChefRecipes.Include(r => r.RecipeCuisine).Include(r => r.Chef).Where(r => r.ChefId != _userManager.FindByNameAsync(username).Result.Id).ToListAsync()
             };
 
             return View(model);
@@ -200,7 +200,7 @@ namespace ChefConnect.Controllers
             ChefViewModel model = new ChefViewModel()
             {
                 ActiveUser = await _userManager.FindByNameAsync(username),
-                ActiveChefRecipe = await _chefConnectDbContext.ChefRecipes.Include(r => r.RecipeCuisine).Where(r => r.ChefRecipesId == id).FirstOrDefaultAsync()
+                ActiveChefRecipe = await _chefConnectDbContext.ChefRecipes.Include(r => r.Chef).Include(r => r.RecipeCuisine).Where(r => r.ChefRecipesId == id).FirstOrDefaultAsync()
             };
 
             return View("RecipeDetails", model);
