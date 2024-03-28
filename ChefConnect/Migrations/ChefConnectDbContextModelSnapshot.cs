@@ -353,9 +353,19 @@ namespace ChefConnect.Migrations
                     b.Property<double>("OrderTotal")
                         .HasColumnType("float");
 
+                    b.Property<int>("addressId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("paymentMethodId")
+                        .HasColumnType("int");
+
                     b.HasKey("OrderDetailsId");
 
                     b.HasIndex("CustomerId");
+
+                    b.HasIndex("addressId");
+
+                    b.HasIndex("paymentMethodId");
 
                     b.ToTable("OrderDetails", "Identity");
                 });
@@ -948,7 +958,19 @@ namespace ChefConnect.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("ChefConnect.Entities.Addresses", "Address")
+                        .WithMany("OrderDetails")
+                        .HasForeignKey("addressId");
+
+                    b.HasOne("ChefConnect.Entities.PaymentMethods", "PaymentMethod")
+                        .WithMany("OrderDetails")
+                        .HasForeignKey("paymentMethodId");
+
+                    b.Navigation("Address");
+
                     b.Navigation("Customer");
+
+                    b.Navigation("PaymentMethod");
                 });
 
             modelBuilder.Entity("ChefConnect.Entities.OrderRecipes", b =>
@@ -1068,6 +1090,11 @@ namespace ChefConnect.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("ChefConnect.Entities.Addresses", b =>
+                {
+                    b.Navigation("OrderDetails");
+                });
+
             modelBuilder.Entity("ChefConnect.Entities.AppUser", b =>
                 {
                     b.Navigation("Addresses");
@@ -1100,6 +1127,11 @@ namespace ChefConnect.Migrations
             modelBuilder.Entity("ChefConnect.Entities.OrderDetails", b =>
                 {
                     b.Navigation("OrderRecipes");
+                });
+
+            modelBuilder.Entity("ChefConnect.Entities.PaymentMethods", b =>
+                {
+                    b.Navigation("OrderDetails");
                 });
 
             modelBuilder.Entity("ChefConnect.Entities.TimeSlots", b =>

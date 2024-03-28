@@ -19,7 +19,7 @@ namespace ChefConnect.Models
 
 		public List<TimeSlots>? TimeSlots { get; set; }
 
-		public PaymentMethods? NewPaymentMethod { get; set; }
+		public List<PaymentMethods>? PaymentMethodsList { get; set; }
 
 		public List<Addresses>? addressList { get; set; }
 

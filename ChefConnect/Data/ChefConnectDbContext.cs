@@ -161,25 +161,11 @@ public class ChefConnectDbContext : IdentityDbContext<AppUser>
         //one-to-many relationship between AppUser and address
         builder.Entity<Addresses>().HasOne(r => r.Customer).WithMany(c => c.Addresses).HasForeignKey(r => r.CustomerId).IsRequired();
 
-        //builder.Entity<OrderDetails>().HasOne(o => o.Chef).WithMany(c => c.OrderDetails).HasForeignKey(o => o.ChefId).IsRequired();
-        //builder.Entity<OrderDetails>().HasOne(o => o.Customer).WithMany(c => c.OrderDetails).HasForeignKey(o => o.CustomerId).IsRequired();
+        //one-to-many between OrderDetails and Address
+        builder.Entity<OrderDetails>().HasOne(r => r.Address).WithMany(c => c.OrderDetails).HasForeignKey(r => r.addressId).IsRequired(false);
 
-        //var imageList = new[]
-        //{
-        //    new RecipeImages { RecipeImageId = 1, Image = new byte[0] },
-        //    new RecipeImages { RecipeImageId = 2, Image = new byte[0] },
-        //    new RecipeImages { RecipeImageId = 3, Image = new byte[0] },
-        //    new RecipeImages { RecipeImageId = 4, Image = new byte[0] },
-        //    new RecipeImages { RecipeImageId = 5, Image = new byte[0] },
-        //    new RecipeImages { RecipeImageId = 6, Image = new byte[0] },
-        //    new RecipeImages { RecipeImageId = 7, Image = new byte[0] },
-        //    new RecipeImages { RecipeImageId = 8, Image = new byte[0] },
-        //    new RecipeImages { RecipeImageId = 9, Image = new byte[0] }
-        //};
-
-        //var CustomerList = new[] { 
-        //    new AppUser{Id="100",UserName = "customer1", Name = "John Doe", PasswordHash="AQAAAAIAAYagAAAAEHYRLXB/N1zMkjlTUN/UdSgOvdndAj+VdFcbjFEl3GDrL38z/RNayHXHGCB157QiOA==",Email = "devtesting@gmail.com",PhoneNumber="4379713456",EmailConfirmed=true}
-        //};
+        //one-to-many between OrderDetails and PaymentMethods
+        builder.Entity<OrderDetails>().HasOne(r => r.PaymentMethod).WithMany(c => c.OrderDetails).HasForeignKey(r => r.paymentMethodId).IsRequired(false);
 
 
         var cuisines = new[]

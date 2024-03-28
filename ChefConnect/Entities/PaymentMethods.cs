@@ -6,7 +6,7 @@ namespace ChefConnect.Entities
 	{
 		public int PaymentMethodsId { get; set; }
 
-		[Required()]
+		
 		public string PaymentType { get; set; }
 
 		public string NameOnCard { get; set; }
@@ -18,6 +18,7 @@ namespace ChefConnect.Entities
 		public DateTime CardExpiry { get; set; }
 
 		public string CustomerId { get; set; }
+		public ICollection<OrderDetails>? OrderDetails { get; set; }
 
 		public AppUser? Customer { get; set; }
     }

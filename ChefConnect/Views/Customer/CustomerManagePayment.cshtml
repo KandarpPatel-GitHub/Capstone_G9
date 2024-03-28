@@ -1,5 +1,40 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model CustomerViewModel
 @{
+    ViewData["title"] = "Manage Payments Page";
+}
+<a asp-controller="Customer" asp-action="GetAddPaymentMethodPage" asp-route-username="@Model.ActiveUser.UserName" class="btn button-cart add-to-cart btn-primary">Add a new Payment Method</a>
+
+@if (Model.PaymentMethodsList.Count <= 0)
+{
+    <div>
+        <h2>
+            No Payment Methods Available
+        </h2>
+    </div>
+}
+else
+{
+    @foreach (var pay in Model.PaymentMethodsList)
+    {
+
+        <div class="col-md-4">
+            <!-- Card -->
+            <div class="card-home">
+                <!-- Card image -->
+                <!-- Card body -->
+                <div class="card-body">
+                    <h5 class="card-title">Name on Card: @pay.NameOnCard</h5>
+                    <p class="card-text">Payment Type: @pay.PaymentType </p>
+                    <p class="card-text">Card Number: @pay.CardNumber</p>
+                    <p class="card-text">Card Expiry: @pay.CardExpiry</p>
+                    <p class="card-text">CVV: @pay.CardCvv</p>
+                    
+
+
+
+
+                </div>
+            </div>
+        </div>
+    }
 }

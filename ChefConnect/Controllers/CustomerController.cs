@@ -293,7 +293,8 @@ namespace ChefConnect.Controllers
             {
                 ActiveUser = user,
                 cartList = await _dbcontext.UserCartItems.Include(o => o.ChefRecipe).Where(o => o.CustomerId == user.Id).ToListAsync(),
-                addressList = await _dbcontext.Addresses.Where(a => a.CustomerId == user.Id).ToListAsync()
+                addressList = await _dbcontext.Addresses.Where(a => a.CustomerId == user.Id).ToListAsync(),
+                PaymentMethodsList = await _dbcontext.PaymentMethods.Where(p => p.CustomerId == user.Id).ToListAsync()
 
             };
             return View("CustomerCheckout", model);
@@ -418,47 +419,103 @@ namespace ChefConnect.Controllers
             };
             return View("CustomerSearch", model);
         }
-        //[HttpPost()]
-        //public async Task<IActionResult> SecureCheckout(CustomerViewModel model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        var user = await _userManager.FindByNameAsync(model.ActiveUser.UserName);
-        //        var cartList = await _dbcontext.UserCartItems.Include(o => o.ChefRecipe).Where(o => o.CustomerId == user.Id).ToListAsync();
-        //        var order = new OrderDetails()
-        //        {
-        //            CustomerId = user.Id,
-        //            OrderDate = DateTime.Now,
-        //            OrderTotal = cartList.Sum(o => o.RecipeTotal),
-        //            OrderStatus = "Pending",
-        //            PaymentMethodId = model.NewPaymentMethod.PaymentMethodId
-        //        };
-        //        _dbcontext.OrderDetails.Add(order);
-        //        _dbcontext.SaveChanges();
 
-        //        foreach (var item in cartList)
-        //        {
-        //            var orderItem = new OrderItems()
-        //            {
-        //                OrderId = order.OrderId,
-        //                RecipeId = item.RecipeId,
-        //                GuestQuantity = item.GuestQuantity,
-        //                TimeSlotId = item.TimeSlotId,
-        //                RecipeTotal = item.RecipeTotal
-        //            };
-        //            _dbcontext.OrderItems.Add(orderItem);
-        //            _dbcontext.SaveChanges();
-        //        }
 
-        //        return RedirectToAction("GetCustomerHome", new { username = user.UserName });
-        //    }
-        //    else
-        //    {
-        //        var user = await _userManager.FindByNameAsync(model.ActiveUser.UserName);
-        //        model.cartList = await _dbcontext.UserCartItems.Include(o => o.ChefRecipe).Where(o => o.CustomerId == user.Id).ToListAsync();
-        //        return View("CustomerCheckout", model);
-        //    }
-        //}   
+
+        [HttpPost()]
+        public async Task<IActionResult> SecureCheckout(IFormCollection form)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByNameAsync(User.Identity.Name);
+                var cartList = await _dbcontext.UserCartItems.Include(o => o.ChefRecipe).Where(o => o.GuestQuantity != null).Where(o => o.CustomerId == user.Id).ToListAsync();
+                var order = new OrderDetails()
+                {
+                    CustomerId = user.Id,
+                    OrderDate = DateTime.Now,
+                    OrderTotal = (double)cartList.Sum(o => o.RecipeTotal),
+                    paymentMethodId = int.Parse(form["paymentMethodId"]),
+                    addressId = int.Parse(form["addressId"]),
+                };
+                _dbcontext.OrderDetails.Add(order);
+                _dbcontext.SaveChanges();
+
+                foreach (var item in cartList)
+                {
+                    var orderItem = new OrderItems()
+                    {
+                        OrderId = order.OrderId,
+                        RecipeId = item.RecipeId,
+                        GuestQuantity = item.GuestQuantity,
+                        TimeSlotId = item.TimeSlotId,
+                        RecipeTotal = item.RecipeTotal
+                    };
+                    _dbcontext.OrderItems.Add(orderItem);
+                    _dbcontext.SaveChanges();
+                }
+
+                return RedirectToAction("GetCustomerHome", new { username = user.UserName });
+            }
+            else
+            {
+                var user = await _userManager.FindByNameAsync(model.ActiveUser.UserName);
+                model.cartList = await _dbcontext.UserCartItems.Include(o => o.ChefRecipe).Where(o => o.CustomerId == user.Id).ToListAsync();
+                return View("CustomerCheckout", model);
+            }
+        }
+
+        //Get method for customer to manage payment methods
+        [HttpGet("/{username}/Manage-Payment")]
+        public async Task<IActionResult> GetManagePaymentMethods(string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            var paymentMethods = await _dbcontext.PaymentMethods.Where(p => p.CustomerId == user.Id).ToListAsync();
+            CustomerViewModel model = new CustomerViewModel()
+            {
+                ActiveUser = user,
+                PaymentMethodsList = paymentMethods
+            };
+            return View("CustomerManagePayment", model);
+        }
+
+
+        //Get Method for Customer to add payment method
+        [HttpGet("/{username}/Add-Payment")]
+        public async Task<IActionResult> GetAddPaymentMethodPage(string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            PaymentViewModel model = new PaymentViewModel();
+            
+            return View("CustomerAddPayment", model);
+        }
+
+
+        //Add Customer payment method
+        [HttpPost()]
+        public async Task<IActionResult> AddCustomerPaymentMethod(PaymentViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByNameAsync(User.Identity.Name);
+                PaymentMethods paymentMethod = new PaymentMethods()
+                {
+                    PaymentType = model.PaymentType,
+                    NameOnCard = model.NameOnCard,
+                    CardNumber = model.CardNumber,
+                    CardCvv = model.CardCvv,
+                    CardExpiry = model.CardExpiry,
+                    CustomerId = user.Id
+                };
+                _dbcontext.PaymentMethods.Add(paymentMethod);
+                _dbcontext.SaveChanges();
+                return RedirectToAction("GetManagePaymentMethods", new { username = user.UserName });
+            }
+            else
+            {
+                return View("CustomerAddPayment", model);
+            }
+        }
+
 
 
         public bool isUniquePhoneNumber(string phone)

@@ -202,33 +202,6 @@ namespace ChefConnect.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "OrderDetails",
-                schema: "Identity",
-                columns: table => new
-                {
-                    OrderDetailsId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    OrderInstructions = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    OrderDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    OrderSubTotal = table.Column<double>(type: "float", nullable: false),
-                    OrderTax = table.Column<double>(type: "float", nullable: false),
-                    Charges = table.Column<double>(type: "float", nullable: false),
-                    OrderTotal = table.Column<double>(type: "float", nullable: false),
-                    CustomerId = table.Column<string>(type: "nvarchar(450)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_OrderDetails", x => x.OrderDetailsId);
-                    table.ForeignKey(
-                        name: "FK_OrderDetails_User_CustomerId",
-                        column: x => x.CustomerId,
-                        principalSchema: "Identity",
-                        principalTable: "User",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "PaymentMethods",
                 schema: "Identity",
                 columns: table => new
@@ -405,6 +378,47 @@ namespace ChefConnect.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "OrderDetails",
+                schema: "Identity",
+                columns: table => new
+                {
+                    OrderDetailsId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    OrderInstructions = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    OrderDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    OrderSubTotal = table.Column<double>(type: "float", nullable: false),
+                    OrderTax = table.Column<double>(type: "float", nullable: false),
+                    Charges = table.Column<double>(type: "float", nullable: false),
+                    OrderTotal = table.Column<double>(type: "float", nullable: false),
+                    CustomerId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    paymentMethodId = table.Column<int>(type: "int", nullable: false),
+                    addressId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OrderDetails", x => x.OrderDetailsId);
+                    table.ForeignKey(
+                        name: "FK_OrderDetails_Addresses_addressId",
+                        column: x => x.addressId,
+                        principalSchema: "Identity",
+                        principalTable: "Addresses",
+                        principalColumn: "AddressesId");
+                    table.ForeignKey(
+                        name: "FK_OrderDetails_PaymentMethods_paymentMethodId",
+                        column: x => x.paymentMethodId,
+                        principalSchema: "Identity",
+                        principalTable: "PaymentMethods",
+                        principalColumn: "PaymentMethodsId");
+                    table.ForeignKey(
+                        name: "FK_OrderDetails_User_CustomerId",
+                        column: x => x.CustomerId,
+                        principalSchema: "Identity",
+                        principalTable: "User",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "OrderRecipes",
                 schema: "Identity",
                 columns: table => new
@@ -559,10 +573,22 @@ namespace ChefConnect.Migrations
                 column: "CuisineId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_OrderDetails_addressId",
+                schema: "Identity",
+                table: "OrderDetails",
+                column: "addressId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_OrderDetails_CustomerId",
                 schema: "Identity",
                 table: "OrderDetails",
                 column: "CustomerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrderDetails_paymentMethodId",
+                schema: "Identity",
+                table: "OrderDetails",
+                column: "paymentMethodId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_OrderRecipes_ChefRecipesId",
@@ -651,19 +677,11 @@ namespace ChefConnect.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Addresses",
-                schema: "Identity");
-
-            migrationBuilder.DropTable(
                 name: "ChefCuisines",
                 schema: "Identity");
 
             migrationBuilder.DropTable(
                 name: "OrderRecipes",
-                schema: "Identity");
-
-            migrationBuilder.DropTable(
-                name: "PaymentMethods",
                 schema: "Identity");
 
             migrationBuilder.DropTable(
@@ -708,6 +726,14 @@ namespace ChefConnect.Migrations
 
             migrationBuilder.DropTable(
                 name: "Role",
+                schema: "Identity");
+
+            migrationBuilder.DropTable(
+                name: "Addresses",
+                schema: "Identity");
+
+            migrationBuilder.DropTable(
+                name: "PaymentMethods",
                 schema: "Identity");
 
             migrationBuilder.DropTable(

@@ -18,6 +18,10 @@ namespace ChefConnect.Entities
         public double OrderTotal { get; set; }
 
         public string CustomerId { get; set; }
+        public int paymentMethodId { get; set; }
+        public int addressId { get; set; }
+        public Addresses? Address { get; set; }
+        public PaymentMethods? PaymentMethod { get; set; }
 
         public AppUser? Customer { get; set; }
 
