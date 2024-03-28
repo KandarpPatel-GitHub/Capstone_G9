@@ -385,14 +385,14 @@ namespace ChefConnect.Migrations
                     OrderDetailsId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     OrderInstructions = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    OrderDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     OrderSubTotal = table.Column<double>(type: "float", nullable: false),
                     OrderTax = table.Column<double>(type: "float", nullable: false),
                     Charges = table.Column<double>(type: "float", nullable: false),
                     OrderTotal = table.Column<double>(type: "float", nullable: false),
                     CustomerId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     paymentMethodId = table.Column<int>(type: "int", nullable: false),
-                    addressId = table.Column<int>(type: "int", nullable: false)
+                    addressId = table.Column<int>(type: "int", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -427,7 +427,8 @@ namespace ChefConnect.Migrations
                     ChefRecipesId = table.Column<int>(type: "int", nullable: false),
                     GuestQuantity = table.Column<int>(type: "int", nullable: false),
                     TimeSlotId = table.Column<int>(type: "int", nullable: false),
-                    RecipeTotal = table.Column<double>(type: "float", nullable: false)
+                    RecipeTotal = table.Column<double>(type: "float", nullable: false),
+                    OrderDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {

@@ -125,35 +125,19 @@ namespace ChefConnect.Controllers
 
 
 
-        //[HttpPost("/{username}/{id}")]
-        //public async Task<IActionResult> AddCuisineForChefProfile(string username, int id)
-        //{
-        //    var user = await _userManager.FindByNameAsync(username);
-
-        //    var recipe = await _chefConnectDbContext.ChefRecipes.Include(r => r.RecipeCuisine).Where(r => r.ChefRecipesId == id).FirstOrDefaultAsync();
-
-        //    ChefRecipes newRecipe = new ChefRecipes()
-        //    {
-        //        ChefId = user.Id,
-        //        RecipeName = recipe.RecipeName,
-        //        RecipeDescription = recipe.RecipeDescription,
-        //        RecipeImage = recipe.RecipeImage,
-        //        CuisineId = recipe.CuisineId,
-        //        Price = recipe.Price,
-        //        PricePerExtraPerson = recipe.PricePerExtraPerson,
-        //        NumberOfPeople = recipe.NumberOfPeople
-        //    };
-
-        //    _chefConnectDbContext.ChefRecipes.Add(newRecipe);
-        //    _chefConnectDbContext.SaveChanges();
-
-        //    return RedirectToAction("GetMyRecipesAndCuisinesPage", new { username = User.Identity.Name });
-        //}
-
+       
 
         [HttpGet("/{username}/My-Bookings")]
         public async Task<IActionResult> GetMyBookingsPage(string username)
         {
+            var user = await _userManager.FindByNameAsync(username);
+            ChefViewModel model = new ChefViewModel()
+            {
+                ActiveUser = await _userManager.FindByNameAsync(username),
+               
+                UpComingOrders = await _chefConnectDbContext.OrderDetails.Include(o => o.Customer).Include(o => o.Address).Include(o => o.PaymentMethod).Include(o => o.OrderRecipes).ThenInclude(or => or.ChefRecipes).Where(o => o.OrderRecipes.Any(or => or.ChefRecipes.ChefId == user.Id)).Where(o => o.Status == OrderDetails.OrderStatus.Pending).ToListAsync(),
+                PastOrders = await _chefConnectDbContext.OrderDetails.Include(o => o.Customer).Include(o => o.Address).Include(o => o.PaymentMethod).Include(o => o.OrderRecipes).ThenInclude(or => or.ChefRecipes).Where(o => o.OrderRecipes.Any(or => or.ChefRecipes.ChefId == user.Id)).Where(o => o.Status == OrderDetails.OrderStatus.Confirmed).ToListAsync()
+            };
             return View("MyBookings");
         }
 

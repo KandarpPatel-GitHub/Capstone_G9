@@ -338,9 +338,6 @@ namespace ChefConnect.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTime>("OrderDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("OrderInstructions")
                         .HasColumnType("nvarchar(max)");
 
@@ -352,6 +349,9 @@ namespace ChefConnect.Migrations
 
                     b.Property<double>("OrderTotal")
                         .HasColumnType("float");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<int>("addressId")
                         .HasColumnType("int");
@@ -380,6 +380,9 @@ namespace ChefConnect.Migrations
 
                     b.Property<int>("GuestQuantity")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("OrderDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<double>("RecipeTotal")
                         .HasColumnType("float");

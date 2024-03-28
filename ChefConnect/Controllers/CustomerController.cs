@@ -431,7 +431,7 @@ namespace ChefConnect.Controllers
                 var order = new OrderDetails()
                 {
                     CustomerId = user.Id,
-                    OrderDate = DateTime.Now,
+                    //OrderDate = DateTime.Now,
                     OrderTotal = (double)cartList.Sum(o => o.RecipeTotal),
                     paymentMethodId = int.Parse(form["selectPayment"]),
                     addressId = int.Parse(form["selectAddress"])
