@@ -13,6 +13,7 @@
                 <div class="text-danger" asp-validation-summary="ModelOnly">   </div>
                 <input type="hidden" asp-for="@Model.NewReview.ChefId" value="@Model.ActiveRecipe.ChefId" />
                 <input type="hidden" asp-for="@Model.NewReview.CustomerId" value="@Model.ActiveUser.Id" />
+                <input type="hidden" asp-for="@Model.NewReview.chefRecipeId" value="@Model.ActiveRecipe.ChefRecipesId" />
                 <div class="form-group">
                     <label asp-for="@Model.NewReview.ReviewDescription"> Review Description:</label>
                     <textarea asp-for="@Model.NewReview.ReviewDescription" class="form-control" rows="4" cols="50"></textarea>

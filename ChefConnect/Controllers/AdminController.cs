@@ -27,6 +27,17 @@ namespace ChefConnect.Controllers
         {
             return View();
         }
+
+
+        //Get Method to get all the reviews
+        [HttpGet("/Admin/Reviews")]
+        public async Task<IActionResult> GetAllPendingReviews()
+        {
+            var reviews = await _chefConnectDbContext.Reviews.Include(r => r.Customer).Include(r => r.ChefRecipe).ThenInclude(r => r.Chef).Where(r => r.Status == Entities.Reviews.ReviewStatus.Reported).ToListAsync();
+
+            return View("AdminReview",reviews);
+        }
+
     }
 }
 

@@ -26,6 +26,11 @@ namespace ChefConnect.Services
 
 		}
 
+        //Create the helper method to make the call to chatbot api
+      
+
+
+
 		public bool IsPostalCodeValid(string postalcode)
 		{
 			string pattern = "^[A-Za-z]\\d[A-Za-z][ -]?\\d[A-Za-z]\\d$";

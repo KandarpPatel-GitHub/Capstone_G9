@@ -453,12 +453,23 @@ namespace ChefConnect.Migrations
                     b.Property<int>("Ratings")
                         .HasColumnType("int");
 
+                    b.Property<DateTime?>("ReviewDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("ReviewDescription")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("chefRecipeId")
+                        .HasColumnType("int");
 
                     b.HasKey("ReviewsId");
 
                     b.HasIndex("CustomerId");
+
+                    b.HasIndex("chefRecipeId");
 
                     b.ToTable("Reviews", "Identity");
                 });
@@ -1020,6 +1031,12 @@ namespace ChefConnect.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("ChefConnect.Entities.ChefRecipes", "ChefRecipe")
+                        .WithMany("Reviews")
+                        .HasForeignKey("chefRecipeId");
+
+                    b.Navigation("ChefRecipe");
+
                     b.Navigation("Customer");
                 });
 
@@ -1116,6 +1133,8 @@ namespace ChefConnect.Migrations
             modelBuilder.Entity("ChefConnect.Entities.ChefRecipes", b =>
                 {
                     b.Navigation("Orders");
+
+                    b.Navigation("Reviews");
 
                     b.Navigation("UserCartItems");
                 });

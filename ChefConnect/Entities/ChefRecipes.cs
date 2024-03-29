@@ -28,6 +28,8 @@ namespace ChefConnect.Entities
 		public ICollection<OrderRecipes> Orders { get; set; }
 
 		public ICollection<UserCartItem>? UserCartItems { get; set; }
+
+		public ICollection<Reviews>? Reviews { get; set; }
 	}
 }
 

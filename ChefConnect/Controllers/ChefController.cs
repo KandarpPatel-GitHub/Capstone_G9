@@ -11,6 +11,10 @@ using ChefConnect.Entities;
 using ChefConnect.Services;
 using ChefConnect.Data;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using System.Text;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using Azure;
 
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -124,8 +128,37 @@ namespace ChefConnect.Controllers
         }
 
 
+        //Get method to take the review from the chef profile and navigate to the admin page
+        [HttpGet("{id}/Review-Reported")]
+        public async Task<IActionResult> GetReportedReviews(int id)
+        {
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            var review = await _chefConnectDbContext.Reviews.Include(r => r.Customer).Where(r => r.ReviewsId == id).FirstOrDefaultAsync();
+            review.Status = Reviews.ReviewStatus.Reported;
+            _chefConnectDbContext.Reviews.Update(review);
+            _chefConnectDbContext.SaveChanges();
 
-       
+
+          
+
+            return RedirectToAction("GetChefReviewsPage", new {username = user.UserName});
+        }
+
+
+        [HttpGet("/{username}/Reviews")]
+        public async Task<IActionResult> GetChefReviewsPage(string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+
+            ChefViewModel model = new ChefViewModel()
+            {
+                ChefReviews = await _chefConnectDbContext.Reviews.Include(r => r.Customer).Where(r => r.Status == Reviews.ReviewStatus.Clean).Where(r => r.ChefId == user.Id).ToListAsync()
+            };
+
+            return View("MyReviews", model);
+        }
+
+
 
         [HttpGet("/{username}/My-Bookings")]
         public async Task<IActionResult> GetMyBookingsPage(string username)
@@ -382,17 +415,7 @@ namespace ChefConnect.Controllers
             return RedirectToAction("GetMyRecipesAndCuisinesPage", new { username = User.Identity.Name });
         }
 
-        [HttpGet("/{username}/Reviews")]
-        public async Task<IActionResult> GetChefReviewsPage(string username)
-        {
-            var user = await _userManager.FindByNameAsync(username);
-            ChefViewModel model = new ChefViewModel()
-            {
-                ChefReviews = await _chefConnectDbContext.Reviews.Include(r => r.Customer).Where(r => r.ChefId == user.Id).ToListAsync()
-            };
-
-            return View("MyReviews", model);
-        }
+        
 
         [HttpGet("{id}/{username}/Add-Recipe")]
         public async Task<IActionResult> AddRecipeToChefProfile(int id, string username)

@@ -167,6 +167,9 @@ public class ChefConnectDbContext : IdentityDbContext<AppUser>
         //one-to-many between OrderDetails and PaymentMethods
         builder.Entity<OrderDetails>().HasOne(r => r.PaymentMethod).WithMany(c => c.OrderDetails).HasForeignKey(r => r.paymentMethodId).IsRequired(false);
 
+        //one-to-many between ChefRecipes and Reviews
+        builder.Entity<Reviews>().HasOne(r => r.ChefRecipe).WithMany(c => c.Reviews).HasForeignKey(r => r.chefRecipeId).IsRequired(false);
+
 
         var cuisines = new[]
         {

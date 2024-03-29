@@ -20,6 +20,8 @@ else
                 <th>Ratings</th>
                 <th>Customer</th>
                 <th>Date</th>
+                <th>Review Status</th>
+                <th>Actions</th>
             </tr>
         </thead>
 
@@ -39,6 +41,12 @@ else
                     <td>
                         -
                     </td>
+                    <td>
+                        @review.Status
+                    </td>
+                    <td>
+                        <a asp-controller="Chef" asp-action="GetReportedReviews" asp-route-id="@review.ReviewsId">Report</a>
+                    </td>
 
                 </tr>
 
@@ -48,3 +56,24 @@ else
 
     </table>
 }
+
+<button class="chatbot-toggler">
+    <span class="material-symbols-rounded">mode_comment</span>
+    <span class="material-symbols-outlined">close</span>
+</button>
+<div class="chatbot">
+    <header>
+        <h2>Review Moderation Bot</h2>
+        <span class="close-btn material-symbols-outlined">close</span>
+    </header>
+    <ul class="chatbox">
+        <li class="chat incoming">
+            <span class="material-symbols-outlined">smart_toy</span>
+            <p>Hi there 👋<br>Welcome to Review Moderation Help.</p>
+        </li>
+    </ul>
+    <div class="chat-input">
+        <textarea placeholder="Enter a message..." spellcheck="false" required></textarea>
+        <span id="send-btn" class="material-symbols-rounded">send</span>
+    </div>
+</div>

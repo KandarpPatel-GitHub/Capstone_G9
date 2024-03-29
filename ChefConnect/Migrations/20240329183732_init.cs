@@ -228,30 +228,6 @@ namespace ChefConnect.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Reviews",
-                schema: "Identity",
-                columns: table => new
-                {
-                    ReviewsId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ReviewDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Ratings = table.Column<int>(type: "int", nullable: false),
-                    ChefId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CustomerId = table.Column<string>(type: "nvarchar(450)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Reviews", x => x.ReviewsId);
-                    table.ForeignKey(
-                        name: "FK_Reviews_User_CustomerId",
-                        column: x => x.CustomerId,
-                        principalSchema: "Identity",
-                        principalTable: "User",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "UserClaims",
                 schema: "Identity",
                 columns: table => new
@@ -339,6 +315,39 @@ namespace ChefConnect.Migrations
                     table.ForeignKey(
                         name: "FK_UserTokens_User_UserId",
                         column: x => x.UserId,
+                        principalSchema: "Identity",
+                        principalTable: "User",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Reviews",
+                schema: "Identity",
+                columns: table => new
+                {
+                    ReviewsId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ReviewDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Ratings = table.Column<int>(type: "int", nullable: false),
+                    ChefId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CustomerId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: true),
+                    ReviewDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    chefRecipeId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Reviews", x => x.ReviewsId);
+                    table.ForeignKey(
+                        name: "FK_Reviews_ChefRecipes_chefRecipeId",
+                        column: x => x.chefRecipeId,
+                        principalSchema: "Identity",
+                        principalTable: "ChefRecipes",
+                        principalColumn: "ChefRecipesId");
+                    table.ForeignKey(
+                        name: "FK_Reviews_User_CustomerId",
+                        column: x => x.CustomerId,
                         principalSchema: "Identity",
                         principalTable: "User",
                         principalColumn: "Id",
@@ -608,6 +617,12 @@ namespace ChefConnect.Migrations
                 schema: "Identity",
                 table: "PaymentMethods",
                 column: "CustomerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reviews_chefRecipeId",
+                schema: "Identity",
+                table: "Reviews",
+                column: "chefRecipeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reviews_CustomerId",
