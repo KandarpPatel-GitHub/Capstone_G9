@@ -1204,8 +1204,48 @@ img#recipeImage {
     .checkout-btn:hover {
         background-color: #0056b3;
     }
+/*style for manage address page
+*/
+.address-container {
+    background-color: #fff;
+    max-width: 700px;
+    margin: 20px auto;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border-radius: 8px;
+}
 
-/* Style for buttons to ensure they are aligned correctly */
+/* Header Styling */
+.address-header h2 {
+    background-color: whitesmoke;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    border-radius: 8px;
+    font-size: medium;
+    text-align: center;
+}
+
+/* Flexbox for Form Rows */
+.address-container .form-row {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap; /* Allows wrapping for smaller screens */
+}
+
+.address-container .form-row .form-group {
+        /* Stack label over input */
+        margin-right: 50px;
+        margin-top: 0;
+        margin-bottom: 0;
+        flex: 1; /* Flex grow to fill available space */
+        min-width: 120px; /* Minimum width to prevent too much squeezing */
+    }
+
+.address-container .form-row .form-group input[type="text"] {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 100%;
+        }
 
 
 
