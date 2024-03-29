@@ -1131,14 +1131,19 @@ img#recipeImage {
     padding: 3px 10px; /* Further reduced padding */
     border-radius: 3px; /* Adjusted border radius */
 }
+
 .cart-item-details .form-group .btn{
     margin-top:10px;
    
 }
 .cart-item-details .form-group select,
-.cart-item-details .form-group input[type=number] {
+.cart-item-details .form-group input[type=number]
+{
     width: 60%;
     margin-top:10px;
+}
+.cart-item-details .form-group input[type=date]{
+    width:60%;
 }
 .cart-item-details .form-group label,
 .cart-item-details .form-group .form-select,
@@ -1314,19 +1319,21 @@ img#recipeImage {
                     margin-bottom: 5px;
                 }
 /*chef my booking page css*/
-.past-booking-table {
-    width: 100%;
-    border-collapse: collapse; /* Eliminates the space between borders */
-    margin-bottom: 20px;
-}
+ .past-booking-table {
 
-.upcoming-booking-table {
-    width: 100%;
-    border-collapse: collapse; /* Eliminates the space between borders */
-    margin-bottom: 20px;
-}
+        width: 100%;
+        border-collapse: collapse; /* Eliminates the space between borders */
+        margin-bottom: 20px;
+        
+    }
 
-    .past-booking-table th, .past-booking-table td, .upcoming-booking-table th, .upcoming-booking-table td {
+    .upcoming-booking-table {
+        width: 100%;
+        border-collapse: collapse; /* Eliminates the space between borders */
+        margin-bottom: 20px;
+    }
+
+    .past-booking-table th, .past-booking-table td,.upcoming-booking-table th, .upcoming-booking-table td {
         padding: 10px;
         text-align: left;
         border-bottom: 1px solid #ddd; /* Adds a light line between rows */
@@ -1339,20 +1346,20 @@ img#recipeImage {
         font-weight: bold;
     }
 
-/* Row styling */
-tr:nth-child(even) {
-    background-color: #f2f2f2; /* Zebra striping for rows */
-}
+    /* Row styling */
+    tr:nth-child(even) {
+        background-color: #f2f2f2; /* Zebra striping for rows */
+    }
 
-/* Address cell styling */
-.past-booking-table td:nth-child(6) p, .upcoming-booking-table td:nth-child(6) p {
-    margin: 0; /* Removes default paragraph margins */
-    padding: 2px; /* Adds padding within the address block */
-    line-height: 1.5; /* Adjusts line spacing for readability */
-}
+    /* Address cell styling */
+    .past-booking-table td:nth-child(6) p,.upcoming-booking-table td:nth-child(6) p {
+        margin: 0; /* Removes default paragraph margins */
+        padding: 2px; /* Adds padding within the address block */
+        line-height: 1.5; /* Adjusts line spacing for readability */
+    }
 
-.past-booking-table td span.address,
-.upcoming-booking-table td span.address {
+    .past-booking-table td span.address,
+    .upcoming-booking-table td span.address{
     display: inline; /* Makes sure the content is in one line */
     white-space: nowrap; /* Prevents the text from wrapping */
     overflow: hidden; /* Hides any overflow */
