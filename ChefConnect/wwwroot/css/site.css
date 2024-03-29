@@ -1245,8 +1245,74 @@ img#recipeImage {
             border: 1px solid #ccc;
             border-radius: 4px;
             width: 100%;
+ }
+/*css for customer checkout page*/
+
+.customer-checkout-form .row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center; /* Center cards horizontally */
+    padding: 15px;
+}
+
+    /* Address Card Style */
+    .customer-checkout-form .row .row .col-md-6 .card-address-home, .card-payment-home {
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin: 10px; /* Spacing between cards */
+        width: calc(50% - 20px); /* Half width minus margin, adjust as needed */
+        cursor: pointer;
+        transition: box-shadow 0.3s;
+        width: 100%;
+    }
+
+    .customer-checkout-form .row .row .col-md-6 .card-address-home, .card-payment-home {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+        /* Card Body Style */
+        .customer-checkout-form .row .row .col-md-6 .card-address-home .card-body,
+        .customer-checkout-form .row .card-payment-home {
+            padding: 20px;
         }
 
+            /* Form Group Style */
+            .customer-checkout-form .row .row .col-md-6 .card-address-home .card-body .form-group,
+            .customer-checkout-form .row .card-payment-home .form-group {
+                margin-bottom: 15px; /* Increase or decrease as needed for spacing */
+            }
+
+                /* Form Group Label and Input Style */
+                .customer-checkout-form .row .row .col-md-6 .card-address-home .card-body .form-group label,
+                .customer-checkout-form .row .card-payment-home .form-group label {
+                    display: block;
+                    cursor: pointer;
+                    margin-bottom: 5px;
+                }
+
+                /* Form Group Radio Button Style */
+                .customer-checkout-form .row .row .col-md-6 .card-address-home .card-body .form-group input[type=radio],
+                .customer-checkout-form .row .card-payment-home .form-group input[type="radio"] {
+                    margin-right: 10px;
+                }
+
+                /* Card Title Style */
+                .customer-checkout-form .row .row .col-md-6 .card-address-home .card-body .form-group .card-title,
+                .customer-checkout-form .row .card-payment-home .form-group .card-title {
+                    font-weight: bold;
+                    margin-bottom: 10px;
+                    color: #333;
+                }
+
+                /* Card Text Style */
+                .customer-checkout-form .row .row .col-md-6 .card-address-home .card-body .form-group .card-text,
+                .customer-checkout-form .row .card-payment-home .form-group .card-text {
+                    color: #666;
+                    margin-bottom: 5px;
+                }
 
 
 

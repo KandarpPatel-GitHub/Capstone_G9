@@ -4,12 +4,23 @@
     ViewData["title"] = "Secure Checkout Page";
 }
 <style>
-    .error-message {
+.error-message {
         color: red;
         font-size: 0.8em;
-    }
+}
+.cart-header-customer-checkout h2 {
+        
+        text-align: center;
+        margin-bottom: 20px;
+}
+
+    /* Row and Card Container */
+
+
+    /* Button Style */
+    
 </style>
-<form asp-controller="Customer" asp-action="SecureCheckout" method="post">
+<form asp-controller="Customer" asp-action="SecureCheckout" method="post" class="customer-checkout-form">
     <div class="row">
         <div class="col-md-8">
             <section>
