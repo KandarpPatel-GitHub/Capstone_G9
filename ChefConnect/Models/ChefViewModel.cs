@@ -22,8 +22,10 @@ namespace ChefConnect.Models
         public List<ChefRecipes>? otherChefRecipes { get; set; }
 
         public List<Reviews>? ChefReviews { get; set; }
-        public List<OrderDetails>? UpComingOrders { get; set; }
-        public List<OrderDetails>? PastOrders { get; set; }
+
+        public List<OrderRecipes>? UpComingOrders { get; set; }
+
+        public List<OrderRecipes>? PastOrders { get; set; }
 
     }
 }

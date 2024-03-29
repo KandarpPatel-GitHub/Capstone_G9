@@ -33,13 +33,14 @@
                                             @foreach (var ts in Model.TimeSlots)
                                             {
                                                 <option value="@ts.TimeSlotsId">
-                                                    @ts.TimeSlot
+                                                @DateTime.Today.Add(ts.TimeSlot).ToString("hh:mm tt")
                                                 </option>
                                             }
                                         </select>
-
+                                        <label class="pb-3" for="OrderDate" asp-for="@item.OrderDate">Date:</label>
+                                        <input type="date" class="form-control" asp-for="@item.OrderDate" id="OrderDate" name="OrderDate" min="@DateTime.Now.AddDays(2).ToString("yyyy-MM-dd")"/>
                                         <label class="pb-3" for="GuestQuantity" asp-for="@item.GuestQuantity">Guest Quantity:</label>
-                                        <input class="form-control" asp-for="@item.GuestQuantity" id="GuestQuantity" name="GuestQuantity" min="@item.ChefRecipe.NumberOfPeople" max="20"/>
+                                        <input class="form-control" asp-for="@item.GuestQuantity" id="GuestQuantity" name="GuestQuantity" min="@item.ChefRecipe.NumberOfPeople" max="20" />
 
 
                                         <button type="submit" class="btn btn-primary">Save</button>

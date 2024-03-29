@@ -10,7 +10,7 @@
         public TimeSlots? TimeSlot { get; set; }
         public double? RecipeTotal { get; set; }
         public string? CustomerId { get; set; }
-
+        public DateTime? OrderDate { get; set; }
 
     }
 }

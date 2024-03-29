@@ -20,6 +20,6 @@ namespace ChefConnect.Entities
 		public double RecipeTotal { get; set; }
 
 		public DateTime OrderDate { get; set; }
-    }
+	}
 }
 

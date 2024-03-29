@@ -118,6 +118,35 @@ namespace ChefConnect.Controllers
             return View("CustomerHome", model);
         }
 
+        [HttpGet("/{username}/Search")]
+        public async Task<IActionResult> GetSearchPage(string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            CustomerViewModel model = new CustomerViewModel()
+            {
+                ActiveUser = user,
+                CuisinesList = await _dbcontext.Cuisines.ToListAsync(),
+                AllRecipes = new List<ChefRecipes>(),
+                ChefsList = new List<AppUser>()
+            };
+            return View("CustomerSearch", model);
+        }
+
+        [HttpGet("/{name}/Recipes")]
+        public async Task<IActionResult> GetRecipesFromCuisine(string name)
+        {
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            var recipes = await _dbcontext.ChefRecipes.Include(r => r.Chef).Include(r => r.RecipeCuisine).Where(r => r.RecipeCuisine.CuisineName == name).ToListAsync();
+            CustomerViewModel model = new CustomerViewModel()
+            {
+                ActiveUser = user,
+                CuisinesList = await _dbcontext.Cuisines.ToListAsync(),
+                AllRecipes = recipes,
+                ChefsList = new List<AppUser>()
+            };
+            return View("CustomerSearch", model);
+        }
+
         [HttpGet("/{username}/Customer-Profile")]
         public async Task<IActionResult> GetCustomerAccountSettings(string username)
         {
@@ -137,7 +166,6 @@ namespace ChefConnect.Controllers
                 var user = await _userManager.FindByNameAsync(model.ActiveUser.UserName);
                 user.Name = model.ActiveUser.Name;
                 user.PhoneNumber = model.ActiveUser.PhoneNumber;
-                //user.DateOfBirth = model.activeUser.DateOfBirth;
                 user.UserName = model.ActiveUser.UserName;
                 user.Email = model.ActiveUser.Email;
                 await _userManager.UpdateAsync(user);
@@ -149,48 +177,6 @@ namespace ChefConnect.Controllers
             }
         }
 
-        [HttpGet("/{username}/{id}/Add-Review")]
-        public async Task<IActionResult> GetReviewsPage(string username, int id)
-        {
-            CustomerViewModel model = new CustomerViewModel()
-            {
-                ActiveUser = await _userManager.FindByNameAsync(username),
-                ActiveRecipe = await _dbcontext.ChefRecipes.Include(r => r.RecipeCuisine).Where(r => r.ChefRecipesId == id).FirstOrDefaultAsync(),
-                NewReview = new Reviews()
-            };
-
-            return View("CustomerAddReview", model);
-        }
-
-        [HttpPost()]
-        public async Task<IActionResult> AddChefReview(CustomerViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                _dbcontext.Reviews.Add(model.NewReview);
-                _dbcontext.SaveChanges();
-                return RedirectToAction("GetCustomerHome", new { username = User.Identity.Name });
-            }
-            else
-            {
-                return View("CustomerAddReview", model);
-            }
-        }
-
-
-        //Get Method for Customer to Book a Chef
-        //[HttpGet("/{username}/{id}/Book-Chef")]
-        //public async Task<IActionResult> GetBookChefPage(string username, int id)
-        //{
-        //    CustomerViewModel model = new CustomerViewModel()
-        //    {
-        //        ActiveUser = await _userManager.FindByNameAsync(username),
-        //        ActiveRecipe = await _dbcontext.ChefRecipes.Include(r => r.RecipeCuisine).Where(r => r.ChefRecipesId == id).FirstOrDefaultAsync()
-
-        //    };
-
-        //    return View("CustomerBookChef", model);
-        //}
         [HttpGet("/{username}/Cart")]
         public async Task<IActionResult> GetCustomerCart(string username)
         {
@@ -207,119 +193,6 @@ namespace ChefConnect.Controllers
             return View("CustomerCart", model);
         }
 
-        //Get Method for Customer to add to cart feature
-        [HttpGet("/{username}/{id}/Cart")]
-        public async Task<IActionResult> AddRecipeToCart(string username, int id)
-        {
-
-            var user = await _userManager.FindByNameAsync(username);
-            var recipe = await _dbcontext.ChefRecipes.Include(r => r.RecipeCuisine).Where(r => r.ChefRecipesId == id).FirstOrDefaultAsync();
-            List<UserCartItem> _cartList = await _dbcontext.UserCartItems.Include(o => o.ChefRecipe).Where(o => o.CustomerId == user.Id).ToListAsync();
-
-
-            UserCartItem item = new UserCartItem()
-            {
-
-                RecipeId = recipe.ChefRecipesId,
-                CustomerId = user.Id,
-                TimeSlotId = 1
-            };
-
-            if (_cartList.Count == 0)
-            {
-
-                _dbcontext.UserCartItems.Add(item);
-                _dbcontext.SaveChanges();
-            }
-            else if (isNewCartItem(_cartList, item))
-            {
-                _dbcontext.UserCartItems.Add(item);
-                _dbcontext.SaveChanges();
-
-
-            }
-            //_cartList = await _dbcontext.UserCartItems.Include(o => o.ChefRecipe).Where(o => o.CustomerId == user.Id).ToListAsync();
-
-
-
-            // CustomerViewModel model = new CustomerViewModel()
-            // {
-            //     ActiveUser = user,
-            //     ActiveRecipe = recipe,
-            //     cartList = _cartList,
-            //     TimeSlots = await _dbcontext.TimeSlots.ToListAsync()
-
-            // };
-            return RedirectToAction("GetCustomerCart", new { username = user.UserName });
-        }
-
-        //Method to update checkout page with cart items
-        [HttpPost()]
-        public async Task<IActionResult> UpdateCartPage(IFormCollection form)
-        {
-            int id = int.Parse(form["itemId"]);
-            var timeSlotId = form["timeSlotId"];
-            var guestCount = form["GuestQuantity"];
-
-            var user = await _userManager.FindByNameAsync(User.Identity.Name);
-            var userCartItem = await _dbcontext.UserCartItems.Include(uc => uc.ChefRecipe).Where(o => o.UserCartItemId == id).FirstOrDefaultAsync();
-            userCartItem.TimeSlotId = Convert.ToInt32(timeSlotId);
-            userCartItem.GuestQuantity = Convert.ToInt32(guestCount);
-            userCartItem.RecipeTotal = (userCartItem.ChefRecipe.Price + ((userCartItem.GuestQuantity - userCartItem.ChefRecipe.NumberOfPeople) * userCartItem.ChefRecipe.PricePerExtraPerson));
-            _dbcontext.UserCartItems.Update(userCartItem);
-            _dbcontext.SaveChanges();
-            return RedirectToAction("GetCustomerCart", new { username = user.UserName });
-        }
-
-        [HttpGet()]
-        public async Task<IActionResult> RemoveItemFromCart(int id)
-        {
-            var user = await _userManager.FindByNameAsync(User.Identity.Name);
-            var cartItem = await _dbcontext.UserCartItems.Where(u => u.UserCartItemId == id).FirstOrDefaultAsync();
-
-            _dbcontext.UserCartItems.Remove(cartItem);
-            _dbcontext.SaveChanges();
-
-            return RedirectToAction("GetCustomerCart", new { username = user.UserName });
-        }
-
-
-        //Navigate to Secure Checkout page
-        [HttpGet("/{username}/Checkout")]
-        public async Task<IActionResult> GetSecureCheckoutPage(string username)
-        {
-            var user = await _userManager.FindByNameAsync(username);
-            CustomerViewModel model = new CustomerViewModel()
-            {
-                ActiveUser = user,
-                cartList = await _dbcontext.UserCartItems.Include(o => o.ChefRecipe).Where(o => o.CustomerId == user.Id).ToListAsync(),
-                addressList = await _dbcontext.Addresses.Where(a => a.CustomerId == user.Id).ToListAsync(),
-                PaymentMethodsList = await _dbcontext.PaymentMethods.Where(p => p.CustomerId == user.Id).ToListAsync()
-
-            };
-            return View("CustomerCheckout", model);
-        }
-
-
-        ////Validation with Idictionary
-        //[HttpPost()]
-        //public async Task<IActionResult> CheckValidations(CustomerViewModel model)
-        //{
-
-
-
-        //        Addresses _address = new Addresses();
-        //        _address.Name = model.ActiveUser.CustomerAddress.Name;
-        //        _address.CustomerId = model.ActiveUser.CustomerAddress.CustomerId;
-
-        //        //_dbcontext.Addresses.Add(_address);
-        //        //_dbcontext.SaveChanges();
-        //        return RedirectToAction("GetSecureCheckoutPage", new { username = User.Identity.Name });
-
-
-        //}
-
-
         //Get Method to navigate to All Addresses page
         [HttpGet("/{username}/All-Addresses")]
         public async Task<IActionResult> GetAllAddresses(string username)
@@ -334,27 +207,11 @@ namespace ChefConnect.Controllers
             return View("CustomerManageAddresses", model);
         }
 
-
         //Get the customer to address page
         [HttpGet("/{username}/Address")]
         public async Task<IActionResult> GetCustomerAddressPage(string username)
         {
             var user = await _userManager.FindByNameAsync(username);
-            //var address = await _dbcontext.Addresses.Where(a => a.CustomerId == user.Id).FirstOrDefaultAsync();
-
-            //if (address != null)
-            //{
-            //    model.Name = address.Name;
-            //    model.AptNumber = address.AptNumber;
-            //    model.StreetAddress = address.StreetAddress;
-            //    model.City = address.City;
-            //    model.Province = address.Province;
-            //    model.Country = address.Country;
-            //    model.PostalCode = address.PostalCode;
-            //    model.PhoneNumber = address.PhoneNumber;
-            //    model.CustomerId = address.CustomerId;
-            //}
-
 
             AddressViewModel model = new AddressViewModel();
 
@@ -391,78 +248,6 @@ namespace ChefConnect.Controllers
             }
         }
 
-        [HttpGet("/{username}/Search")]
-        public async Task<IActionResult> GetSearchPage(string username)
-        {
-            var user = await _userManager.FindByNameAsync(username);
-            CustomerViewModel model = new CustomerViewModel()
-            {
-                ActiveUser = user,
-                CuisinesList = await _dbcontext.Cuisines.ToListAsync(),
-                AllRecipes = new List<ChefRecipes>(),
-                ChefsList = new List<AppUser>()
-            };
-            return View("CustomerSearch",model);
-        }
-
-        [HttpGet("/{name}/Recipes")]
-        public async Task<IActionResult> GetRecipesFromCuisine(string name)
-        {
-            var user = await _userManager.FindByNameAsync(User.Identity.Name);
-            var recipes = await _dbcontext.ChefRecipes.Include(r => r.Chef).Include(r => r.RecipeCuisine).Where(r => r.RecipeCuisine.CuisineName == name).ToListAsync();
-            CustomerViewModel model = new CustomerViewModel()
-            {
-                ActiveUser = user,
-                CuisinesList = await _dbcontext.Cuisines.ToListAsync(),
-                AllRecipes = recipes,
-                ChefsList = new List<AppUser>()
-            };
-            return View("CustomerSearch", model);
-        }
-
-
-
-        [HttpPost("/Secure-Checkout")]
-        public async Task<IActionResult> SecureCheckout(IFormCollection form)
-        {
-           
-                var user = await _userManager.FindByNameAsync(User.Identity.Name);
-                var cartList = await _dbcontext.UserCartItems.Include(o => o.ChefRecipe).Where(o => o.GuestQuantity != null).Where(o => o.CustomerId == user.Id).ToListAsync();
-                var order = new OrderDetails()
-                {
-                    CustomerId = user.Id,
-                    //OrderDate = DateTime.Now,
-                    OrderTotal = (double)cartList.Sum(o => o.RecipeTotal),
-                    paymentMethodId = int.Parse(form["selectPayment"]),
-                    addressId = int.Parse(form["selectAddress"])
-                };
-                _dbcontext.OrderDetails.Add(order);
-                _dbcontext.SaveChanges();
-
-                foreach (var item in cartList)
-                {
-                    var orderItem = new OrderRecipes()
-                    {
-                       OrderDetailsId = order.OrderDetailsId,
-                        ChefRecipesId = item.RecipeId,
-                       GuestQuantity = (int)item.GuestQuantity,
-                       TimeSlotId = (int)item.TimeSlotId,
-                       RecipeTotal = (double)item.RecipeTotal
-
-                        
-                    };
-                    _dbcontext.OrderRecipes.Add(orderItem);
-                    _dbcontext.UserCartItems.Remove(item);
-                    _dbcontext.SaveChanges();
-                }
-                
-
-                return RedirectToAction("GetCustomerHome", new { username = user.UserName });
-           
-            
-                
-        }
-
         //Get method for customer to manage payment methods
         [HttpGet("/{username}/Manage-Payment")]
         public async Task<IActionResult> GetManagePaymentMethods(string username)
@@ -484,7 +269,7 @@ namespace ChefConnect.Controllers
         {
             var user = await _userManager.FindByNameAsync(username);
             PaymentViewModel model = new PaymentViewModel();
-            
+
             return View("CustomerAddPayment", model);
         }
 
@@ -515,7 +300,158 @@ namespace ChefConnect.Controllers
             }
         }
 
+        //Get Method for Customer to add to cart feature
+        [HttpGet("/{username}/{id}/Cart")]
+        public async Task<IActionResult> AddRecipeToCart(string username, int id)
+        {
 
+            var user = await _userManager.FindByNameAsync(username);
+            var recipe = await _dbcontext.ChefRecipes.Include(r => r.RecipeCuisine).Where(r => r.ChefRecipesId == id).FirstOrDefaultAsync();
+            List<UserCartItem> _cartList = await _dbcontext.UserCartItems.Include(o => o.ChefRecipe).Where(o => o.CustomerId == user.Id).ToListAsync();
+
+
+            UserCartItem item = new UserCartItem()
+            {
+
+                RecipeId = recipe.ChefRecipesId,
+                CustomerId = user.Id,
+                TimeSlotId = 1
+            };
+
+            if (_cartList.Count == 0)
+            {
+
+                _dbcontext.UserCartItems.Add(item);
+                _dbcontext.SaveChanges();
+            }
+            else if (isNewCartItem(_cartList, item))
+            {
+                _dbcontext.UserCartItems.Add(item);
+                _dbcontext.SaveChanges();
+
+
+            }
+
+            return RedirectToAction("GetCustomerCart", new { username = user.UserName });
+        }
+
+        //Method to update checkout page with cart items
+        [HttpPost()]
+        public async Task<IActionResult> UpdateCartPage(IFormCollection form)
+        {
+            int id = int.Parse(form["itemId"]);
+            var timeSlotId = form["timeSlotId"];
+            var guestCount = form["GuestQuantity"];
+            var date = form["OrderDate"];
+            Console.WriteLine(date);
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            var userCartItem = await _dbcontext.UserCartItems.Include(uc => uc.ChefRecipe).Where(o => o.UserCartItemId == id).FirstOrDefaultAsync();
+            userCartItem.TimeSlotId = Convert.ToInt32(timeSlotId);
+            userCartItem.OrderDate = Convert.ToDateTime(date);
+            userCartItem.GuestQuantity = Convert.ToInt32(guestCount);
+            userCartItem.RecipeTotal = (userCartItem.ChefRecipe.Price + ((userCartItem.GuestQuantity - userCartItem.ChefRecipe.NumberOfPeople) * userCartItem.ChefRecipe.PricePerExtraPerson));
+            _dbcontext.UserCartItems.Update(userCartItem);
+            _dbcontext.SaveChanges();
+            return RedirectToAction("GetCustomerCart", new { username = user.UserName });
+        }
+
+        [HttpGet()]
+        public async Task<IActionResult> RemoveItemFromCart(int id)
+        {
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            var cartItem = await _dbcontext.UserCartItems.Where(u => u.UserCartItemId == id).FirstOrDefaultAsync();
+
+            _dbcontext.UserCartItems.Remove(cartItem);
+            _dbcontext.SaveChanges();
+
+            return RedirectToAction("GetCustomerCart", new { username = user.UserName });
+        }
+
+        //Navigate to Secure Checkout page
+        [HttpGet("/{username}/Checkout")]
+        public async Task<IActionResult> GetSecureCheckoutPage(string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            CustomerViewModel model = new CustomerViewModel()
+            {
+                ActiveUser = user,
+                cartList = await _dbcontext.UserCartItems.Include(o => o.ChefRecipe).Where(o => o.CustomerId == user.Id).ToListAsync(),
+                addressList = await _dbcontext.Addresses.Where(a => a.CustomerId == user.Id).ToListAsync(),
+                PaymentMethodsList = await _dbcontext.PaymentMethods.Where(p => p.CustomerId == user.Id).ToListAsync()
+
+            };
+            return View("CustomerCheckout", model);
+        }
+
+        [HttpPost("/Secure-Checkout")]
+        public async Task<IActionResult> SecureCheckout(IFormCollection form)
+        {
+
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            var cartList = await _dbcontext.UserCartItems.Include(o => o.ChefRecipe).Where(o => o.GuestQuantity != null).Where(o => o.CustomerId == user.Id).ToListAsync();
+            var order = new OrderDetails()
+            {
+                CustomerId = user.Id,
+                //OrderDate = DateTime.Now,
+                OrderTotal = (double)cartList.Sum(o => o.RecipeTotal),
+                paymentMethodId = int.Parse(form["selectPayment"]),
+                addressId = int.Parse(form["selectAddress"])
+            };
+            _dbcontext.OrderDetails.Add(order);
+            _dbcontext.SaveChanges();
+
+            foreach (var item in cartList)
+            {
+                var orderItem = new OrderRecipes()
+                {
+                    OrderDetailsId = order.OrderDetailsId,
+                    ChefRecipesId = item.RecipeId,
+                    GuestQuantity = (int)item.GuestQuantity,
+                    TimeSlotId = (int)item.TimeSlotId,
+                    OrderDate = (DateTime)item.OrderDate,
+                    RecipeTotal = (double)item.RecipeTotal
+
+
+                };
+                _dbcontext.OrderRecipes.Add(orderItem);
+                _dbcontext.UserCartItems.Remove(item);
+                _dbcontext.SaveChanges();
+            }
+
+
+            return RedirectToAction("GetCustomerHome", new { username = user.UserName });
+
+
+
+        }
+
+        [HttpGet("/{username}/{id}/Add-Review")]
+        public async Task<IActionResult> GetReviewsPage(string username, int id)
+        {
+            CustomerViewModel model = new CustomerViewModel()
+            {
+                ActiveUser = await _userManager.FindByNameAsync(username),
+                ActiveRecipe = await _dbcontext.ChefRecipes.Include(r => r.RecipeCuisine).Where(r => r.ChefRecipesId == id).FirstOrDefaultAsync(),
+                NewReview = new Reviews()
+            };
+
+            return View("CustomerAddReview", model);
+        }
+
+        [HttpPost()]
+        public async Task<IActionResult> AddChefReview(CustomerViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                _dbcontext.Reviews.Add(model.NewReview);
+                _dbcontext.SaveChanges();
+                return RedirectToAction("GetCustomerHome", new { username = User.Identity.Name });
+            }
+            else
+            {
+                return View("CustomerAddReview", model);
+            }
+        }
 
         public bool isUniquePhoneNumber(string phone)
         {

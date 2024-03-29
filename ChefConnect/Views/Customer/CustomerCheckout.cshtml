@@ -17,81 +17,90 @@
                     <h2>Address</h2>
                 </div>
                 <div class="row">
-                    @foreach (var address in Model.addressList)
+                    @if (Model.addressList.Count == 0)
                     {
+                        <a asp-controller="Customer" asp-action="GetCustomerAddressPage" asp-route-username="@Model.ActiveUser.UserName" class="btn button-cart add-to-cart btn-primary">Add A new Address</a>
+                    }
+                    else
+                    {
+                        @foreach (var address in Model.addressList)
+                        {
 
-                        <div class="col-md-6">
-                            <!-- Card -->
-                            <div class="card-address-home" onclick="selectAddressCard(this)">
-                                <!-- Card image -->
-                                <!-- Card body -->
-                                <div class="card-body">
-                                    <div class="form-group" id="addressCard">
-                                        <label for="selectAddress">
-                                            <input type="radio" name="selectAddress" value="@address.AddressesId" id="@address.AddressesId" class="card-radio" />
-                                            <h5 class="card-title">Name: @address.Name</h5>
-                                            <p class="card-text">Apt Number: @address.AptNumber </p>
-                                            <p class="card-text">Street Address: @address.StreetAddress</p>
-                                            <p class="card-text">City: @address.City</p>
-                                            <p class="card-text">Province: @address.Province</p>
-                                            <p class="card-text">
-                                                Postal Code: @address.PostalCode
-                                            </p>
-                                            <p class="card-text">
-                                                Country: @address.Country
-                                            </p>
-                                            <p class="card-text">
-                                                Phone Number: @address.PhoneNumber
-                                            </p>
-                                        </label>
+                            <div class="col-md-6">
+                                <!-- Card -->
+                                <div class="card-address-home" onclick="selectAddressCard(this)">
+                                    <!-- Card image -->
+                                    <!-- Card body -->
+                                    <div class="card-body">
+                                        <div class="form-group" id="addressCard">
+                                            <label for="selectAddress">
+                                                <input type="radio" name="selectAddress" value="@address.AddressesId" id="@address.AddressesId" class="card-radio" />
+                                                <h5 class="card-title">Name: @address.Name</h5>
+                                                <p class="card-text">Apt Number: @address.AptNumber </p>
+                                                <p class="card-text">Street Address: @address.StreetAddress</p>
+                                                <p class="card-text">City: @address.City</p>
+                                                <p class="card-text">Province: @address.Province</p>
+                                                <p class="card-text">
+                                                    Postal Code: @address.PostalCode
+                                                </p>
+                                                <p class="card-text">
+                                                    Country: @address.Country
+                                                </p>
+                                                <p class="card-text">
+                                                    Phone Number: @address.PhoneNumber
+                                                </p>
+                                            </label>
+                                        </div>
+
+
                                     </div>
-
-
                                 </div>
                             </div>
-                        </div>
+                        }
                     }
+
                 </div>
             </section>
-
-
-
             <section>
                 <div class="cart-header">
                     <h2>Payment</h2>
                 </div>
                 <div class="row">
-
-                    @foreach (var pay in Model.PaymentMethodsList)
+                    @if (Model.PaymentMethodsList.Count == 0)
                     {
+                        <a asp-controller="Customer" asp-action="GetAddPaymentMethodPage" asp-route-username="@Model.ActiveUser.UserName" class="btn button-cart add-to-cart btn-primary">Add a new Payment Method</a>
 
-                        <div class="col-md-6">
-                            <!-- Card -->
-                            <div class="card-payment-home" onclick="selectPaymentCard(this)">
-                                <!-- Card image -->
-                                <!-- Card body -->
-                                <div class="card-body">
-                                    <div class="form-group" id="paymentCard">
-                                        <label for="selectPayment">
-                                            <input type="radio" name="selectPayment" value="@pay.PaymentMethodsId" id="@pay.PaymentMethodsId" class="card-radio" />
-                                            <h5 class="card-title">Name on Card: @pay.NameOnCard</h5>
-                                            <p class="card-text">Payment Type: @pay.PaymentType </p>
-                                            <p class="card-text">Card Number: @pay.CardNumber</p>
-                                            <p class="card-text">Card Expiry: @pay.CardExpiry</p>
-                                            <p class="card-text">CVV: @pay.CardCvv</p>
+                    }
+                    else
+                    {
+                        @foreach (var pay in Model.PaymentMethodsList)
+                        {
+
+                            <div class="col-md-6">
+                                <!-- Card -->
+                                <div class="card-payment-home" onclick="selectPaymentCard(this)">
+                                    <!-- Card image -->
+                                    <!-- Card body -->
+                                    <div class="card-body">
+                                        <div class="form-group" id="paymentCard">
+                                            <label for="selectPayment">
+                                                <input type="radio" name="selectPayment" value="@pay.PaymentMethodsId" id="@pay.PaymentMethodsId" class="card-radio" />
+                                                <h5 class="card-title">Name on Card: @pay.NameOnCard</h5>
+                                                <p class="card-text">Payment Type: @pay.PaymentType </p>
+                                                <p class="card-text">Card Number: @pay.CardNumber</p>
+                                                <p class="card-text">Card Expiry: @pay.CardExpiry</p>
+                                                <p class="card-text">CVV: @pay.CardCvv</p>
 
 
 
 
-                                        </label>
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        }
                     }
-
-
-
                 </div>
             </section>
         </div>

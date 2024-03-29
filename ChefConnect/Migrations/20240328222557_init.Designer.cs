@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ChefConnect.Migrations
 {
     [DbContext(typeof(ChefConnectDbContext))]
-    [Migration("20240328173801_init")]
+    [Migration("20240328222557_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -352,9 +352,6 @@ namespace ChefConnect.Migrations
 
                     b.Property<double>("OrderTotal")
                         .HasColumnType("float");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
 
                     b.Property<int>("addressId")
                         .HasColumnType("int");
@@ -740,6 +737,9 @@ namespace ChefConnect.Migrations
 
                     b.Property<int?>("GuestQuantity")
                         .HasColumnType("int");
+
+                    b.Property<DateTime?>("OrderDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("RecipeId")
                         .HasColumnType("int");

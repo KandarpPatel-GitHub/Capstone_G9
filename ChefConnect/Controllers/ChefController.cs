@@ -134,11 +134,51 @@ namespace ChefConnect.Controllers
             ChefViewModel model = new ChefViewModel()
             {
                 ActiveUser = await _userManager.FindByNameAsync(username),
-               
-                UpComingOrders = await _chefConnectDbContext.OrderDetails.Include(o => o.Customer).Include(o => o.Address).Include(o => o.PaymentMethod).Include(o => o.OrderRecipes).ThenInclude(or => or.ChefRecipes).Where(o => o.OrderRecipes.Any(or => or.ChefRecipes.ChefId == user.Id)).Where(o => o.Status == OrderDetails.OrderStatus.Pending).ToListAsync(),
-                PastOrders = await _chefConnectDbContext.OrderDetails.Include(o => o.Customer).Include(o => o.Address).Include(o => o.PaymentMethod).Include(o => o.OrderRecipes).ThenInclude(or => or.ChefRecipes).Where(o => o.OrderRecipes.Any(or => or.ChefRecipes.ChefId == user.Id)).Where(o => o.Status == OrderDetails.OrderStatus.Confirmed).ToListAsync()
+                UpComingOrders = new List<OrderRecipes>(),
+                PastOrders = new List<OrderRecipes>()
+                //UpComingOrders = await _chefConnectDbContext.OrderDetails.Include(o => o.Customer).Include(o => o.Address).Include(o => o.PaymentMethod).Include(o => o.OrderRecipes).ThenInclude(or => or.ChefRecipes).Where(o => o.OrderRecipes.Any(or => or.ChefRecipes.ChefId == user.Id)).Where(o => o.Status == OrderDetails.OrderStatus.Pending).ToListAsync(),
+                //PastOrders = await _chefConnectDbContext.OrderDetails.Include(o => o.Customer).Include(o => o.Address).Include(o => o.PaymentMethod).Include(o => o.OrderRecipes).ThenInclude(or => or.ChefRecipes).Where(o => o.OrderRecipes.Any(or => or.ChefRecipes.ChefId == user.Id)).Where(o => o.Status == OrderDetails.OrderStatus.Confirmed).ToListAsync()
             };
             return View("MyBookings",model);
+        }
+
+        [HttpGet("/{username}/Upcoming-Bookings")]
+        public async Task<IActionResult> GetUpcomingBookings(string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            ChefViewModel model = new ChefViewModel()
+            {
+                ActiveUser = await _userManager.FindByNameAsync(username),
+                UpComingOrders = await _chefConnectDbContext.OrderRecipes.Include(r => r.TimeSlot).Include(r => r.OrderDetails).ThenInclude(od => od.Customer).Include(r => r.OrderDetails).ThenInclude(od => od.Address).Include(o => o.ChefRecipes).ThenInclude(r => r.Chef).Where(r => r.ChefRecipes.ChefId == user.Id).Where(r => r.OrderDate > DateTime.Now).ToListAsync(),
+                PastOrders = new List<OrderRecipes>()
+                
+            };
+            return View("MyBookings", model);
+        }
+
+        [HttpGet("/{username}/Past-Bookings")]
+        public async Task<IActionResult> GetPastBookings(string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            ChefViewModel model = new ChefViewModel()
+            {
+                ActiveUser = await _userManager.FindByNameAsync(username),
+                UpComingOrders = new List<OrderRecipes>(),
+                PastOrders = await _chefConnectDbContext.OrderRecipes.Include(r => r.TimeSlot).Include(r => r.OrderDetails).ThenInclude(od => od.Customer).Include(r => r.OrderDetails).ThenInclude(od => od.Address).Include(o => o.ChefRecipes).ThenInclude(r => r.Chef).Where(r => r.ChefRecipes.ChefId == user.Id).Where(r => r.OrderDate < DateTime.Now).ToListAsync()
+
+            };
+            return View("MyBookings", model);
+        }
+
+        [HttpGet("/{orderid}/{recipeid}/Cancel-Booking")]
+        public async Task<IActionResult> CancelUpcomingBooking(int orderid, int recipeid)
+        {
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            var orderToDelete = await _chefConnectDbContext.OrderRecipes.Where(or => or.OrderDetailsId == orderid).Where(or => or.ChefRecipesId == recipeid).FirstOrDefaultAsync();
+            _chefConnectDbContext.OrderRecipes.Remove(orderToDelete);
+            _chefConnectDbContext.SaveChanges();
+
+            return RedirectToAction("GetUpcomingBookings", new { username = user.UserName });
         }
 
         [HttpGet("/{username}/My-Recipes-Cuisines")]

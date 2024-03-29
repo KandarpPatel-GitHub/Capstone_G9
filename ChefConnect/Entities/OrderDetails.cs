@@ -3,12 +3,12 @@ namespace ChefConnect.Entities
 {
     public class OrderDetails
     {
-        public enum OrderStatus
-        {
-            Pending,
-            Confirmed
+        //public enum OrderStatus
+        //{
+        //    Pending,
+        //    Confirmed
             
-        }
+        //}
 
 
         public int OrderDetailsId { get; set; }
@@ -35,7 +35,7 @@ namespace ChefConnect.Entities
 
         public AppUser? Customer { get; set; }
 
-        public OrderStatus Status { get; set; } = OrderStatus.Pending;
+        //public OrderStatus Status { get; set; } = OrderStatus.Pending;
 
         public ICollection<OrderRecipes>? OrderRecipes { get; set; }
 
