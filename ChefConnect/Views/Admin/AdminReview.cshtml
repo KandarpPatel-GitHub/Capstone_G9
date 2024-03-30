@@ -22,9 +22,10 @@
         </tr>
     </thead>
     <tbody>
-        <tr>
-            @foreach (var review in Model)
-            {
+
+        @foreach (var review in Model)
+        {
+            <tr>
                 <td>
                     @review.ReviewDescription
                 </td>
@@ -50,7 +51,8 @@
                     <a asp-controller="Admin" asp-action="ApproveReview" asp-route-id="@review.ReviewsId">Approve</a>
                     <a asp-controller="Admin" asp-action="RejectReview" asp-route-id="@review.ReviewsId">Reject</a>
                 </td>
-            }
-        </tr>
+            </tr>
+        }
+
     </tbody>
 </table>
