@@ -463,6 +463,32 @@ namespace ChefConnect.Controllers
             }
         }
 
+
+        //CUstomer search a recipe
+        [HttpPost()]
+        public async Task<IActionResult> GetSearchedRecipe(IFormCollection _form)
+        {
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            var searchString = _form["search"];
+
+
+            var recipes = await _dbcontext.ChefRecipes.Include(r => r.RecipeCuisine).Include(r => r.Chef).Where(r => r.RecipeName.Contains(searchString)).ToListAsync();
+            
+            CustomerViewModel model = new CustomerViewModel()
+            {
+                ActiveUser = user,
+                CuisinesList = await _dbcontext.Cuisines.ToListAsync(),
+                AllRecipes = recipes,
+                
+            };
+
+            return View("CustomerSearch", model);
+        }
+
+
+
+
+
         public bool isUniquePhoneNumber(string phone)
         {
             var allUsers = _userManager.Users;

@@ -72,8 +72,8 @@
 
 </style>
 
-<form class="form-search" method="get" action="#">
-    <input type="search" name="search" placeholder="search for dishes and chefs here....">
+<form class="form-search" method="post" asp-controller="Customer" asp-action="GetSearchedRecipe">
+    <input type="search" name="search" placeholder="search for dishes here...." required>
     <button type="submit">Search</button>
 
 </form>
