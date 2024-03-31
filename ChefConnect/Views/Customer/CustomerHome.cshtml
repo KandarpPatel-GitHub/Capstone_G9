@@ -58,8 +58,6 @@
                                                 Price per extra Person: $@recipe.PricePerExtraPerson 
                                             </p>
 
-
-                                            <a asp-controller="Customer" asp-action="GetReviewsPage" asp-route-id="@recipe.ChefRecipesId" asp-route-username="@Model.ActiveUser.UserName" class="btn button-cart btn-primary">Add Review</a>
                                             @*    <a asp-controller="Customer" asp-action="GetBookingPage" asp-route-id="@recipe.ChefRecipesId" asp-route-username="@Model.ActiveUser.UserName" class="btn button-cart book btn-primary">Book</a> *@
                                             <a asp-controller="Customer" asp-action="AddRecipeToCart" asp-route-id="@recipe.ChefRecipesId" asp-route-username="@Model.ActiveUser.UserName" class="btn button-cart add-to-cart btn-primary">Add to Cart</a>
                                         </div>

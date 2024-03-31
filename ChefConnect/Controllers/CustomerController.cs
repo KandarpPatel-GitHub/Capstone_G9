@@ -208,11 +208,11 @@ namespace ChefConnect.Controllers
         }
 
         //Get the customer to address page
-        [HttpGet("/{username}/Address")]
-        public async Task<IActionResult> GetCustomerAddressPage(string username)
+        [HttpGet("/{username}/Address/{returnurl}")]
+        public async Task<IActionResult> GetCustomerAddressPage(string username, string returnurl)
         {
             var user = await _userManager.FindByNameAsync(username);
-
+            TempData["returnurl"] = returnurl;
             AddressViewModel model = new AddressViewModel();
 
             return View("CustomerAddress", model);
@@ -225,6 +225,7 @@ namespace ChefConnect.Controllers
         {
             if (ModelState.IsValid)
             {
+                var returnurl = model.ReturnUrl;
                 var user = await _userManager.FindByNameAsync(User.Identity.Name);
                 Addresses address = new Addresses()
                 {
@@ -240,7 +241,15 @@ namespace ChefConnect.Controllers
                 };
                 _dbcontext.Addresses.Add(address);
                 _dbcontext.SaveChanges();
-                return RedirectToAction("GetAllAddresses", new { username = user.UserName });
+                if (returnurl == "manageaddress")
+                {
+                    return RedirectToAction("GetAllAddresses", new { username = user.UserName });
+                }
+                else
+                {
+                    return RedirectToAction("GetSecureCheckoutPage", new { username = user.UserName });
+                }
+                
             }
             else
             {
@@ -264,12 +273,12 @@ namespace ChefConnect.Controllers
 
 
         //Get Method for Customer to add payment method
-        [HttpGet("/{username}/Add-Payment")]
-        public async Task<IActionResult> GetAddPaymentMethodPage(string username)
+        [HttpGet("/{username}/Add-Payment/{returnurl}")]
+        public async Task<IActionResult> GetAddPaymentMethodPage(string username, string returnurl)
         {
             var user = await _userManager.FindByNameAsync(username);
             PaymentViewModel model = new PaymentViewModel();
-
+            TempData["returnurl"] = returnurl;
             return View("CustomerAddPayment", model);
         }
 
@@ -280,6 +289,7 @@ namespace ChefConnect.Controllers
         {
             if (ModelState.IsValid)
             {
+                var returnurl = model.ReturnUrl;
                 var user = await _userManager.FindByNameAsync(User.Identity.Name);
                 PaymentMethods paymentMethod = new PaymentMethods()
                 {
@@ -292,7 +302,14 @@ namespace ChefConnect.Controllers
                 };
                 _dbcontext.PaymentMethods.Add(paymentMethod);
                 _dbcontext.SaveChanges();
-                return RedirectToAction("GetManagePaymentMethods", new { username = user.UserName });
+                if (returnurl == "managepayment")
+                {
+                    return RedirectToAction("GetManagePaymentMethods", new { username = user.UserName });
+                }
+                else
+                {
+                    return RedirectToAction("GetSecureCheckoutPage", new { username = user.UserName });
+                }
             }
             else
             {
@@ -341,15 +358,16 @@ namespace ChefConnect.Controllers
         {
             int id = int.Parse(form["itemId"]);
             var timeSlotId = form["timeSlotId"];
-            var guestCount = form["GuestQuantity"];
+            var extraPeople = form["GuestQuantity"];
             var date = form["OrderDate"];
             Console.WriteLine(date);
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
             var userCartItem = await _dbcontext.UserCartItems.Include(uc => uc.ChefRecipe).Where(o => o.UserCartItemId == id).FirstOrDefaultAsync();
             userCartItem.TimeSlotId = Convert.ToInt32(timeSlotId);
             userCartItem.OrderDate = Convert.ToDateTime(date);
-            userCartItem.GuestQuantity = Convert.ToInt32(guestCount);
-            userCartItem.RecipeTotal = (userCartItem.ChefRecipe.Price + ((userCartItem.GuestQuantity - userCartItem.ChefRecipe.NumberOfPeople) * userCartItem.ChefRecipe.PricePerExtraPerson));
+            userCartItem.GuestQuantity = Convert.ToInt32(extraPeople);
+            // userCartItem.RecipeTotal = (userCartItem.ChefRecipe.Price + ((userCartItem.GuestQuantity - userCartItem.ChefRecipe.NumberOfPeople) * userCartItem.ChefRecipe.PricePerExtraPerson));
+            userCartItem.RecipeTotal = userCartItem.ChefRecipe.Price + (userCartItem.GuestQuantity * userCartItem.ChefRecipe.PricePerExtraPerson);
             _dbcontext.UserCartItems.Update(userCartItem);
             _dbcontext.SaveChanges();
             return RedirectToAction("GetCustomerCart", new { username = user.UserName });
@@ -485,7 +503,57 @@ namespace ChefConnect.Controllers
             return View("CustomerSearch", model);
         }
 
+        [HttpGet("/{username}/Orders")]
+        public async Task<IActionResult> GetOrdersPage(string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            CustomerViewModel model = new CustomerViewModel()
+            {
+                ActiveUser = await _userManager.FindByNameAsync(username),
+                UpComingOrders = new List<OrderRecipes>(),
+                PastOrders = new List<OrderRecipes>()
+            };
+            return View("CustomerOrders", model);
+        }
 
+        [HttpGet("/{username}/Upcoming-Orders")]
+        public async Task<IActionResult> GetUpcomingOrders(string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            CustomerViewModel model = new CustomerViewModel()
+            {
+                ActiveUser = await _userManager.FindByNameAsync(username),
+                UpComingOrders = await _dbcontext.OrderRecipes.Include(r => r.TimeSlot).Include(r => r.OrderDetails).ThenInclude(od => od.Customer).Include(r => r.OrderDetails).ThenInclude(od => od.Address).Include(o => o.ChefRecipes).ThenInclude(r => r.Chef).Where(r => r.OrderDetails.CustomerId == user.Id).Where(r => r.OrderDate > DateTime.Now).ToListAsync(),
+                PastOrders = new List<OrderRecipes>()
+
+            };
+            return View("CustomerOrders", model);
+        }
+
+        [HttpGet("/{username}/Past-Orders")]
+        public async Task<IActionResult> GetPastOrders(string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            CustomerViewModel model = new CustomerViewModel()
+            {
+                ActiveUser = await _userManager.FindByNameAsync(username),
+                UpComingOrders = new List<OrderRecipes>(),
+                PastOrders = await _dbcontext.OrderRecipes.Include(r => r.TimeSlot).Include(r => r.OrderDetails).ThenInclude(od => od.Customer).Include(r => r.OrderDetails).ThenInclude(od => od.Address).Include(o => o.ChefRecipes).ThenInclude(r => r.Chef).Where(r => r.OrderDetails.CustomerId == user.Id).Where(r => r.OrderDate < DateTime.Now).ToListAsync()
+
+            };
+            return View("CustomerOrders", model);
+        }
+
+        [HttpGet("/{orderid}/{recipeid}/Cancel-Booking")]
+        public async Task<IActionResult> CancelUpcomingBooking(int orderid, int recipeid)
+        {
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            var orderToDelete = await _dbcontext.OrderRecipes.Where(or => or.OrderDetailsId == orderid).Where(or => or.ChefRecipesId == recipeid).FirstOrDefaultAsync();
+            _dbcontext.OrderRecipes.Remove(orderToDelete);
+            _dbcontext.SaveChanges();
+
+            return RedirectToAction("GetUpcomingOrders", new { username = user.UserName });
+        }
 
 
 

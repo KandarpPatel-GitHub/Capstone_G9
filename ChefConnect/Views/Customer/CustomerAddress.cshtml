@@ -16,7 +16,7 @@
                 <div class="row">
 
                     <form asp-controller="Customer" asp-action="AddCustomerAddress" method="post">
-                        
+                        <input type="hidden" asp-for="@Model.ReturnUrl" value="@TempData["returnurl"]" />
                         <div class="form-row">
                         <div class="form-group">
                             <label asp-for="@Model.Name">Name:</label>

@@ -31,7 +31,7 @@ namespace ChefConnect.Models
         [RegularExpression("^([2-9]{1}[0-9]{2})(([2-9]{1})(1[0,2-9]{1}|[0,2-9]{1}[0-9]{1}))([0-9]{4})$", ErrorMessage = "Please enter a valid phone number")]
         public string PhoneNumber { get; set; }
 
-
+        public string? ReturnUrl { get; set; }
         //public string CustomerId { get; set; }
 
        

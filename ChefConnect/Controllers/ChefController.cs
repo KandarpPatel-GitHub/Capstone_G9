@@ -152,7 +152,7 @@ namespace ChefConnect.Controllers
 
             ChefViewModel model = new ChefViewModel()
             {
-                ChefReviews = await _chefConnectDbContext.Reviews.Include(r => r.Customer).Where(r => r.Status == Reviews.ReviewStatus.Clean).Where(r => r.ChefId == user.Id).ToListAsync()
+                ChefReviews = await _chefConnectDbContext.Reviews.Include(r => r.Customer).Include(r => r.ChefRecipe).Where(r => r.Status == Reviews.ReviewStatus.Clean).Where(r => r.ChefId == user.Id).ToListAsync()
             };
 
             return View("MyReviews", model);

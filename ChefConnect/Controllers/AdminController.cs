@@ -38,6 +38,32 @@ namespace ChefConnect.Controllers
             return View("AdminReview",reviews);
         }
 
+        [HttpGet("/{id}/Approved")]
+        public async Task<IActionResult> ApproveReview(int id)
+        {
+            var review = await _chefConnectDbContext.Reviews.Include(r => r.Customer).Include(r => r.ChefRecipe).ThenInclude(r => r.Chef).Where(r => r.ReviewsId == id).FirstOrDefaultAsync();
+
+            review.Status = Entities.Reviews.ReviewStatus.Clean;
+            _chefConnectDbContext.Reviews.Update(review);
+            _chefConnectDbContext.SaveChanges();
+
+            var reviews = await _chefConnectDbContext.Reviews.Include(r => r.Customer).Include(r => r.ChefRecipe).ThenInclude(r => r.Chef).Where(r => r.Status == Entities.Reviews.ReviewStatus.Reported).ToListAsync();
+
+            return View("AdminReview", reviews);
+        }
+
+        [HttpGet("/{id}/Deleted")]
+        public async Task<IActionResult> DeleteReview(int id)
+        {
+            var review = await _chefConnectDbContext.Reviews.Include(r => r.Customer).Include(r => r.ChefRecipe).ThenInclude(r => r.Chef).Where(r => r.ReviewsId == id).FirstOrDefaultAsync();
+
+            _chefConnectDbContext.Reviews.Remove(review);
+            _chefConnectDbContext.SaveChanges();
+
+            var reviews = await _chefConnectDbContext.Reviews.Include(r => r.Customer).Include(r => r.ChefRecipe).ThenInclude(r => r.Chef).Where(r => r.Status == Entities.Reviews.ReviewStatus.Reported).ToListAsync();
+
+            return View("AdminReview", reviews);
+        }
     }
 }
 

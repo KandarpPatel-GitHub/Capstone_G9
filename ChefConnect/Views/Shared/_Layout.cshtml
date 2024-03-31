@@ -60,98 +60,107 @@
                 }
                 else
                 {
-                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                        @if (_userManager.IsInRoleAsync(ActiveUser, "Chef").Result)
-                        {
-                            <ul class="navbar-nav flex-grow-1">
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark navbar-font @(currentController == "Chef" && currentAction == "ChefProfile" ? "active" : "")" asp-area="" asp-controller="Chef" asp-action="ChefProfile" asp-route-username="@ActiveUser.UserName">Home</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark navbar-font @(currentController == "Chef" && currentAction == "GetMyRecipesAndCuisinesPage" ? "active" : "")" asp-area="" asp-controller="Chef" asp-action="GetMyRecipesAndCuisinesPage" asp-route-username="@ActiveUser.UserName">My Recipes/Cuisines</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark navbar-font @(currentController == "Chef" && currentAction == "GetMyBookingsPage" ? "active" : "")" asp-area="" asp-controller="Chef" asp-action="GetMyBookingsPage" asp-route-username="@ActiveUser.UserName">My Bookings</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark navbar-font @(currentController == "Chef" && currentAction == "GetChefReviewsPage" ? "active" : "")" asp-area="" asp-controller="Chef" asp-action="GetChefReviewsPage" asp-route-username="@ActiveUser.UserName">My Reviews</a>
-                                </li>
-                            </ul>
+            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                @if (_userManager.IsInRoleAsync(ActiveUser, "Chef").Result)
+                {
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark navbar-font @(currentController == "Chef" && currentAction == "ChefProfile" ? "active" : "")" asp-area="" asp-controller="Chef" asp-action="ChefProfile" asp-route-username="@ActiveUser.UserName">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark navbar-font @(currentController == "Chef" && currentAction == "GetMyRecipesAndCuisinesPage" ? "active" : "")" asp-area="" asp-controller="Chef" asp-action="GetMyRecipesAndCuisinesPage" asp-route-username="@ActiveUser.UserName">My Recipes/Cuisines</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark navbar-font @(currentController == "Chef" && currentAction == "GetMyBookingsPage" ? "active" : "")" asp-area="" asp-controller="Chef" asp-action="GetMyBookingsPage" asp-route-username="@ActiveUser.UserName">My Bookings</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark navbar-font @(currentController == "Chef" && currentAction == "GetChefReviewsPage" ? "active" : "")" asp-area="" asp-controller="Chef" asp-action="GetChefReviewsPage" asp-route-username="@ActiveUser.UserName">My Reviews</a>
+                        </li>
+                    </ul>
 
-                            <ul class="nav navbar-nav navbar-right">
-                                <li style="padding-right: 10px">
-                                    <div class="relative-parent" style="position: relative;">
-                                        <div class="dropdown">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li style="padding-right: 10px">
+                            <div class="relative-parent" style="position: relative;">
+                                <div class="dropdown">
 
-                                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                                @ActiveUser.UserName
-                                            </button>
-                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                <li><a class="dropdown-item" asp-controller="Chef" asp-action="GetChefAccountSettings" asp-route-username="@ActiveUser.UserName">Update Profile</a></li>
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                        @ActiveUser.UserName
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <li><a class="dropdown-item" asp-controller="Chef" asp-action="GetChefAccountSettings" asp-route-username="@ActiveUser.UserName">Update Profile</a></li>
 
-                                            </ul>
-                                        </div>
-                                    </div>
+                                    </ul>
+                                </div>
+                            </div>
 
-                                </li>
-                                <li style="padding-right: 10px"><a class="btn btn-outline-danger" type="button" asp-controller="Home" asp-action="Logout">Logout</a></li>
-                            </ul>
+                        </li>
+                        <li style="padding-right: 10px"><a class="btn btn-outline-danger" type="button" asp-controller="Home" asp-action="Logout">Logout</a></li>
+                    </ul>
 
-                        }
-                        else if (_userManager.IsInRoleAsync(ActiveUser, "Customer").Result)
-                        {
-                            <ul class="navbar-nav flex-grow-1">
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark navbar-font @(currentController == "Customer" && currentAction == "GetCustomerHome" ? "active" : "")" asp-area="" asp-controller="Customer" asp-action="GetCustomerHome" asp-route-username="@ActiveUser.UserName">Home</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark navbar-font @(currentController == "Customer" && currentAction == "GetSearchPage" ? "active" : "")" asp-area="" asp-controller="Customer" asp-action="GetSearchPage" asp-route-username="@ActiveUser.UserName">Search</a>
-                                </li>
+                }
+                else if (_userManager.IsInRoleAsync(ActiveUser, "Customer").Result)
+                {
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark navbar-font @(currentController == "Customer" && currentAction == "GetCustomerHome" ? "active" : "")" asp-area="" asp-controller="Customer" asp-action="GetCustomerHome" asp-route-username="@ActiveUser.UserName">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark navbar-font @(currentController == "Customer" && currentAction == "GetSearchPage" ? "active" : "")" asp-area="" asp-controller="Customer" asp-action="GetSearchPage" asp-route-username="@ActiveUser.UserName">Search</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark navbar-font @(currentController == "Customer" && currentAction == "GetOrdersPage" ? "active" : "")" asp-area="" asp-controller="Customer" asp-action="GetOrdersPage" asp-route-username="@ActiveUser.UserName">Orders</a>
+                        </li>
 
-                            </ul>
+                    </ul>
 
-                            <ul class="nav navbar-nav navbar-right">
-                                <li style="padding-right: 10px">
-                                    <div class="relative-parent" style="position: relative;">
-                                        <div class="dropdown">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li style="padding-right: 10px">
+                            <div class="relative-parent" style="position: relative;">
+                                <div class="dropdown">
 
-                                            <button class="btn btn-user btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                                @ActiveUser.UserName
-                                            </button>
-                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                <li><a class="dropdown-item" asp-controller="Customer" asp-action="GetCustomerAccountSettings" asp-route-username="@ActiveUser.UserName">Update Profile</a></li>
+                                    <button class="btn btn-user btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                        @ActiveUser.UserName
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <li><a class="dropdown-item" asp-controller="Customer" asp-action="GetCustomerAccountSettings" asp-route-username="@ActiveUser.UserName">Update Profile</a></li>
 
-                                                <li>
-                                                    <a class="dropdown-item" asp-controller="Customer" asp-action="GetCustomerCart" asp-route-username="@ActiveUser.UserName">Cart</a>
-                                                </li>
-                                                <li>
-                                                    <a class="dropdown-item" asp-controller="Customer" asp-action="GetAllAddresses" asp-route-username="@ActiveUser.UserName">Manage Address</a>
-                                                </li>
-                                                <li>
-                                                    <a class="dropdown-item" asp-controller="Customer" asp-action="GetManagePaymentMethods" asp-route-username="@ActiveUser.UserName">Manage Payments</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li style="padding-right: 10px"><a class="btn btn-outline-danger" type="button" asp-controller="Home" asp-action="Logout">Logout</a></li>
-                            </ul>
-                        }
-                        else if (_userManager.IsInRoleAsync(ActiveUser, "Admin").Result)
-                        {
-                            <ul class="navbar-nav flex-grow-1">
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark @(currentController == "Admin" && currentAction == "Index" ? "active" : "")" asp-area="" asp-controller="Admin" asp-action="AdminHome">Home</a>
-                                </li>
-                                <li style="padding-right: 10px"><a class="btn btn-outline-danger" type="button" asp-controller="Home" asp-action="Logout">Logout</a></li>
-
-
-                            </ul>
-                        }
+                                        <li>
+                                            <a class="dropdown-item" asp-controller="Customer" asp-action="GetCustomerCart" asp-route-username="@ActiveUser.UserName">Cart</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" asp-controller="Customer" asp-action="GetAllAddresses" asp-route-username="@ActiveUser.UserName">Manage Address</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" asp-controller="Customer" asp-action="GetManagePaymentMethods" asp-route-username="@ActiveUser.UserName">Manage Payments</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                        <li style="padding-right: 10px"><a class="btn btn-outline-danger" type="button" asp-controller="Home" asp-action="Logout">Logout</a></li>
+                    </ul>
+                }
+                else if (_userManager.IsInRoleAsync(ActiveUser, "Admin").Result)
+                {
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark @(currentController == "Admin" && currentAction == "Index" ? "active" : "")" asp-area="" asp-controller="Admin" asp-action="AdminHome">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark @(currentController == "Admin" && currentAction == "GetAllPendingReviews" ? "active" : "")" asp-area="" asp-controller="Admin" asp-action="GetAllPendingReviews">Reviews</a>
+                        </li>
 
 
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        
+                        <li style="padding-right: 10px"><a class="btn btn-outline-danger" type="button" asp-controller="Home" asp-action="Logout">Logout</a></li>
+                    </ul>
+                }
 
-                    </div>
+
+
+            </div>
                 }
 
             </div>

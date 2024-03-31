@@ -14,7 +14,7 @@
                 <div class="row">
                     <form asp-controller="Customer" asp-action="AddCustomerPaymentMethod" method="post">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
+                        <input type="hidden" asp-for="@Model.ReturnUrl" value="@TempData["returnurl"]" />
                         <div class="form-group">
                             <label asp-for="@Model.PaymentType">Payment Type:</label>
                             <select class="form-select" asp-for="@Model.PaymentType">
@@ -33,7 +33,7 @@
                         </div>
                         <div class="form-group">
                             <label asp-for="@Model.CardExpiry">Expiry Date:</label>
-                            <input type="text" asp-for="@Model.CardExpiry" />
+                            <input type="month" asp-for="@Model.CardExpiry" min="@DateTime.Now.ToString("yyyy-MM")" value="@DateTime.Now.ToString("yyyy-MM")"/>
                             <span asp-validation-for="@Model.CardExpiry"
                                   class="text-danger"></span>
                         </div>

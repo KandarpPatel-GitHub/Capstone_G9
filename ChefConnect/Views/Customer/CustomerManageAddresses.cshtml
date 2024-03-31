@@ -5,7 +5,7 @@
 }
 
 
-<a asp-controller="Customer" asp-action="GetCustomerAddressPage" asp-route-username="@Model.ActiveUser.UserName" class="btn button-cart add-to-cart btn-primary">Add A new Address</a>
+<a asp-controller="Customer" asp-action="GetCustomerAddressPage" asp-route-username="@Model.ActiveUser.UserName" asp-route-returnurl="manageaddress" class="btn button-cart add-to-cart btn-primary">Add A new Address</a>
 
 @if (Model.addressList.Count <= 0)
 {

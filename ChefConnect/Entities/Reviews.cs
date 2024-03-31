@@ -9,8 +9,6 @@ namespace ChefConnect.Entities
             Clean
         }
 
-
-
 		public int ReviewsId { get; set; }
 
         public string? ReviewDescription { get; set; }
@@ -24,8 +22,11 @@ namespace ChefConnect.Entities
         public AppUser? Customer { get; set; }
 
         public ReviewStatus? Status { get; set; } = ReviewStatus.Clean;
+
         public DateTime? ReviewDate { get; set; } = DateTime.Now;
+
         public int? chefRecipeId { get; set; }
+
         public ChefRecipes? ChefRecipe { get; set; }
 
     }

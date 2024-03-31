@@ -28,12 +28,9 @@
                     <h2>Address</h2>
                 </div>
                 <div class="row">
-                    @if (Model.addressList.Count == 0)
-                    {
-                        <a asp-controller="Customer" asp-action="GetCustomerAddressPage" asp-route-username="@Model.ActiveUser.UserName" class="btn button-cart add-to-cart btn-primary">Add A new Address</a>
-                    }
-                    else
-                    {
+                    
+                        <a asp-controller="Customer" asp-action="GetCustomerAddressPage" asp-route-username="@Model.ActiveUser.UserName" asp-route-returnurl="checkoutpage" class="btn button-cart add-to-cart btn-primary">Add A new Address</a>
+                   
                        <h5>Please select an address from below:</h5>
                         @foreach (var address in Model.addressList)
                         {
@@ -69,7 +66,7 @@
                                 </div>
                             </div>
                         }
-                    }
+                    
 
                 </div>
             </section>
@@ -78,13 +75,10 @@
                     <h2>Payment</h2>
                 </div>
                 <div class="row">
-                    @if (Model.PaymentMethodsList.Count == 0)
-                    {
-                        <a asp-controller="Customer" asp-action="GetAddPaymentMethodPage" asp-route-username="@Model.ActiveUser.UserName" class="btn button-cart add-to-cart btn-primary">Add a new Payment Method</a>
+                    
+                        <a asp-controller="Customer" asp-action="GetAddPaymentMethodPage" asp-route-username="@Model.ActiveUser.UserName" asp-route-returnurl="checkoutpage" class="btn button-cart add-to-cart btn-primary">Add a new Payment Method</a>
 
-                    }
-                    else
-                    {
+                    
                         <h5>Please select a payment method from below:</h5>
                         @foreach (var pay in Model.PaymentMethodsList)
                         {
@@ -101,7 +95,7 @@
                                                 <h5 class="card-title">Name on Card: @pay.NameOnCard</h5>
                                                 <p class="card-text">Payment Type: @pay.PaymentType </p>
                                                 <p class="card-text">Card Number: @pay.CardNumber</p>
-                                                <p class="card-text">Card Expiry: @pay.CardExpiry</p>
+                                                <p class="card-text">Card Expiry: @pay.CardExpiry.ToString("MM/yy")</p>
                                                 <p class="card-text">CVV: @pay.CardCvv</p>
 
 
@@ -113,7 +107,7 @@
                                 </div>
                             </div>
                         }
-                    }
+                    
                 </div>
             </section>
         </div>
