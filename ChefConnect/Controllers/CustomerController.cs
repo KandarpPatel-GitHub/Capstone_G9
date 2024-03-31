@@ -112,9 +112,10 @@ namespace ChefConnect.Controllers
             CustomerViewModel model = new CustomerViewModel()
             {
                 ActiveUser = await _userManager.FindByNameAsync(username),
-                AllRecipes = await _dbcontext.ChefRecipes.Include(r => r.RecipeCuisine).Include(r => r.Chef).ToListAsync()
+                AllRecipes = await _dbcontext.ChefRecipes.Include(r => r.RecipeCuisine).Include(r => r.Chef).Include(r => r.Reviews).ToListAsync(),
+                FiveStarRecipeList = await _dbcontext.ChefRecipes.Include(r => r.RecipeCuisine).Include(r => r.Chef).Include(r=>r.Reviews).Where(r => r.Reviews.Average(o=>o.Ratings) >= 4).OrderByDescending(od=>od.Reviews.Average(o => o.Ratings) >= 4).ToListAsync()
             };
-
+            Console.WriteLine(model.FiveStarRecipeList.Count);
             return View("CustomerHome", model);
         }
 
@@ -554,6 +555,7 @@ namespace ChefConnect.Controllers
 
             return RedirectToAction("GetUpcomingOrders", new { username = user.UserName });
         }
+
 
 
 

@@ -38,9 +38,9 @@
                                         </select>
                                         <label class="pb-3" for="OrderDate" asp-for="@item.OrderDate">Date:</label>
                                         @*<input type="date" class="form-control" asp-for="@item.OrderDate" id="OrderDate" name="OrderDate" min="@DateTime.Now.AddDays(2).ToString("yyyy-MM-dd")"/>*@
-                                        <input type="date" class="form-control" asp-for="@item.OrderDate" id="OrderDate" name="OrderDate" />
+                                        <input type="date" class="form-control" asp-for="@item.OrderDate" id="OrderDate" name="OrderDate" required/>
                                         <label class="pb-3" for="GuestQuantity" asp-for="@item.GuestQuantity">Extra People:</label>
-                                        <input class="form-control" asp-for="@item.GuestQuantity" id="GuestQuantity" name="GuestQuantity" value="0" min="0" max="20" />
+                                        <input class="form-control" asp-for="@item.GuestQuantity" id="GuestQuantity" name="GuestQuantity" value="0" min="0" max="20" required/>
 
 
                                         <button type="submit" class="btn btn-primary">Save</button>

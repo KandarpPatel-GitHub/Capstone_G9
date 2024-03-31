@@ -31,6 +31,9 @@ namespace ChefConnect.Models
 
         public List<OrderRecipes>? PastOrders { get; set; }
 
+		public List<ChefRecipes>? FiveStarRecipeList { get; set; }
+
+
     }
 }
 
