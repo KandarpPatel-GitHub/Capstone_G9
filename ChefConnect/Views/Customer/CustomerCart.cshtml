@@ -7,14 +7,13 @@
 <div class="row">
     <div class="col-md-8">
         <h2>Cart Items: @Model.cartList.Count</h2>
+        <span class="text-danger">@TempData["carterror"]</span>
         @foreach (var item in Model.cartList)
         {
             <div class="cart-header">
                 <h2>Recipe: @item.ChefRecipe.RecipeName</h2>
             </div>
             <div class="cart-container">
-
-
                 <div class="cart-items pb-3">
                     <div class="cart-item">
 
@@ -71,8 +70,15 @@
             
             <div class="card-body">
                 <div class="row">
-                    <label>Tax(13% Tax) <span class="">$ </span></label>
-                    <label>Sub Total <span class="">$@Model.cartList.Sum(x => x.RecipeTotal)</span></label>
+                    @foreach (var item in Model.cartList)
+                     {
+                        @if (item.RecipeTotal != null)
+                         {
+                            <label>@item.ChefRecipe.RecipeName <span class="">@item.RecipeTotal</span></label>
+                         }
+                     }
+                    <label style="border-top:1px solid black">Sub Total: <span class="">$ @Model.cartList.Sum(x => x.RecipeTotal)</span></label>
+                    @*<label>Tax(13% Tax) <span class="">$ (@Model.cartList.Sum(x => x.RecipeTotal) * 0.13)</span></label>*@
                     <a asp-controller="Customer" asp-action="GetSecureCheckoutPage" asp-route-username="@Model.ActiveUser.UserName" class="btn btn-primary checkout-btn">Proceed to Checkout</a>
                 </div>
             </div>

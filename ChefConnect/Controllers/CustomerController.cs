@@ -372,15 +372,25 @@ namespace ChefConnect.Controllers
         public async Task<IActionResult> GetSecureCheckoutPage(string username)
         {
             var user = await _userManager.FindByNameAsync(username);
-            CustomerViewModel model = new CustomerViewModel()
+            var cartlist = await _dbcontext.UserCartItems.Include(o => o.ChefRecipe).Where(o => o.CustomerId == user.Id).Where(ucr => ucr.GuestQuantity != null).ToListAsync();
+            if (cartlist.Count == 0)
             {
-                ActiveUser = user,
-                cartList = await _dbcontext.UserCartItems.Include(o => o.ChefRecipe).Where(o => o.CustomerId == user.Id).ToListAsync(),
-                addressList = await _dbcontext.Addresses.Where(a => a.CustomerId == user.Id).ToListAsync(),
-                PaymentMethodsList = await _dbcontext.PaymentMethods.Where(p => p.CustomerId == user.Id).ToListAsync()
+                TempData["carterror"] = "Please save atleast one recipe to proceed to checkout";
+                return RedirectToAction("GetCustomerCart", new { username = user.UserName });
+            }
+            else
+            {
+                CustomerViewModel model = new CustomerViewModel()
+                {
+                    ActiveUser = user,
+                    cartList = cartlist,
+                    addressList = await _dbcontext.Addresses.Where(a => a.CustomerId == user.Id).ToListAsync(),
+                    PaymentMethodsList = await _dbcontext.PaymentMethods.Where(p => p.CustomerId == user.Id).ToListAsync()
 
-            };
-            return View("CustomerCheckout", model);
+                };
+                return View("CustomerCheckout", model);
+            }
+           
         }
 
         [HttpPost("/Secure-Checkout")]
