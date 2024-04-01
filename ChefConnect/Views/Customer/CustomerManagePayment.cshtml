@@ -2,7 +2,15 @@
 @{
     ViewData["title"] = "Manage Payments Page";
 }
-<a asp-controller="Customer" asp-action="GetAddPaymentMethodPage" asp-route-username="@Model.ActiveUser.UserName" asp-route-returnurl="managepayment" class="btn button-cart add-to-cart btn-primary">Add a new Payment Method</a>
+<div class="row">
+    <div class="col-md-2">
+        <a asp-controller="Customer" asp-action="GetAddPaymentMethodPage" asp-route-username="@Model.ActiveUser.UserName" asp-route-returnurl="managepayment" class="btn btn-primary">Add a new Payment Method</a>
+    </div>
+    <div class="col-md-2">
+        <a class="btn btn-primary" asp-controller="Customer" asp-action="GetCustomerHome" asp-route-username="@Model.ActiveUser.UserName">Go Back</a>
+    </div>
+</div>
+
 
 @if (Model.PaymentMethodsList.Count <= 0)
 {
@@ -28,7 +36,7 @@ else
                     <p class="card-text">Card Number: @pay.CardNumber</p>
                     <p class="card-text">Card Expiry: @pay.CardExpiry.ToString("MM/yy")</p>
                     <p class="card-text">CVV: @pay.CardCvv</p>
-                    
+
 
 
 

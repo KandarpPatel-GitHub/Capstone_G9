@@ -33,24 +33,16 @@
                     <input asp-for="ActiveUser.PhoneNumber" class="form-control" />
                     <span asp-validation-for="ActiveUser.PhoneNumber" class="text-danger"></span>
                 </div>
-                @* <div class="form-group">
-                <label asp-for="activeUser.Password"></label>
-                <input asp-for="activeUser.Password" class="form-control" />
-                <span asp-validation-for="activeUser.Password" class="text-danger"></span>
-                </div> *@
-                @* <div class="form-group">
-                <label asp-for="activeUser.ConfirmPassword"></label>
-                <input asp-for="activeUser.ConfirmPassword" class="form-control" />
-                <span asp-validation-for="activeUser.ConfirmPassword" class="text-danger"></span>
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <button type="submit" class="btn btn-primary btn-account-form">Save</button>
+                    </div>
+                    <div class="col-md-3">
+                        <a class="btn btn-danger" asp-controller="Customer" asp-action="GetCustomerHome" asp-route-username="@Model.ActiveUser.UserName">Cancel</a>
+                    </div>
                 </div>
-                <div class="form-group
-                </div>
-
-                *@
-                <button type="submit" class="btn btn-primary btn-account-form">Save</button>
-
-
-
+                
             </form>
 
 

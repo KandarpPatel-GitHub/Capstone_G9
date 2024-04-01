@@ -115,7 +115,7 @@ namespace ChefConnect.Controllers
                 AllRecipes = await _dbcontext.ChefRecipes.Include(r => r.RecipeCuisine).Include(r => r.Chef).Include(r => r.Reviews).ToListAsync(),
                 FiveStarRecipeList = await _dbcontext.ChefRecipes.Include(r => r.RecipeCuisine).Include(r => r.Chef).Include(r=>r.Reviews).Where(r => r.Reviews.Average(o=>o.Ratings) >= 4).OrderByDescending(od=>od.Reviews.Average(o => o.Ratings) >= 4).ToListAsync()
             };
-            Console.WriteLine(model.FiveStarRecipeList.Count);
+            //Console.WriteLine(model.FiveStarRecipeList.Count);
             return View("CustomerHome", model);
         }
 
@@ -214,7 +214,11 @@ namespace ChefConnect.Controllers
         {
             var user = await _userManager.FindByNameAsync(username);
             TempData["returnurl"] = returnurl;
-            AddressViewModel model = new AddressViewModel();
+            AddressViewModel model = new AddressViewModel()
+            {
+                Username = user.UserName,
+                ReturnUrl = returnurl
+            };
 
             return View("CustomerAddress", model);
         }
@@ -278,7 +282,11 @@ namespace ChefConnect.Controllers
         public async Task<IActionResult> GetAddPaymentMethodPage(string username, string returnurl)
         {
             var user = await _userManager.FindByNameAsync(username);
-            PaymentViewModel model = new PaymentViewModel();
+            PaymentViewModel model = new PaymentViewModel()
+            {
+                Username = user.UserName,
+                ReturnUrl = returnurl
+            };
             TempData["returnurl"] = returnurl;
             return View("CustomerAddPayment", model);
         }

@@ -32,8 +32,8 @@ namespace ChefConnect.Models
         public string PhoneNumber { get; set; }
 
         public string? ReturnUrl { get; set; }
-        //public string CustomerId { get; set; }
 
-       
+        public string? Username { get; set; }
+        
     }
 }

@@ -122,9 +122,19 @@
                                         <p class="card-text">
                                             Price per extra Person: $@recipe.PricePerExtraPerson
                                         </p>
-                                        <p>
-                                            Rating: @recipe.Reviews.Average(x => x.Ratings)
-                                        </p>
+                                        @if (recipe.Reviews.Count == 0)
+                                        {
+                                            <p>
+                                                Ratings: 0
+                                            </p>
+                                        }
+                                        else
+                                        {
+                                            <p>
+                                                Ratings: @recipe.Reviews.Average(x => x.Ratings)
+                                            </p>
+                                        }
+
 
                                         @*    <a asp-controller="Customer" asp-action="GetBookingPage" asp-route-id="@recipe.ChefRecipesId" asp-route-username="@Model.ActiveUser.UserName" class="btn button-cart book btn-primary">Book</a> *@
                                         <a asp-controller="Customer" asp-action="AddRecipeToCart" asp-route-id="@recipe.ChefRecipesId" asp-route-username="@Model.ActiveUser.UserName" class="btn button-cart add-to-cart btn-primary">Add to Cart</a>

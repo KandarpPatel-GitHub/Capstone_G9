@@ -19,6 +19,8 @@ namespace ChefConnect.Models
         [Required(ErrorMessage = "Please enter name on card")]
         public string NameOnCard { get; set; }
 
+        public string? Username { get; set; }
+
         public string? ReturnUrl { get; set; }
        
     }

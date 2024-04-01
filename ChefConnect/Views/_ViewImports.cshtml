@@ -2,4 +2,6 @@
 @using ChefConnect.Models
 @using ChefConnect.Entities
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-
+@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<AppUser> _signInManager
+@inject UserManager<AppUser> _userManager

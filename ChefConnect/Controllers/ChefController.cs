@@ -120,8 +120,8 @@ namespace ChefConnect.Controllers
             ChefViewModel model = new ChefViewModel()
             {
                 ActiveUser = await _userManager.FindByNameAsync(username),
-                chefRecipes = await _chefConnectDbContext.ChefRecipes.Include(r => r.RecipeCuisine).Where(r => r.ChefId == _userManager.FindByNameAsync(username).Result.Id).ToListAsync(),
-                otherChefRecipes = await _chefConnectDbContext.ChefRecipes.Include(r => r.RecipeCuisine).Include(r => r.Chef).Where(r => r.ChefId != _userManager.FindByNameAsync(username).Result.Id).ToListAsync()
+                chefRecipes = await _chefConnectDbContext.ChefRecipes.Include(r => r.RecipeCuisine).Include(r => r.Reviews).Where(r => r.ChefId == _userManager.FindByNameAsync(username).Result.Id).ToListAsync(),
+                otherChefRecipes = await _chefConnectDbContext.ChefRecipes.Include(r => r.RecipeCuisine).Include(r => r.Chef).Include(r => r.Reviews).Where(r => r.ChefId != _userManager.FindByNameAsync(username).Result.Id).ToListAsync()
             };
 
             return View(model);

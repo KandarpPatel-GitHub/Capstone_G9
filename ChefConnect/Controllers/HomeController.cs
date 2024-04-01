@@ -192,6 +192,26 @@ public class HomeController : Controller
 
         return View("ResetPassword", user);
     }
+
+    [HttpPost("/Reset-Password-Error")]
+    public async Task<IActionResult> ChangeUserPassword(IFormCollection form)
+    {
+        var password = form["password"];
+        var confirmPassword = form["cnfrmpassword"];
+        var user = await _userManager.FindByIdAsync(form["userid"]);
+        if (password != confirmPassword)
+        {
+            TempData["resetPasswordError"] = "Password and Confirm Password should be same.";
+            return View("ResetPassword", user);
+        }
+        else
+        {
+            await _userManager.RemovePasswordAsync(user);
+            await _userManager.AddPasswordAsync(user, password);
+            await _signInManager.SignOutAsync();
+            return View("Login");
+        }
+    }
     
     public IActionResult Privacy()
     {

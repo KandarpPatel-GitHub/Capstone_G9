@@ -138,6 +138,9 @@
             <section>
                 <button type="submit" class="btn btn-primary">Place Order</button>
             </section>
+            <section>
+                <a class="btn btn-primary" asp-controller="Customer" asp-action="GetCustomerCart" asp-route-username="@Model.ActiveUser.UserName">Go to Cart</a>
+            </section>
         </div>
     </div>
 </form>

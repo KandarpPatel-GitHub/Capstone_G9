@@ -50,7 +50,24 @@
                                   class="text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Save Payment</button>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <button type="submit" class="btn btn-primary">Save Payment</button>
+                                </div>
+                                @if(Model.ReturnUrl == "managepayment")
+                                {
+                                    <div class="col-md-3">
+                                        <a class="btn btn-danger" asp-controller="Customer" asp-action="GetManagePaymentMethods" asp-route-username="@Model.Username">Cancel</a>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="col-md-3">
+                                        <a class="btn btn-danger" asp-controller="Customer" asp-action="GetSecureCheckoutPage" asp-route-username="@Model.Username">Cancel</a>
+                                    </div>
+                                }
+                                
+                            </div>
                         </div>
                     </form>
                 </div>
