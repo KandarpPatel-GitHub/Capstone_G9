@@ -3,14 +3,6 @@ namespace ChefConnect.Entities
 {
     public class OrderDetails
     {
-        //public enum OrderStatus
-        //{
-        //    Pending,
-        //    Confirmed
-            
-        //}
-
-
         public int OrderDetailsId { get; set; }
 
         public string? OrderInstructions { get; set; }

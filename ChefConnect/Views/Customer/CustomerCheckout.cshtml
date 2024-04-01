@@ -2,6 +2,10 @@
 
 @{
     ViewData["title"] = "Secure Checkout Page";
+    var subtotal = Model.cartList.Sum(x => x.RecipeTotal);
+    var tax = (Model.cartList.Sum(x => x.RecipeTotal) * 0.13);
+    var charges = (Model.cartList.Sum(x => x.RecipeTotal) * 0.02);
+    var total = subtotal + tax + charges;
 }
 <style>
 .error-message {
@@ -23,6 +27,16 @@
 <form asp-controller="Customer" asp-action="SecureCheckout" method="post" class="customer-checkout-form">
     <div class="row">
         <div class="col-md-8">
+            <section>
+                <div class="cart-header">
+                    <h2>Order Instructions</h2>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <textarea name="orderinstructions" id="orderinstructions" class="form-control" rows="4" cols="50"></textarea>
+                    </div>
+                </div>
+            </section>
             <section>
                 <div class="cart-header">
                     <h2>Address</h2>
@@ -111,40 +125,20 @@
                 </div>
             </section>
         </div>
-        <div class="col-md-3 order-summary">
-            <section>
-                <div class="cart-header">
-                    <h2>Order Summary</h2>
-                </div>
-                <div class="cart-container">
-
-
-                    <div class="row">
-                        <h5>Price</h5>
-
-                        <p>
-                            Subtotal $@Model.cartList.Sum(x => x.RecipeTotal)
-                        </p>
-
-
-                    </div>
-
-
-
-                </div>
-
-            </section>
-
-            <section>
-                <div class="row">
-                    <div class="col">
-                        <button type="submit" class="btn btn-primary btn-place-order">Place Order</button>
-                    </div>
-                    <div class="col">
-                        <a class="btn btn-primary btn-go-to-cart" asp-controller="Customer" asp-action="GetCustomerCart" asp-route-username="@Model.ActiveUser.UserName">Go to Cart</a>
-                    </div>
-                </div>
-            </section>
+        <div class="col-md-3 checkout-summary">
+            <h1>Order Summary</h1>
+              <div class="card">
+                  <div class="card-body">
+                      <div class="row">
+                          <label>Subtotal <span name="subtotal" class="">$@subtotal</span></label>
+                          <label>Tax(13%) <span name="tax" class=""></span>$@tax</label>
+                          <label>Charges(2% of Subtotal) <span name="charges" class="">$@charges</span></label>
+                          <label style="border-top:1px solid black">Total <span name="total" class="">$@total</span></label>
+                          <button type="submit" class="btn btn-primary btn-place-order">Place Order</button>
+                          <a class="btn btn-primary btn-go-to-cart" asp-controller="Customer" asp-action="GetCustomerCart" asp-route-username="@Model.ActiveUser.UserName">Go to Cart</a>
+                      </div>
+                  </div>
+              </div>  
         </div>
     </div>
 </form>

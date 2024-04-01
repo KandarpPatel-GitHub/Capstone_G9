@@ -37,24 +37,14 @@
                         <td>@booking.OrderDate.ToString("dd-MM-yyyy")</td>
                         <td>@DateTime.Today.Add(booking.TimeSlot.TimeSlot).ToString("hh:mm tt")</td>
                         <td>
-                            <p>
-                                Apt/Suite number: @booking.OrderDetails.Address.AptNumber
-                            </p>
-                            <p>
-                                Street Address: @booking.OrderDetails.Address.StreetAddress
-                            </p>
-                            <p>
-                                City: @booking.OrderDetails.Address.City
-                            </p>
-                            <p>
-                                Province: @booking.OrderDetails.Address.Province
-                            </p>
-                            <p>
-                                Country: @booking.OrderDetails.Address.Country
-                            </p>
-                            <p>
-                                Postal Code: @booking.OrderDetails.Address.PostalCode
-                            </p>
+                            <span>
+                                @booking.OrderDetails.Address.AptNumber,
+                                @booking.OrderDetails.Address.StreetAddress,
+                                @booking.OrderDetails.Address.City,
+                                @booking.OrderDetails.Address.Province,
+                                @booking.OrderDetails.Address.Country,
+                                @booking.OrderDetails.Address.PostalCode
+                            </span>
                         </td>
                         <td>@(booking.GuestQuantity + booking.ChefRecipes.NumberOfPeople)</td>
                         <td>$@booking.RecipeTotal</td>

@@ -22,8 +22,8 @@ namespace ChefConnect.Entities
 		public string PhoneNumber { get; set; }
 
 		public string CustomerId { get; set; }
-        public ICollection<OrderDetails>? OrderDetails { get; set; }
 
+        public ICollection<OrderDetails>? OrderDetails { get; set; }
 
         public AppUser? Customer { get; set; }
 

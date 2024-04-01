@@ -426,11 +426,18 @@ namespace ChefConnect.Controllers
 
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
             var cartList = await _dbcontext.UserCartItems.Include(o => o.ChefRecipe).Where(o => o.GuestQuantity != null).Where(o => o.CustomerId == user.Id).ToListAsync();
+            var subtotal = cartList.Sum(x => x.RecipeTotal);
+            var tax = cartList.Sum(x => x.RecipeTotal) * 0.13;
+            var charges = cartList.Sum(x => x.RecipeTotal) * 0.02;
+            var total = subtotal + tax + charges;
             var order = new OrderDetails()
             {
                 CustomerId = user.Id,
-                //OrderDate = DateTime.Now,
-                OrderTotal = (double)cartList.Sum(o => o.RecipeTotal),
+                OrderInstructions = form["orderinstructions"],
+                OrderSubTotal = (double)subtotal,
+                OrderTax = (double)tax,
+                Charges = (double)charges,
+                OrderTotal = (double)total,
                 paymentMethodId = int.Parse(form["selectPayment"]),
                 addressId = int.Parse(form["selectAddress"])
             };

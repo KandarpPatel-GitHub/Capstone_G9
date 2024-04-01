@@ -9,7 +9,7 @@ namespace ChefConnect.Entities
 
         public DateTime? DateOfBirth { get; set; }
 
-       public ICollection<Addresses>? Addresses { get; set; }
+        public ICollection<Addresses>? Addresses { get; set; }
 
         public ICollection<PaymentMethods>? PaymentMethods { get; set; }
 
