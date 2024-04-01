@@ -111,7 +111,7 @@
                 </div>
             </section>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-3 order-summary">
             <section>
                 <div class="cart-header">
                     <h2>Order Summary</h2>
@@ -123,7 +123,7 @@
                         <h5>Price</h5>
 
                         <p>
-                            Subtotal $ @Model.cartList.Sum(x => x.RecipeTotal)
+                            Subtotal $@Model.cartList.Sum(x => x.RecipeTotal)
                         </p>
 
 
@@ -136,10 +136,14 @@
             </section>
 
             <section>
-                <button type="submit" class="btn btn-primary">Place Order</button>
-            </section>
-            <section>
-                <a class="btn btn-primary" asp-controller="Customer" asp-action="GetCustomerCart" asp-route-username="@Model.ActiveUser.UserName">Go to Cart</a>
+                <div class="row">
+                    <div class="col">
+                        <button type="submit" class="btn btn-primary btn-place-order">Place Order</button>
+                    </div>
+                    <div class="col">
+                        <a class="btn btn-primary btn-go-to-cart" asp-controller="Customer" asp-action="GetCustomerCart" asp-route-username="@Model.ActiveUser.UserName">Go to Cart</a>
+                    </div>
+                </div>
             </section>
         </div>
     </div>

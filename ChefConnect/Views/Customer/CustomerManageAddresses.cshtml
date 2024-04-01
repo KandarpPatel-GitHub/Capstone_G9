@@ -3,6 +3,32 @@
     ViewData["title"] = "Manage Addresses";
 
 }
+<style>
+    /* Card styling */
+    .card-home {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+        margin: 20px 0; /* Margin for spacing between cards */
+        border-radius: 8px; /* Rounded corners */
+        overflow: hidden; /* Ensures content fits within the corners */
+        background-color: #fff; /* White background */
+    }
+
+    .card-body {
+        padding: 15px; /* Padding inside card */
+    }
+
+    .card-title {
+        margin-bottom: 15px; /* Spacing below the title */
+        color: #333; /* Dark grey color for text */
+        font-size: 18px; /* Slightly larger font size */
+    }
+
+    .card-text {
+        color: #666; /* Lighter grey for text */
+        line-height: 1.5; /* Improved line spacing */
+        margin-bottom: 10px; /* Spacing between text */
+    }
+</style>
 
 <div class="row">
     <div class="col-md-2">
@@ -24,6 +50,7 @@
     }
     else
     {
+        <div class="row">
         @foreach (var address in Model.addressList)
         {
 
@@ -55,5 +82,7 @@
                 </div>
             </div>
         }
+        </div>
 
     }
+
